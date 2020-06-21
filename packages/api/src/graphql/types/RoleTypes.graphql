@@ -1,0 +1,31 @@
+type Role {
+    id: ID!
+    name: String!
+    permissions: [String]
+}
+
+type Permissions {
+    permissions: [String]
+}
+
+input RoleInput{
+    name: String!
+    permissions: [String]
+}
+
+type Query {
+    roles: [Role]
+    role(id:ID!): Role
+    permissions: Permissions
+}
+
+type RoleDelete{
+    id: ID!
+    success: Boolean!
+}
+
+type Mutation {
+    roleCreate(input: RoleInput): Role
+    roleUpdate(id:ID!, input:RoleInput):Role
+    roleDelete(id: ID!): RoleDelete!
+}

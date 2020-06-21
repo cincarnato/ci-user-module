@@ -1,0 +1,6 @@
+mutation activationUser($id:ID!){
+    activationUser(id:$id){
+        status
+        message
+    }
+}

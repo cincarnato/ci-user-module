@@ -1,0 +1,7 @@
+query roles{
+    roles{
+        id
+        name
+        permissions
+    }
+}

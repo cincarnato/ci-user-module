@@ -1,0 +1,120 @@
+type User {
+    id: ID!
+    username: String!
+    name: String!
+    email: String!
+    phone: String
+    avatar: String
+    avatarurl: String
+    role: Role
+    groups: [Group]
+    active: Boolean!
+    createdAt: String
+    updatedAt: String
+}
+
+
+type Token {
+    token:String!
+}
+
+type RecoverPasswordResponse{
+    status: Boolean
+    message: String
+}
+type ActivationUserResponse{
+    status: Boolean
+    message: String
+}
+
+type ChangePasswordAdminResponse{
+    success: Boolean
+    message: String
+}
+
+type ChangePasswordResponse{
+    success: Boolean
+    message: String
+}
+
+type ChangeRecoveryPasswordResponse{
+    status: Boolean
+    message: String
+}
+
+type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+    url: String!
+}
+
+type RegisterResponse{
+    status: Boolean!,
+    id: String!,
+    email: String!
+}
+
+input UserInput{
+    username: String!
+    name: String!
+    email: String!
+    password: String
+    phone: String
+    role: String!
+    groups: [String]
+    active: Boolean!
+}
+
+input RegisterInput{
+    username: String!
+    name: String!
+    email: String!
+    password: String!
+    phone: String
+}
+
+type UsersPaginated{
+    totalItems: Int!
+    page: Int!
+    users: [User!]
+}
+
+type Query {
+    users: [User!]
+    user(id: ID!): User
+    me: User
+    paginateUsers(limit: Int!, pageNumber: Int, search: String, orderBy: String, orderDesc: Boolean): UsersPaginated
+}
+
+type AvatarFile {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+    url: String!
+}
+
+type UserDelete{
+    id: ID!
+    success: Boolean!
+}
+
+type Mutation {
+    auth(username: String!, password:String!): Token
+
+    createUser(input: UserInput): User
+    updateUser(id: ID!, input: UserInput): User
+
+    deleteUser(id: ID!): UserDelete!
+
+    changePasswordAdmin(id: ID!, password:String!, passwordVerify:String!): ChangePasswordAdminResponse!
+
+    register(input: RegisterInput): RegisterResponse
+
+    recoveryPassword(email:String!):RecoverPasswordResponse!
+    changePassword( currentPassword:String!, newPassword:String!): ChangePasswordResponse!
+    changeRecoveryPassword( newPassword:String!): ChangeRecoveryPasswordResponse!
+    activationUser(id:ID!):ActivationUserResponse!
+
+    avatarUpload(file: Upload!): AvatarFile!
+}

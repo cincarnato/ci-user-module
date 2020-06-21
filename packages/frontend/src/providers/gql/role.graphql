@@ -1,0 +1,7 @@
+query role($id:ID!){
+    role(id:$id){
+        id
+        name
+        permissions
+    }
+}
