@@ -1,6 +1,6 @@
 {
   "name": "@ci-user-module/api",
-  "version": "v1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -37,15 +37,15 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4",
-    "@babel/node": "^7.8.7",
-    "@babel/core": "^7.8.7",
     "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
+    "@shelf/jest-mongodb": "^1.1.5",
     "babel-jest": "^25.4.0",
     "jest": "^25.4.0",
-    "@shelf/jest-mongodb": "^1.1.5",
     "mockingoose": "^2.13.2",
-    "mongodb-memory-server": "^6.5.2"
+    "mongodb-memory-server": "^6.5.2",
+    "nodemon": "^1.19.4"
   }
 }
