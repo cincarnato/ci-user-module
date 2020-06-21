@@ -6,6 +6,9 @@ User module made with Vue + Vuetify + i18n + GraphqlClient.
 npm i --save @ci-user-module/frontend
 ```
 
+## Counterpart
+@ci-user-module/api
+
 ## Features
 - MultiLang: en, es, pt
 - Login / SignIn
