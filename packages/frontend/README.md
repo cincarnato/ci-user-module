@@ -1,7 +1,10 @@
 # ci-user-module
 User module made with Vue + Vuetify + i18n + GraphqlClient.  
 
-Storybook available.
+## Install
+```
+npm i --save @ci-user-module/frontend
+```
 
 ## Features
 - MultiLang: en, es, pt
@@ -29,6 +32,10 @@ Storybook available.
 - Sessions details
 - Audit details
 - ... We are listen ideas
+
+## misc
+- Storybook
+- Test with jest
 
 # Requisites
 - store
