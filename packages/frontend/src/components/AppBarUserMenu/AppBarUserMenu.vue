@@ -52,7 +52,7 @@
 
 <script>
 
-    import {mapGetters, mapActions, mapState} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
 
     export default {
         name: "AppBarUserMenu",
@@ -71,7 +71,7 @@
             },
         },
         computed: {
-            ...mapGetters(['isAuth']),
+            ...mapGetters(['isAuth','me']),
             getSrc: function () {
                 if (this.me && this.me.avatarurl) {
                     return this.me.avatarurl
@@ -85,9 +85,6 @@
             getEmail: function () {
                 return this.me.email
             },
-            ...mapState({
-                me: state => state.auth.me,
-            })
         }
     }
 </script>
