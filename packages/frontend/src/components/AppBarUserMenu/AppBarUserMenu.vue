@@ -27,11 +27,11 @@
             <v-divider></v-divider>
 
             <v-list-item :to="{name: 'me'}">
-                <v-list-item-title v-t="'user.profile'"></v-list-item-title>
+                <v-list-item-title v-t="'auth.profile'"></v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="doLogout">
-                <v-list-item-title v-t="'user.logout'"></v-list-item-title>
+                <v-list-item-title v-t="'auth.logout'"></v-list-item-title>
             </v-list-item>
 
         </v-list>
@@ -45,7 +45,7 @@
            class="onPrimary--text"
            :to="{name: 'login'}"
            rounded
-           v-t="'user.signIn'"
+           v-t="'auth.signIn'"
     />
 
 </template>
