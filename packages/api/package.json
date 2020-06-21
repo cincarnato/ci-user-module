@@ -47,5 +47,6 @@
     "mockingoose": "^2.13.2",
     "mongodb-memory-server": "^6.5.2",
     "nodemon": "^1.19.4"
-  }
+  },
+  "gitHead": "80ace62a126171b32260a5918995b0560893ef7c"
 }
