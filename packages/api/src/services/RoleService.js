@@ -1,9 +1,18 @@
 import RoleModel from '../models/RoleModel'
 import * as permissions from '../permissions'
+import {UserInputError} from 'apollo-server-express'
 
 export const findPermissions = function () {
     return new Promise((resolve, reject) => {
         resolve({ permissions: Object.values(permissions) })
+    })
+}
+
+export const fetchRolesInName = function (roleNames) {
+    return new Promise((resolve, reject) => {
+        RoleModel.find({name: {$in: roleNames }}).exec((err, res) => (
+            err ? reject(err) : resolve(res)
+        ));
     })
 }
 
@@ -45,7 +54,7 @@ export const findRoleByName = function (roleName) {
 }
 
 
-export const deleterole = function (id) {
+export const deleteRole = function (id) {
     return new Promise((resolve, rejects) => {
         findRole(id).then((doc) => {
             doc.softdelete(function (err) {
@@ -76,7 +85,7 @@ export const updatepermissions = async function (id,{ name, permissions }) {
 
 }
 
-export const updaterole = async function (user, id, { name, permissions = [] }) {
+export const updateRole = async function (user, id, { name, permissions = [] }) {
     return new Promise((resolve, rejects) => {
         RoleModel.findOneAndUpdate({ _id: id },
             { name, permissions },

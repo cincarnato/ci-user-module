@@ -4,10 +4,6 @@ type Role {
     permissions: [String]
 }
 
-type Permissions {
-    permissions: [String]
-}
-
 input RoleInput{
     name: String!
     permissions: [String]
@@ -16,7 +12,6 @@ input RoleInput{
 type Query {
     roles: [Role]
     role(id:ID!): Role
-    permissions: Permissions
 }
 
 type RoleDelete{

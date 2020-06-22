@@ -5,7 +5,7 @@ import * as SessionService from './SessionService'
 import * as UserAuditService from './UserAuditService'
 import * as UserEmailManager from './UserEmailManager'
 import * as UserService from './UserService'
-import * as UserInitService from './UserInitService'
+import * as UserInitService from './InitService'
 
 export {
     GroupService,

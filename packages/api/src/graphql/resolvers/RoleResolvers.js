@@ -1,4 +1,4 @@
-import {createRole, findPermissions, findRole, findRoles, deleterole, updaterole} from '../../services/RoleService'
+import {createRole, findPermissions, findRole, findRoles, deleteRole, updateRole} from '../../services/RoleService'
 import {SECURITY_ROLE_CREATE, SECURITY_ROLE_SHOW, SECURITY_ROLE_DELETE, SECURITY_ROLE_EDIT} from "../../permissions";
 import {AuthenticationError, ForbiddenError} from "apollo-server-express";
 
@@ -29,12 +29,12 @@ export default {
          roleUpdate: (_, {id, input}, {user,rbac}) => {
             if (!user) throw new AuthenticationError("Unauthenticated")
             if(!rbac.isAllowed(user.id, SECURITY_ROLE_EDIT)) throw new ForbiddenError("Not Authorized")
-            return updaterole(user, id, input)
+            return updateRole(user, id, input)
         },
          roleDelete: (_, {id}, {user,rbac}) => {
             if (!user) throw new AuthenticationError("Unauthenticated")
             if(!rbac.isAllowed(user.id, SECURITY_ROLE_DELETE)) throw new ForbiddenError("Not Authorized")
-            return deleterole(id)
+            return deleteRole(id)
         },
     }
 

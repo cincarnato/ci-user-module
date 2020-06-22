@@ -1,4 +1,4 @@
 export const operatorRole = {
-    NAME: "operator",
-    PERMISSIONS: []
+    name: "operator",
+    permissions: []
 }
