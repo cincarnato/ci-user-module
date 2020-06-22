@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const softDelete = require('mongoose-softdelete')
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-var uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // Defining user Mongoose Schema
 const UserSchema = new mongoose.Schema({
@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
                 let r = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
                 return r.test(value);
             },
-            message: "El email no tiene un formato valido"
+            message: "validation.emailFormat"
         }
     },
     password: {type: String, required: true},
@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.set('toJSON', {getters: true});
 
-UserSchema.plugin(uniqueValidator, {message: '{VALUE} ya existe. {PATH} debe ser unico.'});
+UserSchema.plugin(uniqueValidator, {message: 'validation.unique'});
 
 UserSchema.plugin(softDelete);
 UserSchema.plugin(mongoosePaginate);

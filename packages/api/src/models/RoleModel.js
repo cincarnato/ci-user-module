@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const softDelete = require('mongoose-softdelete')
 const mongoosePaginate = require('mongoose-paginate-v2');
-
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema
 
 const RoleSchema = new Schema({
@@ -10,7 +10,7 @@ const RoleSchema = new Schema({
 
 });
 
-
+RoleSchema.plugin(uniqueValidator, {message: 'validation.unique'});
 RoleSchema.plugin(softDelete);
 RoleSchema.plugin(mongoosePaginate);
 

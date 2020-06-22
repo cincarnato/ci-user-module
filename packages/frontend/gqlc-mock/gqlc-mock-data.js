@@ -16,6 +16,7 @@ import authSuccessful from "./resolves/auth-successful";
 import authBadCredentials from "./resolves/auth-badCredentials";
 import recoveryByEmail from "./resolves/recoveryByEmail";
 import register from "./resolves/register";
+import userCreateUniqueError from "./resolves/userCreateUniqueError";
 
 
 //Helpers
@@ -123,7 +124,13 @@ mockGqlClient.setRequestHandler(
             let id = uuidv4()
             role = getRoleById(role)
             let avatarurl = null
-            let r = {data: {createUser: {id, username, password, name, email, phone, role, groups, active, avatarurl}}}
+            let r
+            if(username == 'jhon.doe'){
+                r = userCreateUniqueError
+            }else{
+                 r = {data: {createUser: {id, username, password, name, email, phone, role, groups, active, avatarurl}}}
+            }
+
             setTimeout(() => resolve(r), 800)
         })
     }
@@ -172,6 +179,15 @@ mockGqlClient.setRequestHandler(
 );
 
 mockGqlClient.setRequestHandler(
+    require('../src/providers/gql/groups.graphql'),
+    () => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(groups), 800)
+        })
+    }
+);
+
+mockGqlClient.setRequestHandler(
     require('../src/providers/gql/roleCreate.graphql'),
     ({name, permissions}) => {
         return new Promise((resolve) => {
@@ -205,15 +221,7 @@ mockGqlClient.setRequestHandler(
 );
 
 
-mockGqlClient.setRequestHandler(
-    require('../src/providers/gql/groups.graphql'),
-    () => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(groups), 800)
-        })
-    }
 
-);
 
 mockGqlClient.setRequestHandler(
     require('../src/providers/gql/permissions.graphql'),

@@ -1,7 +1,7 @@
 //i18n Messages
 const MESSAGE_GENERIC_ERROR = "client.error.unexpectedError"
 const MESSAGE_NETWORK_ERROR = "client.error.networkError"
-const MESSAGE_VALIDATION = "client.error.validationError"
+const MESSAGE_VALIDATION = "client.error.validation"
 const MESSAGE_FORBIDDEN = "client.error.forbidden"
 const MESSAGE_UNAUTHENTICATED = "client.error.unauthenticated"
 
@@ -53,8 +53,18 @@ class ClientError extends Error {
                 this.showMessage = MESSAGE_VALIDATION
 
                 this.i18nMessages.push(MESSAGE_VALIDATION)
-                this.inputErrors = {...this.inputErrors, ...gqlError.extensions.exception.inputErrors}
+
+
+                for(let inputError in gqlError.extensions.inputErrors ){
+                    if(this.inputErrors[inputError] === undefined) {
+                        this.inputErrors[inputError] = [gqlError.extensions.inputErrors[inputError].properties.message]
+                    }else{
+                        this.inputErrors[inputError].push(gqlError.extensions.inputErrors[inputError].properties.message)
+                    }
+                }
+
             }
+
             if (gqlError.extensions.code == FORBIDDEN) {
                 this.code = FORBIDDEN
                 this.errorMessage = gqlError.message

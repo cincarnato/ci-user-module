@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'); 
 const softDelete = require('mongoose-softdelete')
 const mongoosePaginate = require('mongoose-paginate-v2');
-
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const GroupSchema = new Schema({ 
@@ -9,12 +9,13 @@ const GroupSchema = new Schema({
  name: {
   type: String,
   required: true,
+  unique: true,
   validate: {
    validator: function (value) {
     let r = /^[A-Za-z\s]+$/;
     return r.test(value);
    },
-   message: "Solo se admiten letras, sin espacios"
+   message: "validation.onlyLetters"
   }},
  color: {
   type: String,
@@ -24,7 +25,7 @@ const GroupSchema = new Schema({
     let r = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
     return r.test(value);
    },
-   message: "Hexcode invalid"
+   message: "validation.invalidHexColor"
   }},
  users: [{
   type: mongoose.Schema.Types.ObjectId,
@@ -33,7 +34,7 @@ const GroupSchema = new Schema({
  }]
 
 });
-
+GroupSchema.plugin(uniqueValidator, {message: 'validation.unique'});
 GroupSchema.plugin(softDelete);
 GroupSchema.plugin(mongoosePaginate);
 

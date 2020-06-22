@@ -5,15 +5,16 @@ export default{
         }
     },
     computed: {
-        hasInputErrors: (state) => (field) => {
-            return state.inputErrors[field] != undefined
+        hasInputErrors() {
+            return field => this.inputErrors[field] != undefined
         },
-        getInputErrors: (state) => (field) => {
-            if (state.inputErrors[field] != undefined) {
-                let message = state.inputErrors[field].message
-                return [message]
+        getInputErrors() {
+            return field => {
+                if (this.inputErrors[field] != undefined) {
+                    return this.inputErrors[field].map(i => this.$t(i))
+                }
+                return []
             }
-            return []
         }
     }
 }

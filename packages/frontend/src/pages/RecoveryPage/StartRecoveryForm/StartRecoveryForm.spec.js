@@ -7,7 +7,6 @@ import vuetify from "../../../plugins/vuetify-manual"
 
 import StartRecoveryForm from "./StartRecoveryForm";
 import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-import VTextField from "vuetify/lib/components/VTextField";
 
 describe('StartRecoveryForm', () => {
 

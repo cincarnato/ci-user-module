@@ -7,7 +7,7 @@
         />
 
         <v-card-text>
-            <v-alert v-if="errorMessage" type="error" dense text>{{errorMessage}}</v-alert>
+            <v-alert v-if="errorMessage" type="error" dense text v-t="errorMessage"></v-alert>
         </v-card-text>
 
         <v-card-text>

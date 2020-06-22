@@ -13,9 +13,9 @@ const clientMessages = {
     es: {
         client: {
             error: {
-                unauthenticated: 'Authentication required',
+                unauthenticated: 'Autenticación requerida',
                 forbidden: 'Prohibido',
-                validation: 'Validation Errors',
+                validation: 'Error de validación.',
                 networkError: 'Error de Red. El servidor no responde',
                 unexpectedError: 'unexpectedError',
             }
@@ -27,7 +27,7 @@ const clientMessages = {
             error: {
                 unauthenticated: 'Authentication required',
                 forbidden: 'Forbidden',
-                validationError: 'Validation Errors',
+                validationError: 'Validation Error',
                 networkError: 'networkError',
                 unexpectedError: 'unexpectedError',
             }
