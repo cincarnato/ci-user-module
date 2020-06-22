@@ -90,7 +90,7 @@ const initRootUser = async (user) => {
         user = rootUser
     }
 
-    let roleAdmin = findRoleByName("admin")
+    let roleAdmin = await findRoleByName("admin")
 
     if (!roleAdmin) {
         throw Error('Root user cant be created. Role "admin" not found. ')
