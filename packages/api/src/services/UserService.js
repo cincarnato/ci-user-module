@@ -25,10 +25,10 @@ export const auth = async function ({username, password}, req) {
                 reject('UserDoesntExist')
             }
 
-            if(!user.active){
+            if (!user.active) {
                 reject('DisabledUser')
             }
-            
+
             if (user) {
                 if (bcryptjs.compareSync(password, user.password)) {
                     //Registrar session
@@ -289,31 +289,30 @@ export const changePasswordAdmin = function (id, {password, passwordVerify}, act
     }
 }
 
-export const changePassword = async function (id, {currentPassword, newPassword}, actionBy = null) {
-
-    let user = await User.findOne({_id: id})
-
-    if (bcryptjs.compareSync(currentPassword, user.password)) {
-
-        return new Promise((resolve, rejects) => {
+export const changePassword = function (id, {currentPassword, newPassword}, actionBy = null) {
+    return new Promise(async (resolve, rejects) => {
+        let user = await User.findOne({_id: id})
+        if (bcryptjs.compareSync(currentPassword, user.password)) {
             User.findOneAndUpdate(
                 {_id: id}, {password: hashPassword(newPassword)}, {new: true},
                 (error, doc) => {
                     if (error) {
-                        rejects({status: false, message: "Falla al intentar modificar password"})
+                        rejects(error)
                     } else {
                         createUserAudit(actionBy.id, id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
                         resolve({success: true, message: "PasswordChange", operation: "changePassword"})
                     }
                 }
             );
-        })
-
-    } else {
-        return new Promise((resolve, rejects) => {
-            resolve({status: false, message: "La contraseña actual no coincide con la del sistema", operation: "changePassword"})
-        })
-    }
+        } else {
+            rejects(new UserInputError(error.message,
+                {
+                    inputErrors: {
+                        currentPassword: {properties: {message: 'auth.wrongPassword'}}
+                    }
+                }));
+        }
+    })
 }
 
 export const changeRecoveryPassword = function (id, {newPassword}, actionBy = null) {

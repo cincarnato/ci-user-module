@@ -15,7 +15,9 @@ export const messages = {
             activationSuccessful: "Activation successful",
             invalidToken: "The token is invalid or has expired",
             passwordRecovery: 'Password recovery',
-            recoverySent: 'We have sent an email to {email} with the steps to recover the password'
+            recoverySent: 'We have sent an email to {email} with the steps to recover the password',
+            changePasswordSuccessfully: "Password changed successfully",
+            wrongPassword: 'Wrong Password'
         }
     },
     es: {
@@ -34,7 +36,9 @@ export const messages = {
             activationSuccessful: 'Activación exitosa',
             invalidToken: 'El token es inválido o ha expirado',
             passwordRecovery: 'Recuperación de contraseña',
-            recoverySent: 'Hemos enviado un correo a {email} con los pasos para recuperar la contraseña'
+            recoverySent: 'Hemos enviado un correo a {email} con los pasos para recuperar la contraseña',
+            changePasswordSuccessfully: "contraseña modificada con exito",
+            wrongPassword: 'Contraseña incorrecta'
         }
     },
     pt: {
@@ -53,7 +57,9 @@ export const messages = {
             activationSuccessful: "Ativação bem sucedida",
             invalidToken: "O token é inválido ou expirou",
             passwordRecovery: 'Recuperação de senha',
-            recoverySent: 'Enviamos um email para {email} com as etapas para recuperar a senha'
+            recoverySent: 'Enviamos um email para {email} com as etapas para recuperar a senha',
+            changePasswordSuccessfully: "Senha modificada com sucesso",
+            wrongPassword: 'Senha incorreta'
         }
     }
 

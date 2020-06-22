@@ -1,7 +1,9 @@
 <template>
     <v-card>
         <toolbar-dialog-card title="user.changeYourPassword" @close="$emit('closeDialog')" />
-
+        <v-card-text>
+            <v-alert v-if="errorMessage" type="error" dense text v-t="errorMessage"></v-alert>
+        </v-card-text>
         <v-card-text>
             <v-form ref="form" autocomplete="off" v-model="valid" @submit.prevent="submit">
                 <v-col cols="12">
@@ -76,16 +78,18 @@
     import InputErrors from "../../../mixins/InputErrors";
     import CloseButton from "../../../components/CloseButton/CloseButton";
     import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
 
     export default {
         name: "ProfilePasswordForm",
-        components: {SubmitButton, CloseButton},
+        components: {ToolbarDialogCard, SubmitButton, CloseButton},
         mixins: [InputErrors, UserValidations],
         data() {
             return {
                 loading: false,
                 valid: true,
                 status: false,
+                errorMessage: null,
                 showCurrentPassword: false,
                 showNewPassword: false,
                 showRepeatPassword: false,
@@ -112,10 +116,13 @@
                     this.loading = true
                     ProfileProvider.changePassword(this.form.currentPassword, this.form.newPassword).then((response) => {
                         this.status = response.data.changePassword.success
-                        this.$emit('success', this.status)
+                        if(this.status){
+                            this.$emit('success')
+                        }
                     }).catch((err) => {
                         let clientError = new ClientError(err)
-                        this.errors = clientError.inputErrors
+                        this.inputErrors = clientError.inputErrors
+                        this.errorMessage = clientError.i18nMessage
                     }).finally(() => this.loading = false)
                 }
             },
