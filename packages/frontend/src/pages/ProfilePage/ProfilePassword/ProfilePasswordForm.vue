@@ -90,7 +90,6 @@
                 showNewPassword: false,
                 showRepeatPassword: false,
                 form: {
-                    id: null, //TODO ID FROM TOKEN
                     currentPassword: null,
                     newPassword: null,
                     passwordVerify: null
@@ -111,7 +110,7 @@
                 if (this.$refs.form.validate()) {
                     this.resetValidation()
                     this.loading = true
-                    ProfileProvider.changePassword(this.form).then((response) => {
+                    ProfileProvider.changePassword(this.form.currentPassword, this.form.newPassword).then((response) => {
                         this.status = response.data.changePassword.success
                         this.$emit('success', this.status)
                     }).catch((err) => {
