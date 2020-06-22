@@ -29,7 +29,7 @@ export default {
          roleUpdate: (_, {id, input}, {user,rbac}) => {
             if (!user) throw new AuthenticationError("Unauthenticated")
             if(!rbac.isAllowed(user.id, SECURITY_ROLE_EDIT)) throw new ForbiddenError("Not Authorized")
-            return updateRole(user, id, input)
+            return updateRole(id, input)
         },
          roleDelete: (_, {id}, {user,rbac}) => {
             if (!user) throw new AuthenticationError("Unauthenticated")

@@ -85,7 +85,7 @@ export const updatepermissions = async function (id,{ name, permissions }) {
 
 }
 
-export const updateRole = async function (user, id, { name, permissions = [] }) {
+export const updateRole = async function (id, { name, permissions = [] }) {
     return new Promise((resolve, rejects) => {
         RoleModel.findOneAndUpdate({ _id: id },
             { name, permissions },

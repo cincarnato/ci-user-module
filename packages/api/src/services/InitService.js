@@ -16,7 +16,7 @@ import {
     SECURITY_USER_DELETE,
     SECURITY_USER_EDIT,
     SECURITY_USER_SHOW,
-} from "../../permissions";
+} from "../permissions";
 
 const initPermissions = async (permissions) => {
     if (!permissions) {
@@ -26,13 +26,24 @@ const initPermissions = async (permissions) => {
             SECURITY_DASHBOARD_SHOW]
     }
     //Fetch permissions already created
-    let permissionsFound = fetchPermissionsInName(permissions)
+    let permissionsFound = await fetchPermissionsInName(permissions)
     //Filter permissions created (avoid duplicate)
-    let permissionToCreate = permissions.filter(p => !permissionsFound.some(f => f.name == p))
+    let permissionToCreate
+    if (permissionsFound) {
+        permissionToCreate = permissions.filter(p => !permissionsFound.some(f => f.name == p))
+    } else {
+        permissionToCreate = permissions
+    }
+
+    //permissions Found
+    permissionsFound.forEach(p => {
+        console.log("Permission Found: " + p.name + " " + p.id)
+    })
+
     // Exec All Create Promises
     let permissionsCreated = await Promise.all(permissionToCreate.map(name => createPermission(name)))
     permissionsCreated.forEach(p => {
-        console.log("Permissions Created: " + p.name + " " + p.id )
+        console.log("Permissions Created: " + p.name + " " + p.id)
     })
 }
 
@@ -42,22 +53,36 @@ const initRoles = async (roles) => {
     }
     let rolesName = roles.map(r => r.name)
     //Fetch roles already created
-    let rolesFound = fetchRolesInName(rolesName)
+    let rolesFound = await fetchRolesInName(rolesName)
     //Filter roles created (avoid duplicate)
-    let rolesToCreate = roles.filter(r => !rolesFound.some(f => f.name == r.name))
+    let rolesToCreate
+    if(rolesFound){
+        rolesToCreate = roles.filter(r => !rolesFound.some(f => f.name == r.name))
+    }else{
+        rolesToCreate = roles
+    }
+
     // Exec All Create Promises
     let rolesCreated = await Promise.all(rolesToCreate.map(role => createRole(role)))
     rolesCreated.forEach(r => {
         console.log("Role Created: " + r.name + " " + r.id)
     })
 
-    //Filter roles to update (reload permissions)
-    let rolesToUpdate = roles.filter(r => rolesFound.some(f => f.name == r.name))
-    // Exec All Create Promises
-    let rolesUpdated = await Promise.all(rolesToUpdate.map(role => updateRole(role)))
-    rolesUpdated.forEach(r => {
-        console.log("Role Updated: " + r.name + " " + r.id)
+    //Roles Found
+    rolesFound.forEach(r => {
+        console.log("Role Found: " + r.name + " " + r.id)
     })
+
+
+    //Filter roles to update (reload permissions)
+    /* BUG - No funciona, roles no tiene el id
+        let rolesToUpdate = roles.filter(r => rolesFound.some(f => f.name == r.name))
+        // Exec All Create Promises
+        let rolesUpdated = await Promise.all(rolesToUpdate.map(role => updateRole(role.id, role)))
+        rolesUpdated.forEach(r => {
+            console.log("Role Updated: " + r.name + " " + r.id)
+        })
+    */
 }
 
 const initRootUser = async (user) => {
@@ -83,12 +108,11 @@ const initRootUser = async (user) => {
 }
 
 
-
 const rootRecover = async (password = "root.123") => {
     findUserByUsername("root").then(rootUser => {
         changeRecoveryPassword(rootUser.id, {
             newPassword: password,
-        },rootUser).then(result => {
+        }, rootUser).then(result => {
             console.log(result)
         })
     })
