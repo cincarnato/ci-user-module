@@ -1,4 +1,4 @@
-import {createRole, updaterole, findRoleByName, updatepermissions, fetchRolesInName} from './RoleService'
+import {createRole, findRoleByName, fetchRolesInName, updateRole} from './RoleService'
 import {changeRecoveryPassword, createUser, findUserByUsername} from './UserService'
 import {createPermission, fetchPermissionsInName} from './PermissionService'
 import {adminRole, INIT_USER_ADMIN, operatorRole} from '../roles'
@@ -93,3 +93,6 @@ const rootRecover = async (password = "root.123") => {
         })
     })
 }
+
+
+export {initPermissions, initRoles, initRootUser, rootRecover}
