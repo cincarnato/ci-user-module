@@ -215,7 +215,7 @@
         },
         computed: {
             passwordMatchError() {
-                return (this.form.password === this.form.password_verify) ? '' : 'Contraseña no coincide'
+                return (this.form.password === this.form.password_verify) ? '' : this.$t('user.validation.passwordVerify')
             },
         },
         methods: {
@@ -238,19 +238,23 @@
                 }).finally(() => this.loadingGroups = false)
             },
             saveUser() {
+
                 if (this.$refs.form.validate()) {
+
                     this.loading=true
                     UserProvider.createUser(this.form).then(r => {
+
                             if (r) {
                                 this.$emit('userCreated', r.data.createUser)
                                 this.$emit('closeDialog')
                             }
                         }
                     ).catch(error => {
+
                         let clientError = new ClientError(error)
                         this.inputErrors = clientError.inputErrors
                         this.errorMessage = clientError.i18nMessage
-                    }).finally(()=>this.loading=false)
+                    }).finally(()=>{this.loading=false})
                 }
             }
         },

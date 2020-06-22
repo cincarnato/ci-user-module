@@ -20,7 +20,7 @@ UserProvider.setGqlc(mockGqlClient)
 import {SubmitButton} from "../../../components/SubmitButton";
 import flushPromises from "flush-promises";
 
-describe('StartRecoveryForm', () => {
+describe('UserCreate.vue', () => {
 
 
     it('username and email unique', async () => {
@@ -30,29 +30,42 @@ describe('StartRecoveryForm', () => {
                 vuetify,
                 localVue,
                 i18n,
+                data() {
+                    return {
+                        title: this.$t('user.createTitle'),
+                        errorMessage: null,
+                        loading: false,
+                        loadingRoles: false,
+                        loadingGroups: false,
+                        roles: [],
+                        groups: [],
+                        form: {
+                            name: "jhon doe",
+                            username: 'jhon.doe',
+                            email: 'jhon.doe@gmail.com',
+                            phone: '123',
+                            password: '123',
+                            password_verify: '123',
+                            role: 1,
+                            groups: [],
+                            active: true
+                        }
+                    }
+                }
             }
         )
 
-        wrapper.setData({
-            form: {
-                name: "jhon doe",
-                username: 'jhon.doe',
-                email: 'jhon.doe@gmail.com',
-                phone: '123',
-                password: '123',
-                password_verify: '123',
-                role: '1',
-                groups: []
-            }
-        })
 
-        console.log('After click: ', wrapper.text())
+
+        console.log('Before click: ', wrapper.text())
         wrapper.findComponent(SubmitButton).trigger('click')
+        console.log('CLICK')
         await flushPromises()
-        //await wrapper.vm.$nextTick()
+        await wrapper.vm.$nextTick()
+        await wrapper.vm.$nextTick()
         console.log('After click: ', wrapper.text())
 
-        expect(wrapper.text()).toMatch('unico')
+        expect(wrapper.text()).toMatch('unique')
     })
 
 })
