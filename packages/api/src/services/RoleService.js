@@ -16,18 +16,6 @@ export const fetchRolesInName = function (roleNames) {
     })
 }
 
-export const createRole = function ({ name, permissions }) {
-    const newRole = new RoleModel({
-        name,
-        permissions
-    })
-    newRole.id = newRole._id;
-    return new Promise((resolve, rejects) => {
-        newRole.save((error => {
-            error ? rejects(error) : resolve(newRole)
-        }))
-    })
-}
 
 export const findRoles = function () {
     return new Promise((resolve, reject) => {
@@ -64,26 +52,26 @@ export const deleteRole = function (id) {
     })
 }
 
-export const updatepermissions = async function (id,{ name, permissions }) {
-
-    return new Promise((resolve, rejects) => {
-        RoleModel.findOneAndUpdate({ _id: id },{ name, permissions },
-            { new: true, runValidators: true, context: 'query' },
-            (error,res) => {
-                if(error){
-                    if (error.name == "ValidationError") {
-                        rejects(new UserInputError(error.message, { inputErrors: error.errors }));
-                    }
-                    rejects(error)
-                }
-
-                resolve(res)
-            }
-        )
-        
+export const createRole = function ({ name, permissions }) {
+    const newRole = new RoleModel({
+        name,
+        permissions
     })
-
+    newRole.id = newRole._id;
+    return new Promise((resolve, rejects) => {
+        newRole.save((error => {
+            if (error) {
+                if (error.name == "ValidationError") {
+                    rejects(new UserInputError(error.message, {inputErrors: error.errors}));
+                }
+                rejects(error)
+            } else {
+                resolve(newRole)
+            }
+        }))
+    })
 }
+
 
 export const updateRole = async function (id, { name, permissions = [] }) {
     return new Promise((resolve, rejects) => {
