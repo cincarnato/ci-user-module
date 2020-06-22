@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :value="openDialog" width="500" persistent>
+    <v-dialog v-if="openDialog" :value="openDialog" width="500" persistent>
 
         <password-success v-if="success" @close="$emit('closeDialog')"/>
 

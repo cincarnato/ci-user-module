@@ -305,7 +305,7 @@ export const changePassword = function (id, {currentPassword, newPassword}, acti
                 }
             );
         } else {
-            rejects(new UserInputError(error.message,
+            rejects(new UserInputError('auth.wrongPassword',
                 {
                     inputErrors: {
                         currentPassword: {properties: {message: 'auth.wrongPassword'}}
