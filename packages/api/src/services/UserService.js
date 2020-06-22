@@ -370,41 +370,56 @@ export const recoveryPassword = function (email) {
     })
 }
 
-
-export const avatarUpload = async function (user, file) {
-
-    //@TODO validate image size, extension
-    const {filename, mimetype, encoding, createReadStream} = await file;
-
-
-    const parseFileName = path.parse(filename);
-    const finalFileName = user.username + parseFileName.ext
-
-    const rs = createReadStream()
-    const dst = path.join("media", "avatar", finalFileName)
-    var wstream = fs.createWriteStream(dst);
-    rs.pipe(wstream);
-
-    const rand = randomstring(3)
-    const url = process.env.APP_API_URL + "/media/avatar/" + finalFileName + "?" + rand
+const storeFS = (stream, dst) => {
+    return new Promise((resolve, reject) =>
+        stream
+            .on('error', error => {
+                if (stream.truncated)
+                    fs.unlinkSync(dst);
+                reject(error);
+            })
+            .pipe(fs.createWriteStream(dst))
+            .on('error', error => reject(error))
+            .on('finish', () => resolve(true))
+    );
+}
 
 
-    return new Promise((resolve, rejects) => {
-        User.findOneAndUpdate(
-            {_id: user.id}, {avatar: finalFileName, avatarurl: url}, {useFindAndModify: false},
-            (error) => {
-                if (error) {
-                    rejects({status: false, message: "Falla al intentar guardar el avatar en la DB"})
-                } else {
-                    createUserAudit(user.id, user.id, 'avatarChange')
-                    resolve({filename, mimetype, encoding, url})
+export const avatarUpload = function (user, file) {
+
+
+    return new Promise(async (resolve, rejects) => {
+        //@TODO validate image size, extension
+        const {filename, mimetype, encoding, createReadStream} = await file;
+
+        const parseFileName = path.parse(filename);
+        const finalFileName = user.username + parseFileName.ext
+        const dst = path.join("media", "avatar", finalFileName)
+
+        //Store
+        let fileResult = await storeFS(createReadStream(), dst)
+
+        if (fileResult) {
+            const rand = randomstring(3)
+            const url = process.env.APP_API_URL + "/media/avatar/" + finalFileName + "?" + rand
+
+            User.findOneAndUpdate(
+                {_id: user.id}, {avatar: finalFileName, avatarurl: url}, {useFindAndModify: false},
+                (error) => {
+                    if (error) {
+                        rejects(error)
+                    } else {
+                        createUserAudit(user.id, user.id, 'avatarChange')
+                        resolve({filename, mimetype, encoding, url})
+                    }
                 }
-            }
-        );
+            );
+        }else{
+            rejects(new Error("Upload Fail"))
+        }
+
     })
 
-
-    return {filename, mimetype, encoding, url};
 }
 
 function randomstring(length) {
