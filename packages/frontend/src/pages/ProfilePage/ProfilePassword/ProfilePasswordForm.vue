@@ -1,6 +1,7 @@
 <template>
     <v-card>
-        <toolbar-dialog-card title="user.changeYourPassword" @close="$emit('closeDialog')" />
+        <toolbar-dialog-card title="user.changeYourPassword"
+                             @close="cancel" />
         <v-card-text>
             <v-alert v-if="errorMessage" type="error" dense text v-t="errorMessage"></v-alert>
         </v-card-text>

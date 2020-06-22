@@ -1,11 +1,6 @@
 <template>
-    <v-dialog v-if="openDialog" :value="openDialog" width="500" persistent>
-
         <password-success v-if="success" @close="$emit('closeDialog')"/>
-
         <password-form v-else @success="success=true" @close="$emit('closeDialog')"/>
-
-    </v-dialog>
 </template>
 
 <script>
@@ -17,9 +12,6 @@
         components: {
             PasswordForm,
             PasswordSuccess
-        },
-        props: {
-            openDialog: Boolean
         },
         data(){
             return {

@@ -15,12 +15,14 @@
 
             <v-card-text class="text-center pt-0 pb-3">
                 <v-btn color="secondary" class="onSecondary--text"
-                       @click="openDialog" v-t="'user.changeYourPassword'">
+                       @click="passwordDialog = true" v-t="'user.changeYourPassword'">
                 </v-btn>
             </v-card-text>
         </v-card>
 
-        <profile-password :openDialog="dialog" @closeDialog="dialog = false"/>
+        <v-dialog v-if="passwordDialog" :value="passwordDialog" max-width="500" persistent>
+            <profile-password @closeDialog="passwordDialog = false" />
+        </v-dialog>
 
     </v-container>
 </template>
@@ -36,7 +38,7 @@
         components: {ProfilePassword, ProfileDetails, ProfileAvatar},
         data: () => {
             return {
-                dialog: false
+                passwordDialog: false
             }
         },
         computed: {
@@ -45,11 +47,6 @@
                 'me'
             ]),
         },
-        methods: {
-            openDialog() {
-                this.dialog = true
-            }
-        }
     }
 </script>
 
