@@ -1,7 +1,7 @@
 import {createRole, findRoleByName, fetchRolesInName, updateRole} from './RoleService'
 import {changeRecoveryPassword, createUser, findUserByUsername} from './UserService'
 import {createPermission, fetchPermissionsInName} from './PermissionService'
-import {adminRole, INIT_USER_ADMIN, operatorRole} from '../roles'
+import {adminRole, operatorRole} from '../roles'
 import {rootUser} from '../data/root-user'
 import {
     SECURITY_DASHBOARD_SHOW,

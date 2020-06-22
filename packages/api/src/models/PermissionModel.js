@@ -11,6 +11,6 @@ PermissionSchema.plugin(uniqueValidator, {message: 'validation.unique'});
 
 PermissionSchema.set('toJSON', { getters: true });
 
-const PermissionModel = mongoose.model('Role', PermissionSchema);
+const PermissionModel = mongoose.model('Permission', PermissionSchema);
 
 module.exports = PermissionModel
