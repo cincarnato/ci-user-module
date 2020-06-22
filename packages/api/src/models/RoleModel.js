@@ -5,7 +5,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema
 
 const RoleSchema = new Schema({
-    name: { type: String, unique : true, required : true, dropDups: true },
+    name: { type: String, unique : true, required : true, index: true },
     permissions: [{  type: String, required: true }],
 
 });

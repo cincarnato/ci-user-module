@@ -121,17 +121,18 @@ mockGqlClient.setRequestHandler(
     require('../src/providers/gql/userCreate.graphql'),
     ({username, password, name, email, phone, role, groups, active}) => {
         return new Promise((resolve) => {
-            let id = uuidv4()
-            role = getRoleById(role)
-            let avatarurl = null
             let r
             if(username == 'jhon.doe'){
                 r = userCreateUniqueError
+                resolve(r)
             }else{
+                let id = uuidv4()
+                role = getRoleById(role)
+                let avatarurl = null
                  r = {data: {createUser: {id, username, password, name, email, phone, role, groups, active, avatarurl}}}
             }
 
-            setTimeout(() => resolve(r), 800)
+            setTimeout(() => {resolve(r)}, 800)
         })
     }
 );

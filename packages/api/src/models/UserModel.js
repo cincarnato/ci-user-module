@@ -6,12 +6,12 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 // Defining user Mongoose Schema
 const UserSchema = new mongoose.Schema({
-    username: {type: String, unique: true, required: true, dropDups: true},
+    username: {type: String, unique: true, required: true, index: true},
     email: {
         type: String,
         unique: true,
         required: true,
-        dropDups: true,
+        index: true,
         validate: {
             validator: function (value) {
                 let r = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;

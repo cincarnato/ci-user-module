@@ -10,6 +10,7 @@ const GroupSchema = new Schema({
   type: String,
   required: true,
   unique: true,
+  index: true,
   validate: {
    validator: function (value) {
     let r = /^[A-Za-z\s]+$/;

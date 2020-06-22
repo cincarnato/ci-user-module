@@ -37,7 +37,7 @@ describe('UserCreate.vue', () => {
                         loading: false,
                         loadingRoles: false,
                         loadingGroups: false,
-                        roles: [],
+                        roles: [ {id: 1, name: 'admin'}],
                         groups: [],
                         form: {
                             name: "jhon doe",
@@ -55,16 +55,8 @@ describe('UserCreate.vue', () => {
             }
         )
 
-
-
-        console.log('Before click: ', wrapper.text())
         wrapper.findComponent(SubmitButton).trigger('click')
-        console.log('CLICK')
         await flushPromises()
-        await wrapper.vm.$nextTick()
-        await wrapper.vm.$nextTick()
-        console.log('After click: ', wrapper.text())
-
         expect(wrapper.text()).toMatch('unique')
     })
 
