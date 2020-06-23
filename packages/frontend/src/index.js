@@ -34,6 +34,8 @@ import sessionProvider from "./providers/SessionProvider";
 //Routes
 import routes from "./routes";
 
+import ClientError from './errors/ClientError'
+
 const setGraphQlClientToProviders = (graphQlClient) => {
     authProvider.setGqlc(graphQlClient)
     userProvider.setGqlc(graphQlClient)
@@ -45,6 +47,9 @@ const setGraphQlClientToProviders = (graphQlClient) => {
 }
 
 export {
+    //ClientError
+    ClientError,
+
     //Components
     CloseButton,
     SubmitButton,

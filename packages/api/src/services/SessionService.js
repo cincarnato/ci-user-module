@@ -52,7 +52,7 @@ export const createSession = async function (user, req) {
 
 }
 
-
+//TODO improve: Think in performance and high demand
 export const updateSession = async function (user) {
     Session.findOne({_id: user.idSession}).then(doc => {
         let now = moment()
