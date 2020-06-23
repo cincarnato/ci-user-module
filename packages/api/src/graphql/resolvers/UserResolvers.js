@@ -75,7 +75,7 @@ export default {
         register: (_, {input}) => {
             return registerUser(input)
         },
-        recoveryPassword: (_, {email}) => {
+        recoveryByEmail: (_, {email}) => {
             return recoveryPassword(email)
         },
         avatarUpload: (_, {file}, {user}) => {
