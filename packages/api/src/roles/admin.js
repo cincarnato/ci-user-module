@@ -11,8 +11,8 @@ import {
     SECURITY_USER_DELETE,
     SECURITY_USER_EDIT,
     SECURITY_USER_SHOW,
-} from "../../permissions";
-import {fetchPermissions} from "../../services/PermissionService";
+} from "../permissions";
+import {fetchPermissions} from "../services/PermissionService";
 
 async function adminRole() {
     let permissions = []

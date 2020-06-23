@@ -52,7 +52,7 @@ const initPermissions = async (permissions) => {
 
 const initAdminRole = async () => {
     let adminRoleT = await adminRoleTemplate
-    let adminRole = await findRoleByName()
+    let adminRole = await findRoleByName(adminRoleT.name)
     if (adminRole) {
         let adminRoleUpdated = await updateRole(adminRole.id,
             {name: adminRole.name, permissions: adminRoleT.permissions})
