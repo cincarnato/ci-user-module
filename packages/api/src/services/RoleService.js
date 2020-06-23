@@ -1,12 +1,6 @@
 import RoleModel from '../models/RoleModel'
-import * as permissions from '../permissions'
 import {UserInputError} from 'apollo-server-express'
 
-export const findPermissions = function () {
-    return new Promise((resolve, reject) => {
-        resolve({ permissions: Object.values(permissions) })
-    })
-}
 
 export const fetchRolesInName = function (roleNames) {
     return new Promise((resolve, reject) => {
