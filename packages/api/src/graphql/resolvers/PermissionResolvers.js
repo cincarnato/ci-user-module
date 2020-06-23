@@ -9,7 +9,7 @@ export default {
             if (!user || !rbac.isAllowed(user.id, SECURITY_ROLE_SHOW)) throw new ForbiddenError("Not Authorized")
             return new Promise(((resolve, reject) => {
                 fetchPermissions().then(permissions  => {
-                    resolve(permissions.map(p => p.name))
+                    resolve({permissions: permissions.map(p => p.name)})
                 }).catch(e => reject(e))
             }))
         },

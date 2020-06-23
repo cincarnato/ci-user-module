@@ -1,7 +1,10 @@
 import {createRole, findRoleByName, fetchRolesInName, updateRole} from './RoleService'
 import {changeRecoveryPassword, createUser, findUserByUsername} from './UserService'
 import {createPermission, fetchPermissionsInName} from './PermissionService'
-import {adminRole, operatorRole} from '../roles'
+
+import adminRoleTemplate from '../roles/admin'
+import operatorRoleTemplate from '../roles/operator'
+
 import {rootUser} from '../data/root-user'
 import {
     SECURITY_DASHBOARD_SHOW,
@@ -47,18 +50,34 @@ const initPermissions = async (permissions) => {
     })
 }
 
+const initAdminRole = async () => {
+    let adminRoleT = await adminRoleTemplate
+    let adminRole = await findRoleByName()
+    if (adminRole) {
+        let adminRoleUpdated = await updateRole(adminRole.id,
+            {name: adminRole.name, permissions: adminRoleT.permissions})
+        console.log("Admin Role Updated: " + adminRoleUpdated.name + " " + adminRoleUpdated.id)
+    } else {
+        adminRole = await createRole(adminRoleT)
+        console.log("Admin Role Created: " + adminRole.name + " " + adminRole.id)
+    }
+}
+
 const initRoles = async (roles) => {
     if (!roles) {
-        roles = [adminRole, operatorRole]
+        roles = [operatorRoleTemplate]
     }
+
     let rolesName = roles.map(r => r.name)
+
     //Fetch roles already created
     let rolesFound = await fetchRolesInName(rolesName)
+
     //Filter roles created (avoid duplicate)
     let rolesToCreate
-    if(rolesFound){
+    if (rolesFound) {
         rolesToCreate = roles.filter(r => !rolesFound.some(f => f.name == r.name))
-    }else{
+    } else {
         rolesToCreate = roles
     }
 
@@ -68,21 +87,15 @@ const initRoles = async (roles) => {
         console.log("Role Created: " + r.name + " " + r.id)
     })
 
-    //Roles Found
-    rolesFound.forEach(r => {
-        console.log("Role Found: " + r.name + " " + r.id)
+    //Update Roles
+    let rolesUpdated = await Promise.all(rolesFound.map(roleToUpdate => {
+        let p = roles.find(r => r.name === roleToUpdate.name).permissions
+        return updateRole(roleToUpdate.id, {name: roleToUpdate.name, permissions: p})
+    }))
+    rolesUpdated.forEach(r => {
+        console.log("Role Updated: " + r.name + " " + r.id)
     })
 
-
-    //Filter roles to update (reload permissions)
-    /* BUG - No funciona, roles no tiene el id
-        let rolesToUpdate = roles.filter(r => rolesFound.some(f => f.name == r.name))
-        // Exec All Create Promises
-        let rolesUpdated = await Promise.all(rolesToUpdate.map(role => updateRole(role.id, role)))
-        rolesUpdated.forEach(r => {
-            console.log("Role Updated: " + r.name + " " + r.id)
-        })
-    */
 }
 
 const initRootUser = async (user) => {

@@ -1,4 +1,4 @@
-export const operatorRole = {
+export default {
     name: "operator",
     permissions: []
 }
