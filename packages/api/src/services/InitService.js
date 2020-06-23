@@ -132,4 +132,4 @@ const rootRecover = async (password = "root.123") => {
 }
 
 
-export {initPermissions, initRoles, initRootUser, rootRecover}
+export {initPermissions, initAdminRole, initRoles, initRootUser, rootRecover}
