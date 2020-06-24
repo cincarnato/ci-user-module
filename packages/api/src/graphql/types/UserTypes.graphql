@@ -18,26 +18,7 @@ type Token {
     token:String!
 }
 
-type RecoverPasswordResponse{
-    status: Boolean
-    message: String
-}
-type ActivationUserResponse{
-    status: Boolean
-    message: String
-}
-
-type ChangePasswordAdminResponse{
-    success: Boolean
-    message: String
-}
-
-type ChangePasswordResponse{
-    success: Boolean
-    message: String
-}
-
-type ChangeRecoveryPasswordResponse{
+type OperationResponse{
     status: Boolean
     message: String
 }
@@ -104,17 +85,16 @@ type Mutation {
 
     createUser(input: UserInput): User
     updateUser(id: ID!, input: UserInput): User
-
     deleteUser(id: ID!): UserDelete!
-
-    changePasswordAdmin(id: ID!, password:String!, passwordVerify:String!): ChangePasswordAdminResponse!
+    changePasswordAdmin(id: ID!, password:String!, passwordVerify:String!): OperationResponse!
 
     register(input: RegisterInput): RegisterResponse
 
-    recoveryByEmail(email:String!):RecoverPasswordResponse!
-    changePassword( currentPassword:String!, newPassword:String!): ChangePasswordResponse!
-    changeRecoveryPassword( newPassword:String!): ChangeRecoveryPasswordResponse!
-    activationUser(id:ID!):ActivationUserResponse!
+    recoveryByEmail(email:String!):OperationResponse!
+    recoveryChangePassword( newPassword:String!): OperationResponse!
+
+    changePassword( currentPassword:String!, newPassword:String!): OperationResponse!
+    activationUser(id:ID!):OperationResponse!
 
     avatarUpload(file: Upload!): AvatarFile!
 }

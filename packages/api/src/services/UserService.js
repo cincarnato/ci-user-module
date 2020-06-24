@@ -315,21 +315,23 @@ export const changePassword = function (id, {currentPassword, newPassword}, acti
     })
 }
 
-export const changeRecoveryPassword = function (id, {newPassword}, actionBy = null) {
+export const recoveryChangePassword = function (id, {newPassword}, actionBy = null) {
 
     console.log('changeRecoveryPassword', id)
 
-    if (newPassword) {
+    if (newPassword.length > 0) {
 
         return new Promise((resolve, rejects) => {
             User.findOneAndUpdate(
                 {_id: id}, {password: hashPassword(newPassword)}, {new: true},
-                (error, doc) => {
+                (error) => {
+                    console.log('Promise Recovery Done')
+
                     if (error) {
-                        rejects({success: false, message: "Falla al intentar modificar password"})
+                        rejects({status: false, message: "common.operation.fail"})
                     } else {
                         createUserAudit(actionBy.id, id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
-                        resolve({success: true, message: "PasswordChange", operation: "changeRecoveryPassword"})
+                        resolve({status: true, message: "common.operation.success"})
                     }
                 }
             );
@@ -338,7 +340,7 @@ export const changeRecoveryPassword = function (id, {newPassword}, actionBy = nu
 
     } else {
         return new Promise((resolve, rejects) => {
-            resolve({status: false, message: "Las password no concuerdan"})
+            resolve({status: false, message: "common.operation.fail"})
         })
     }
 }
@@ -353,7 +355,7 @@ export const recoveryPassword = function (email) {
                     {
                         id: user.id,
                         username: user.username,
-                        role: {name: user.role.name}
+                        role: user.role
                     },
                     process.env.JWT_SECRET,
                     {expiresIn: '1d'}

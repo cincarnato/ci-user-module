@@ -12,7 +12,7 @@ import RegisterPage from '../pages/RegisterPage'
 const routes = [
     {name: "home", path: '/home', component: HomePage},
     {name: "login", path: '/login', component: LoginPage},
-    {name: "recovery", path: '/recovery/:token', component: RecoveryPage},
+    {name: "recoveryToken", path: '/recovery/:token', component: RecoveryPage},
     {name: "recovery", path: '/recovery', component: RecoveryPage},
     {name: "activation", path: '/activation', component: ActivationPage},
     {name: "me", path: '/me', component: ProfilePage},

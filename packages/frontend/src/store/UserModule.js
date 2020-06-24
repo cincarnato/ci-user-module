@@ -55,14 +55,21 @@ export default {
             commit('setAccessToken', null)
         },
 
-        verifyToken(_, token) {
+        verifyToken({commit}, token) {
             try {
                 let payload = jwt_decode(token)
 
                 if (payload.exp) {
                     let dateNow = new Date();
                     let dateToken = new Date(payload.exp * 1000)
-                    return (dateNow < dateToken) ? true : false
+                    if(dateNow < dateToken){
+                        commit('setAccessToken', token)
+                        let me = jwt_decode(token)
+                        commit('setMe', me)
+                        return true
+                    }else{
+                        return false
+                    }
                 }
 
             } catch (e) {

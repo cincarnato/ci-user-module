@@ -54,13 +54,16 @@ export const createSession = async function (user, req) {
 
 //TODO improve: Think in performance and high demand
 export const updateSession = async function (user) {
-    Session.findOne({_id: user.idSession}).then(doc => {
-        let now = moment()
-        doc.until = now
-        doc.duration = now.diff(doc.since, 'seconds')
-        doc.request++
-        doc.save()
-    })
+    if(user.idSession){
+        Session.findOne({_id: user.idSession}).then(doc => {
+            let now = moment()
+            doc.until = now
+            doc.duration = now.diff(doc.since, 'seconds')
+            doc.request++
+            doc.save()
+        })
+    }
+
 }
 
 function getFromDate(time, unit) {

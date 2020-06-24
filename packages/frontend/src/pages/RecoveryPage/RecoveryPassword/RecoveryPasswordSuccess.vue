@@ -1,12 +1,11 @@
 <template>
     <v-alert
-            dense
-            type="error"
+
+            type="success"
             class="elevation-8"
             prominent
+            v-t="'auth.recoverySuccess'"
     >
-        <h4>El token no es valido para cambiar tu contraseña</h4>
-        Realize el procedimiento de recuperar contrasela nuevamente
     </v-alert>
 </template>
 

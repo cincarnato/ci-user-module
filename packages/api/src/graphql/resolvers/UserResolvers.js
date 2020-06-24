@@ -7,7 +7,7 @@ import {
     auth,
     changePasswordAdmin,
     changePassword,
-    changeRecoveryPassword,
+    recoveryChangePassword,
     registerUser,
     recoveryPassword,
     avatarUpload,
@@ -68,9 +68,9 @@ export default {
             if (!user) throw new AuthenticationError("Usuario no autenticado")
             return changePassword(user.id, {currentPassword, newPassword}, user)
         },
-        changeRecoveryPassword: (_, {newPassword}, {user}) => {
+        recoveryChangePassword: (_, {newPassword}, {user}) => {
             if (!user) throw new AuthenticationError("Usuario no autenticado")
-            return changeRecoveryPassword(user.id, {newPassword}, user)
+            return recoveryChangePassword(user.id, {newPassword}, user)
         },
         register: (_, {input}) => {
             return registerUser(input)

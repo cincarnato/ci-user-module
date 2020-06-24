@@ -16,6 +16,7 @@ export const messages = {
             invalidToken: "The token is invalid or has expired",
             passwordRecovery: 'Password recovery',
             recoverySent: 'We have sent an email to {email} with the steps to recover the password',
+            recoverySuccess: 'Password recovery successful',
             changePasswordSuccessfully: "Password changed successfully",
             wrongPassword: 'Wrong Password'
         }
@@ -37,6 +38,7 @@ export const messages = {
             invalidToken: 'El token es inválido o ha expirado',
             passwordRecovery: 'Recuperación de contraseña',
             recoverySent: 'Hemos enviado un correo a {email} con los pasos para recuperar la contraseña',
+            recoverySuccess: 'Recuperación de contraseña exitosa',
             changePasswordSuccessfully: "contraseña modificada con exito",
             wrongPassword: 'Contraseña incorrecta'
         }
@@ -58,6 +60,7 @@ export const messages = {
             invalidToken: "O token é inválido ou expirou",
             passwordRecovery: 'Recuperação de senha',
             recoverySent: 'Enviamos um email para {email} com as etapas para recuperar a senha',
+            recoverySuccess: 'Recuperação de senha bem-sucedida',
             changePasswordSuccessfully: "Senha modificada com sucesso",
             wrongPassword: 'Senha incorreta'
         }

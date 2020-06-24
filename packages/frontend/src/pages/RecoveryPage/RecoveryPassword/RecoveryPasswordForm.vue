@@ -90,7 +90,7 @@
         computed: {
             passwordMatchError() {
                 return (this.form.password === this.form.passwordVerify) ? null : this.$t('user.validation.passwordVerify')
-            },
+            }
         },
     }
 </script>

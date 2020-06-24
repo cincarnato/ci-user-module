@@ -26,12 +26,13 @@
 
 <script>
     import {mapActions} from 'vuex'
+    import RecoveryPasswordSuccess from './RecoveryPasswordSuccess'
     import RecoveryPasswordChangeForm from "./RecoveryPasswordForm";
     import RecoveryPasswordInvalidToken from "./RecoveryPasswordInvalidToken";
 
     export default {
         name: "RecoveryPassword",
-        components: {RecoveryPasswordInvalidToken, RecoveryPasswordChangeForm},
+        components: {RecoveryPasswordInvalidToken, RecoveryPasswordSuccess, RecoveryPasswordChangeForm},
         data: () => {
             return {
                 tokenStatus: null,
