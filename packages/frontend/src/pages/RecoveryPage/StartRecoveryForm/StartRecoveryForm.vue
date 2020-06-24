@@ -9,39 +9,55 @@
             <h2 class="mt-3" v-t="'auth.passwordRecovery'"></h2>
         </v-card-text>
 
+
+        <v-card-text class="pt-3">
+            <v-alert v-if="errorMessage" type="error" dense text>{{$t(errorMessage)}}</v-alert>
+        </v-card-text>
+
         <v-card-text v-if="status">
            <start-recovery-form-success :email="form.email" />
         </v-card-text>
 
-        <v-card-text v-else>
-            <v-form ref="form" autocomplete="off" v-model="valid" @submit.prevent="submit">
-                <v-text-field prepend-icon="email"
-                              name="email"
-                              ref="email"
-                              type="text"
-                              v-model="form.email"
-                              :rules="emailRules"
-                              :label="$t('user.label.email')"
-                              :placeholder="$t('user.label.email')"
-                              description="asd"
-                              :error="hasInputErrors('email')"
-                              :error-messages="getInputErrors('email')"
-                              color="secondary"
-                              required
-                />
-            </v-form>
-        </v-card-text>
+        <template v-else>
+            <v-card-text class="pt-3">
+                <v-alert v-if="errorMessage" type="error" dense text>{{$t(errorMessage)}}</v-alert>
+            </v-card-text>
 
-        <v-card-actions>
-            <v-row justify="center">
-                <submit-button @click="submit"
-                               text="common.send"
-                               :loading="loading"
-                               :disabled="!valid"
-                />
-            </v-row>
+            <v-card-text >
+                <v-form ref="form" autocomplete="off" v-model="valid" @submit.prevent="submit">
+                    <v-text-field prepend-icon="email"
+                                  name="email"
+                                  ref="email"
+                                  type="text"
+                                  v-model="form.email"
+                                  :rules="emailRules"
+                                  :label="$t('user.label.email')"
+                                  :placeholder="$t('user.label.email')"
+                                  description="asd"
+                                  :error="hasInputErrors('email')"
+                                  :error-messages="getInputErrors('email')"
+                                  color="secondary"
+                                  required
+                    />
+                </v-form>
+            </v-card-text>
 
-        </v-card-actions>
+            <v-card-actions>
+                <v-row justify="center">
+                    <submit-button @click="submit"
+                                   text="common.send"
+                                   :loading="loading"
+                                   :disabled="!valid"
+                    />
+                </v-row>
+
+            </v-card-actions>
+
+        </template>
+
+
+
+
     </v-card>
 
 </template>
@@ -60,6 +76,7 @@
         components: {StartRecoveryFormSuccess, SubmitButton},
         mixins: [UserValidations, InputErrors],
         data: () => ({
+                errorMessage: null,
                 loading: false,
                 status: false,
                 valid: true,
@@ -79,10 +96,16 @@
                     this.loading = true
                     RecoveryProvider.recoveryByEmail(this.form.email).then((response) => {
                         this.status = response.data.recoveryByEmail.status
-                        this.$emit('status', this.status)
+                        if(this.status ){
+                            this.$emit('status', this.status)
+                        }else{
+                            this.errorMessage = response.data.recoveryByEmail.message
+                        }
+
                     }).catch((err) => {
                         let clientError = new ClientError(err)
                         this.errors = clientError.inputErrors
+                        this.errorMessage = clientError.i18nMessage
                     }).finally(() => this.loading = false)
                 }
             },

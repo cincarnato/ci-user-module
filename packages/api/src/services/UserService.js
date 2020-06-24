@@ -358,14 +358,19 @@ export const recoveryPassword = function (email) {
                     process.env.JWT_SECRET,
                     {expiresIn: '1d'}
                 )
-                let url = process.env.APP_WEB_URL + "/reset-password/" + token
+                let url = process.env.APP_WEB_URL + "/recovery/" + token
 
-                UserEmailManager.recovery(email, url, user)
-                createUserAudit(user.id, user.id, 'passwordRecovery')
-                resolve({status: true, message: "Se envio un mail para recuperar tu contraseña"})
-            } else rejects({status: false, message: "No se encontro el usuario"})
+                UserEmailManager.recovery(email, url, user).then(result => {
+                    createUserAudit(user.id, user.id, 'passwordRecovery')
+                    resolve({status: result, message: 'common.operation.success'})
+                }).catch(error => {
+                    rejects(new Error('common.operation.fail'))
+                })
+
+
+            } else resolve({status: false, message: "user.notFound"})
         }).catch((error) => {
-            if (error) rejects({status: false, message: "Fallo interno del servidor "})
+            if (error) rejects(new Error('common.operation.fail'))
         })
     })
 }

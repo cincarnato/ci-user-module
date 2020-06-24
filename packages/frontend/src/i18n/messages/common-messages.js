@@ -20,7 +20,11 @@ const baseMessages = {
             networkError: 'Network error. The server does not respond.',
             export:'Export',
             import: 'Import',
-            title:'Title'
+            title:'Title',
+            operation: {
+                success: 'Operation success',
+                fail: 'Operation fail'
+            }
         }
     },
     es: {
@@ -44,7 +48,11 @@ const baseMessages = {
             networkError: 'Error de red. El servidor no responde.',
             export:'Exportar',
             import: 'Importar',
-            title:'Titulo'
+            title:'Titulo',
+            operation: {
+                success: 'Operación exitosa',
+                fail: 'Operación fallida'
+            }
 
         }
     },
@@ -69,7 +77,11 @@ const baseMessages = {
             networkError: 'Erro de vermelho. O servidor não responde.',
             export:'Exportar',
             import: 'Importar',
-            title:'Título'
+            title:'Título',
+            operation: {
+                success: 'Operação bem sucedida',
+                fail: 'Operação falhou'
+            }
         }
     }
 

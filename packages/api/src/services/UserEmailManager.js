@@ -19,63 +19,74 @@ class UserEmailManager {
     }
 
     recovery(to, url, user) {
-        var email = new Email({
-            transport: this.transporter,
-            send: true,
-            preview: false,
-        });
 
-        email.send({
-            template: 'recovery',
-            message: {
-                from: process.env.APP_NAME + "<" + process.env.SMTP_USER + ">",
-                to: to,
-            },
-            locals: {
-                appName: process.env.APP_NAME,
-                name: user.name,
-                url,
-                username: user.username,
-                title: "Recuperacion de Contraseña",
-                description: "Hemos recibido tu solicitud para recuperar tu contraseña, podras hacerlo desde el siguiente link:",
-                btnText: "Recuperar Contraseña",
-                copyright: "Copyright @ " + process.env.APP_NAME + " " +new Date().getFullYear()
-            },
-        }).then((response) => {
-            console.log(response)
-        }).catch((error) => {
-            console.log(error)
+        return new Promise((resolve, reject) => {
+
+            var email = new Email({
+                transport: this.transporter,
+                send: true,
+                preview: false,
+            });
+
+            email.send({
+                template: 'recovery',
+                message: {
+                    from: process.env.APP_NAME + "<" + process.env.SMTP_USER + ">",
+                    to: to,
+                },
+                locals: {
+                    appName: process.env.APP_NAME,
+                    name: user.name,
+                    url,
+                    username: user.username,
+                    title: "Recuperacion de Contraseña",
+                    description: "Hemos recibido tu solicitud para recuperar tu contraseña, podras hacerlo desde el siguiente link:",
+                    btnText: "Recuperar Contraseña",
+                    copyright: "Copyright @ " + process.env.APP_NAME + " " + new Date().getFullYear()
+                },
+            }).then((response) => {
+                console.log(response)
+                resolve(true)
+            }).catch((error) => {
+                console.log(error)
+                reject(error)
+            })
+
         })
+
     }
 
     activation(to, url, user) {
+        return new Promise((resolve, reject) => {
+            var email = new Email({
+                transport: this.transporter,
+                send: true,
+                preview: false,
+            });
 
-        var email = new Email({
-            transport: this.transporter,
-            send: true,
-            preview: false,
-        });
-
-        email.send({
-            template: 'activation',
-            message: {
-                from: process.env.APP_NAME + "<" + process.env.SMTP_USER + ">",
-                to: to,
-            },
-            locals: {
-                appName: process.env.APP_NAME,
-                name: user.name,
-                url,
-                username: user.username,
-                title: "Activación de cuenta",
-                description: "Hemos recibido tu solicitud de registro, para terminar de activar tu cuenta, accede al siguiente link:",
-                btnText: "Activar cuenta",
-                copyright: "Copyright @ " + process.env.APP_NAME + " " +new Date().getFullYear()
-            },
-        }).then((response) => {
-            console.log(response)
-        }).catch((error) => {
-            console.log(error)
+            email.send({
+                template: 'activation',
+                message: {
+                    from: process.env.APP_NAME + "<" + process.env.SMTP_USER + ">",
+                    to: to,
+                },
+                locals: {
+                    appName: process.env.APP_NAME,
+                    name: user.name,
+                    url,
+                    username: user.username,
+                    title: "Activación de cuenta",
+                    description: "Hemos recibido tu solicitud de registro, para terminar de activar tu cuenta, accede al siguiente link:",
+                    btnText: "Activar cuenta",
+                    copyright: "Copyright @ " + process.env.APP_NAME + " " + new Date().getFullYear()
+                },
+            }).then((response) => {
+                console.log(response)
+                resolve(true)
+            }).catch((error) => {
+                console.log(error)
+                reject(error)
+            })
         })
     }
 

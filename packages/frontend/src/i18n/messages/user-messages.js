@@ -13,6 +13,7 @@ const userMessages = {
             created: 'User created',
             updated: 'User updated',
             deleted: 'User deleted',
+            notFound: 'User not found',
             validation: {
                 required: 'Required field',
                 emailVerify: 'Email does not match',
@@ -51,6 +52,7 @@ const userMessages = {
             created: 'Usuario creado',
             updated: 'Usuario actualizado',
             deleted: 'Usuario eliminado',
+            notFound: 'Usuario no encontrado',
             validation: {
                 required: 'Campo requerido',
                 emailVerify: 'El email no coincide',
@@ -89,6 +91,7 @@ const userMessages = {
             created: 'Usuário criado',
             updated: 'Usuário atualizado',
             deleted: 'Usuário removido',
+            notFound: 'Usuário não encontrado',
             validation: {
                 required: 'Campo obrigatório',
                 emailVerify: 'O email não corresponde',
