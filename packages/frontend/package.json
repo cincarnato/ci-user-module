@@ -1,6 +1,6 @@
 {
   "name": "@ci-user-module/frontend",
-  "version": "1.0.34",
+  "version": "1.0.36",
   "author": "Cristian Incarnato",
   "main": "./src/index.js",
   "scripts": {
