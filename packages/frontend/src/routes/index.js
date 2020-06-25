@@ -14,7 +14,7 @@ const routes = [
     {name: "login", path: '/login', component: LoginPage},
     {name: "recoveryToken", path: '/recovery/:token', component: RecoveryPage},
     {name: "recovery", path: '/recovery', component: RecoveryPage},
-    {name: "activation", path: '/activation', component: ActivationPage},
+    {name: "activation", path: '/activation/:token', component: ActivationPage},
     {name: "me", path: '/me', component: ProfilePage},
     {name: "register", path: '/register', component: RegisterPage},
 

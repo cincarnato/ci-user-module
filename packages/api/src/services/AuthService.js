@@ -5,7 +5,7 @@ import {createLoginFail} from "./LoginFailService";
 import {findUserByUsername} from "./UserService";
 
 export const session = function (user, req) {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         createSession(user, req).then(newSession => {
 
             let token = jsonwebtoken.sign(
