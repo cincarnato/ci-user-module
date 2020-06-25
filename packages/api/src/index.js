@@ -1,6 +1,9 @@
 import {securityResolvers, securityTypes} from './graphql'
 import {sessionMiddleware, jwtMiddleware, rbacMiddleware, corsMiddleware} from './middleware'
 import {
+    AuthService,
+    RecoveryService,
+    RegisterService,
     GroupService,
     RoleService,
     UserService,
@@ -25,6 +28,9 @@ export {
     corsMiddleware,
 
     //Services
+    AuthService,
+    RecoveryService,
+    RegisterService,
     GroupService,
     RoleService,
     UserService,

@@ -65,8 +65,11 @@ export const activationUser = function (token, req) {
                 rejects({status: false, message: "common.operation.fail"})
             } else {
                 createUserAudit(user._id, user._id, 'userActivated')
-                let authToken = session(user, req)
-                resolve({status: true, token: authToken, message: "common.operation.success"})
+                session(user, req).then(authToken => {
+                    resolve({status: true, token: authToken, message: "common.operation.success"})
+                }).catch(err => {
+                    rejects(err)
+                })
             }
         })
     })

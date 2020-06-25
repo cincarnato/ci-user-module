@@ -7,7 +7,14 @@ import * as UserEmailManager from './UserEmailManager'
 import * as UserService from './UserService'
 import * as InitService from './InitService'
 
+import * as AuthService from './AuthService'
+import * as RecoveryService from './RecoveryService'
+import * as RegisterService from './RegisterService'
+
 export {
+    AuthService,
+    RecoveryService,
+    RegisterService,
     GroupService,
     LoginFailService,
     RoleService,
