@@ -50,6 +50,7 @@ export default {
             })
         },
 
+
         logout({commit}) {
             commit('setMe', null)
             commit('setAccessToken', null)

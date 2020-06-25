@@ -4,15 +4,18 @@ import {
     deleteUser,
     findUsers,
     findUser,
-    auth,
     changePasswordAdmin,
     changePassword,
-    recoveryChangePassword,
-    registerUser,
-    recoveryPassword,
     avatarUpload,
-    activationUser, paginateUsers
+    paginateUsers
 } from '../../services/UserService'
+
+import {activationUser, registerUser} from "../../services/RegisterService";
+import {recoveryChangePassword, recoveryPassword} from "../../services/RecoveryService";
+import {auth} from "../../services/AuthService";
+
+
+
 import {AuthenticationError, ForbiddenError} from "apollo-server-express";
 import {SECURITY_USER_CREATE, SECURITY_USER_DELETE, SECURITY_USER_EDIT, SECURITY_USER_SHOW} from "../../permissions";
 
@@ -72,9 +75,6 @@ export default {
             if (!user) throw new AuthenticationError("Usuario no autenticado")
             return recoveryChangePassword(user.id, {newPassword}, user)
         },
-        register: (_, {input}) => {
-            return registerUser(input)
-        },
         recoveryByEmail: (_, {email}) => {
             return recoveryPassword(email)
         },
@@ -82,8 +82,11 @@ export default {
             if (!user) throw new AuthenticationError("Usuario no autenticado")
             return avatarUpload(user, file)
         },
-        activationUser: (_, {id}) => {
-            return activationUser(id)
+        register: (_, {input}) => {
+            return registerUser(input)
+        },
+        activationUser: (_, {token}, {req}) => {
+            return activationUser(token,req)
         }
     }
 

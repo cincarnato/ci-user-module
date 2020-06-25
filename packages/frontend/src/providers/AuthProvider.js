@@ -26,10 +26,10 @@ class AuthProvider {
         })
     }
 
-    activation(id){
-        return this.gqlc.query({
-            query: require('./gql/activationUser.graphql'),
-            variables: {id}
+    activation(token){
+        return this.gqlc.mutate({
+            mutation: require('./gql/activationUser.graphql'),
+            variables: {token}
         })
     }
 

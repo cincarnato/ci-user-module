@@ -2,66 +2,15 @@ import User from '../models/UserModel'
 import '../models/GroupModel'
 import {createUserAudit} from '../services/UserAuditService'
 import bcryptjs from 'bcryptjs'
-import UserEmailManager from './UserEmailManager'
-import {findRoleByName} from "./RoleService";
 import {UserInputError} from 'apollo-server-express'
 import path from 'path'
 import fs from 'fs'
-import jsonwebtoken from 'jsonwebtoken'
-import {createSession} from "./SessionService";
-import {createLoginFail} from "./LoginFailService";
 
 export const hashPassword = function (password) {
     let salt = bcryptjs.genSaltSync(10);
     let hashPassword = bcryptjs.hashSync(password, salt);
     return hashPassword;
 }
-
-export const auth = async function ({username, password}, req) {
-    return new Promise((resolve, reject) => {
-        findUserByUsername(username).then(user => {
-
-            if (!user) {
-                reject('UserDoesntExist')
-            }
-
-            if (!user.active) {
-                reject('DisabledUser')
-            }
-
-            if (user) {
-                if (bcryptjs.compareSync(password, user.password)) {
-                    //Registrar session
-                    createSession(user, req).then(newSession => {
-
-                        let token = jsonwebtoken.sign(
-                            {
-                                id: user.id,
-                                name: user.name,
-                                username: user.username,
-                                email: user.email,
-                                phone: user.phone,
-                                role: user.role,
-                                groups: user.groups,
-                                avatarurl: user.avatarurl,
-                                idSession: newSession.id
-                            },
-                            process.env.JWT_SECRET,
-                            {expiresIn: process.env.JWT_LOGIN_EXPIRED_IN || '1d'}
-                        )
-                        resolve({token: token})
-                    })
-                } else {
-                    createLoginFail(username, req)
-                    reject('BadCredentials')
-                }
-            }
-        })
-
-    })
-
-}
-
 
 export const createUser = async function ({username, password, name, email, phone, role, groups, active}, actionBy = null) {
 
@@ -134,68 +83,7 @@ export const deleteUser = function (id, actionBy = null) {
     })
 }
 
-export const registerUser = async function ({username, password, name, email, phone}) {
 
-    const ROLE_NAME = "operator";
-    let roleObject = await findRoleByName(ROLE_NAME)
-
-    return new Promise((resolve, rejects) => {
-
-        let active = false;
-
-        const newUser = new User({
-            username,
-            email,
-            password: hashPassword(password),
-            name,
-            phone,
-            active,
-            role: roleObject,
-            createdAt: Date.now()
-
-        })
-        newUser.id = newUser._id;
-
-        newUser.save((error => {
-            if (error) {
-                if (error.name == "ValidationError") {
-                    rejects(new UserInputError(error.message, {inputErrors: error.errors}));
-                }
-                rejects(error)
-            } else {
-                let token = jsonwebtoken.sign(
-                    {
-                        id: newUser.id,
-                        username: newUser.username,
-                        role: {name: roleObject.name},
-                    },
-                    process.env.JWT_SECRET,
-                    {expiresIn: process.env.JWT_REGISTER_EXPIRED_IN || '30d'}
-                )
-                let url = process.env.APP_WEB_URL + "/activation-user/" + token
-                createUserAudit(newUser.id, newUser.id, 'userRegistered')
-                UserEmailManager.activation(newUser.email, url, newUser);
-                resolve({status: true, id: newUser.id, email: newUser.email});
-            }
-        }))
-
-    })
-
-}
-
-export const activationUser = function (id) {
-    return new Promise((resolve, rejects) => {
-        let active = true;
-        User.findOneAndUpdate({_id: id}, {active}, (error, user) => {
-            if (error) {
-                rejects({status: false, message: "Error al activar el usuario"})
-            } else {
-                createUserAudit(user._id, user._id, 'userActivated')
-                resolve({status: true, message: "Se activo correctamente la cuenta"})
-            }
-        })
-    })
-}
 
 export const findUsers = function () {
     return new Promise((resolve, reject) => {
@@ -315,67 +203,6 @@ export const changePassword = function (id, {currentPassword, newPassword}, acti
     })
 }
 
-export const recoveryChangePassword = function (id, {newPassword}, actionBy = null) {
-
-    console.log('changeRecoveryPassword', id)
-
-    if (newPassword.length > 0) {
-
-        return new Promise((resolve, rejects) => {
-            User.findOneAndUpdate(
-                {_id: id}, {password: hashPassword(newPassword)}, {new: true},
-                (error) => {
-                    console.log('Promise Recovery Done')
-
-                    if (error) {
-                        rejects({status: false, message: "common.operation.fail"})
-                    } else {
-                        createUserAudit(actionBy.id, id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
-                        resolve({status: true, message: "common.operation.success"})
-                    }
-                }
-            );
-        })
-
-
-    } else {
-        return new Promise((resolve, rejects) => {
-            resolve({status: false, message: "common.operation.fail"})
-        })
-    }
-}
-
-
-export const recoveryPassword = function (email) {
-
-    return new Promise((resolve, rejects) => {
-        User.findOne({email: email}).populate('role').then((user) => {
-            if (user) {
-                let token = jsonwebtoken.sign(
-                    {
-                        id: user.id,
-                        username: user.username,
-                        role: user.role
-                    },
-                    process.env.JWT_SECRET,
-                    {expiresIn: '1d'}
-                )
-                let url = process.env.APP_WEB_URL + "/recovery/" + token
-
-                UserEmailManager.recovery(email, url, user).then(result => {
-                    createUserAudit(user.id, user.id, 'passwordRecovery')
-                    resolve({status: result, message: 'common.operation.success'})
-                }).catch(error => {
-                    rejects(new Error('common.operation.fail'))
-                })
-
-
-            } else resolve({status: false, message: "user.notFound"})
-        }).catch((error) => {
-            if (error) rejects(new Error('common.operation.fail'))
-        })
-    })
-}
 
 const storeFS = (stream, dst) => {
     return new Promise((resolve, reject) =>

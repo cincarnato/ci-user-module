@@ -80,6 +80,12 @@ type UserDelete{
     success: Boolean!
 }
 
+type ActivationResponse{
+    status: Boolean!
+    token: String
+    message: String
+}
+
 type Mutation {
     auth(username: String!, password:String!): Token
 
@@ -94,7 +100,7 @@ type Mutation {
     recoveryChangePassword( newPassword:String!): OperationResponse!
 
     changePassword( currentPassword:String!, newPassword:String!): OperationResponse!
-    activationUser(id:ID!):OperationResponse!
+    activationUser(token:String!):ActivationResponse!
 
     avatarUpload(file: Upload!): AvatarFile!
 }

@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     import ClientError from '../../errors/ClientError'
     import AuthProvider from '../../providers/AuthProvider';
     import jwt_decode from 'jwt-decode'
@@ -33,6 +34,7 @@
             }
         },
         methods: {
+            ...mapActions(['verifyToken']),
             checkToken() {
                 let payload
                 try{
@@ -54,6 +56,7 @@
                 this.loading = true
                 AuthProvider.activation(this.$route.params.token).then(res => {
                     this.activationStatus = res.data.activationUser.status
+                    this.verifyToken(res.data.activationUser.token)
                 }).catch(err => {
                     let ce = new ClientError(err)
                     this.error = ce.i18nMessage
