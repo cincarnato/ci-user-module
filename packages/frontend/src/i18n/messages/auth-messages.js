@@ -24,7 +24,7 @@ export const messages = {
     },
     es: {
         auth : {
-            badCredentials: 'Bad credentials',
+            badCredentials: 'Credenciales Invalidas',
             signIn: 'Iniciar sesión',
             signUp: 'Registrarse',
             logout: 'Cerrar sesión',
@@ -47,9 +47,9 @@ export const messages = {
     },
     pt: {
         auth : {
-            badCredentials: 'Bad credentials',
-            signIn: 'SignIn',
-            signUp: 'signUp',
+            badCredentials: 'Credenciais ruins',
+            signIn: 'Assinar em',
+            signUp: 'Inscrever-se',
             logout: 'Fechar Sessão',
             profile: 'Perfil',
             createAccount: 'Criar uma conta',
