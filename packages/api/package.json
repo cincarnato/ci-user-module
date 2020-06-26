@@ -2,10 +2,10 @@
   "name": "@ci-user-module/api",
   "version": "1.0.40",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "jest --runInBand",
-    "build": "./node_modules/.bin/babel src -d dist --copy-files && ./node_modules/.bin/babel emails -d dist/emails --copy-files"
+    "build": "./node_modules/.bin/babel src -d lib --copy-files && ./node_modules/.bin/babel emails -d lib/emails --copy-files"
   },
   "keywords": [],
   "author": "",

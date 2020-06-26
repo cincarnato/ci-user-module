@@ -1,8 +1,0 @@
-type Permissions {
-    permissions: [String]
-}
-
-type Query {
-    permissions: Permissions
-}
-
