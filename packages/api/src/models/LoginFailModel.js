@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const osSchema = new mongoose.Schema({
     family: {type: String, required: false},

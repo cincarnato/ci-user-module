@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const uniqueValidator = require('mongoose-unique-validator');
+import uniqueValidator from 'mongoose-unique-validator';
 const Schema = mongoose.Schema
 
 const PermissionSchema = new Schema({

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-const softDelete = require('mongoose-softdelete')
-const mongoosePaginate = require('mongoose-paginate-v2');
-const uniqueValidator = require('mongoose-unique-validator');
+import softDelete from 'mongoose-softdelete'
+import mongoosePaginate from 'mongoose-paginate-v2';
+import uniqueValidator from 'mongoose-unique-validator';
 const Schema = mongoose.Schema
 
 const RoleSchema = new Schema({

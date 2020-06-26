@@ -1,4 +1,4 @@
-const jwt = require('express-jwt')
+import jwt from 'express-jwt'
 require('dotenv').config()
 
 const jwtMiddleware = jwt({

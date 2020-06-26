@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const softDelete = require('mongoose-softdelete')
-const mongoosePaginate = require('mongoose-paginate-v2');
+import mongoose from 'mongoose';
+import softDelete from 'mongoose-softdelete'
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-const uniqueValidator = require('mongoose-unique-validator');
+import uniqueValidator from 'mongoose-unique-validator';
 
 // Defining user Mongoose Schema
 const UserSchema = new mongoose.Schema({

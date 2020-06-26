@@ -1,7 +1,7 @@
 require('dotenv').config();
 import nodemailer from "nodemailer"
 
-const Email = require('email-templates');
+import Email from 'email-templates';
 
 class UserEmailManager {
 
