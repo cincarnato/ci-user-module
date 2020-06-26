@@ -40,6 +40,7 @@ export const registerUser = async function ({username, password, name, email, ph
                 let token = jsonwebtoken.sign(
                     {
                         id: newUser.id,
+                        operation: 'register'
                     },
                     process.env.JWT_SECRET,
                     {expiresIn: process.env.JWT_REGISTER_EXPIRED_IN || '30d'}

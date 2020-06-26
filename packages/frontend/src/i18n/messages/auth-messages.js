@@ -19,7 +19,7 @@ export const messages = {
             recoverySuccess: 'Password recovery successful',
             changePasswordSuccessfully: "Password changed successfully",
             wrongPassword: 'Wrong Password',
-            validationToken: 'Validating Token'
+            validatingToken: 'Validating Token'
         }
     },
     es: {
@@ -42,7 +42,7 @@ export const messages = {
             recoverySuccess: 'Recuperación de contraseña exitosa',
             changePasswordSuccessfully: "contraseña modificada con exito",
             wrongPassword: 'Contraseña incorrecta',
-            validationToken: 'Validando Token'
+            validatingToken: 'Validando Token'
         }
     },
     pt: {
@@ -65,7 +65,7 @@ export const messages = {
             recoverySuccess: 'Recuperação de senha bem-sucedida',
             changePasswordSuccessfully: "Senha modificada com sucesso",
             wrongPassword: 'Senha incorreta',
-            validationToken: 'Token de validação'
+            validatingToken: 'Token de validação'
         }
     }
 

@@ -11,6 +11,7 @@ const messages = {
 
                 today: 'Today',
                 yesterday: 'Yesterday',
+                userRecoveryPasswordChange: 'user {username} has recovered his password',
                 userPasswordChange: 'user {username} has modified his password',
                 adminPasswordChange: 'user {username}\'s password was changed by administrator',
                 userCreated: 'user {username} has been created',
@@ -38,6 +39,7 @@ const messages = {
 
                 today: 'Hoy',
                 yesterday: 'ayer',
+                userRecoveryPasswordChange: 'usuario {username} ha recuperado su contraseña',
                 userPasswordChange: 'usuario {username} ha modificado su contraseña',
                 adminPasswordChange: 'la contraseña de {username} fue modificada por administrator',
                 userCreated: 'usuario {username} ha sido creado',
@@ -65,6 +67,7 @@ const messages = {
 
                 today: 'hoje',
                 yesterday: 'ontem',
+                userRecoveryPasswordChange: 'O usuário {username} recuperou sua senha',
                 userPasswordChange: 'Usuário {username} mudou sua senha',
                 adminPasswordChange: 'a senha de {username} foi alterada pelo administrador',
                 userCreated: 'Usuário {username} foi criado',

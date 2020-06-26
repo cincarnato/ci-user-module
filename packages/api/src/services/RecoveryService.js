@@ -19,6 +19,7 @@ export const recoveryPassword = function (email) {
                 let token = jwt.sign(
                     {
                         id: user.id,
+                        operation: 'recovery'
                     },
                     process.env.JWT_SECRET,
                     {expiresIn: '1d'}
@@ -44,7 +45,7 @@ export const recoveryPassword = function (email) {
     @input (token: String, newPassword:String, actionBy: Object, req: Object )
     @output {status:Boolean!, message:String}
  */
-export const recoveryChangePassword = function (token, newPassword, actionBy = null, req) {
+export const recoveryChangePassword = function (token, newPassword, req) {
 
     return new Promise((resolve, rejects) => {
 
@@ -69,7 +70,7 @@ export const recoveryChangePassword = function (token, newPassword, actionBy = n
                 } else {
 
                     session(user, req).then(authToken => {
-                        createUserAudit(actionBy.id, decoded.id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
+                        createUserAudit(decoded.id, decoded.id, 'userRecoveryPasswordChange')
                         resolve({status: true, token: authToken, message: "common.operation.success"})
                     }).catch(err => {
                         rejects(err)

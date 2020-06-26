@@ -1,8 +1,8 @@
 <template>
     <recovery-invalid-token v-if="isToken === false"></recovery-invalid-token>
     <recovery-validation-in-progress v-else-if="loading === true"></recovery-validation-in-progress>
-    <recovery-invalid-token v-else-if="tokenValid === false"/>
-    <recovery-password-form v-else></recovery-password-form>
+    <recovery-invalid-token v-else-if="tokenValid === false" />
+    <recovery-password-form v-else :token="token"></recovery-password-form>
 </template>
 
 <script>
@@ -27,18 +27,21 @@
                 errorMessage: null
             }
         },
+        mounted() {
+            this.validateToken()
+        },
         methods: {
             validateToken() {
-                if (this.$refs.form.validate()) {
-                    this.loading = true
-                    recoveryProvider.validateToken(this.token).then((response) => {
-                        this.tokenValid = response.data.validateToken.valid
-                    }).catch((err) => {
-                        let clientError = new ClientError(err)
-                        this.errorMessage = clientError.i18nMessage
-                    }).finally(() => this.loading = false)
-                }
+                this.loading = true
+                this.loading = true
+                recoveryProvider.validateToken(this.token).then((response) => {
+                    this.tokenValid = response.data.validateToken.valid
+                }).catch((err) => {
+                    let clientError = new ClientError(err)
+                    this.errorMessage = clientError.i18nMessage
+                }).finally(() => this.loading = false)
             }
+
         },
         computed: {
             isToken() {

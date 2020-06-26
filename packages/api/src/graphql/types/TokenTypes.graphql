@@ -1,7 +1,7 @@
 
 type ValidateTokenResponse{
     valid: Boolean!
-    operation: String!
+    operation: String
     message: String
 }
 

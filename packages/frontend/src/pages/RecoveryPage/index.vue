@@ -13,7 +13,7 @@
     import Recovery from "./Recovery";
 
     export default {
-        name: "Recovery",
+        name: "RecoveryPage",
         components: {Recovery}
 
     }
