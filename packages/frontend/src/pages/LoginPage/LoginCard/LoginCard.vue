@@ -15,7 +15,7 @@
 
 
             <v-card-text class="text-xs-left pt-2 pl-8 mt-0">
-                <router-link class="secondary--text font-weight-bold" :to="{name: 'recovery'}"
+                <router-link class="secondary--text font-weight-bold" :to="{name: 'recoveryRequest'}"
                              v-t="'auth.forgotPassword'"></router-link>
             </v-card-text>
         </v-card>

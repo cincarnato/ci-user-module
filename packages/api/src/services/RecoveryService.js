@@ -1,50 +1,24 @@
 import User from "../models/UserModel";
 import {createUserAudit} from "./UserAuditService";
-import jsonwebtoken from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import UserEmailManager from "./UserEmailManager";
 import {hashPassword} from "./UserService";
-
-export const recoveryChangePassword = function (id, {newPassword}, actionBy = null) {
-
-    console.log('changeRecoveryPassword', id)
-
-    if (newPassword.length > 0) {
-
-        return new Promise((resolve, rejects) => {
-            User.findOneAndUpdate(
-                {_id: id}, {password: hashPassword(newPassword)}, {new: true},
-                (error) => {
-                    console.log('Promise Recovery Done')
-
-                    if (error) {
-                        rejects({status: false, message: "common.operation.fail"})
-                    } else {
-                        createUserAudit(actionBy.id, id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
-                        resolve({status: true, message: "common.operation.success"})
-                    }
-                }
-            );
-        })
+import validatePasswordLength from "./utils/validatePasswordLength";
+import {session} from "./AuthService";
 
 
-    } else {
-        return new Promise((resolve, rejects) => {
-            resolve({status: false, message: "common.operation.fail"})
-        })
-    }
-}
-
-
+/*
+    @input email: String
+    @output {status:Boolean!,message:String}
+ */
 export const recoveryPassword = function (email) {
 
     return new Promise((resolve, rejects) => {
         User.findOne({email: email}).populate('role').then((user) => {
             if (user) {
-                let token = jsonwebtoken.sign(
+                let token = jwt.sign(
                     {
                         id: user.id,
-                        username: user.username,
-                        role: user.role
                     },
                     process.env.JWT_SECRET,
                     {expiresIn: '1d'}
@@ -65,3 +39,47 @@ export const recoveryPassword = function (email) {
         })
     })
 }
+
+/*
+    @input (token: String, newPassword:String, actionBy: Object, req: Object )
+    @output {status:Boolean!, message:String}
+ */
+export const recoveryChangePassword = function (token, newPassword, actionBy = null, req) {
+
+    return new Promise((resolve, rejects) => {
+
+        let decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        //Todo specific message
+        if (!decoded) {
+            resolve({status: false, message: "common.operation.fail"})
+        }
+
+        //Todo specific message
+        if (!validatePasswordLength(newPassword)) {
+            resolve({status: false, message: "common.operation.fail"})
+        }
+
+        User.findOneAndUpdate(
+            {_id: decoded.id}, {password: hashPassword(newPassword)}, {new: true},
+            (error, user) => {
+
+                if (error) {
+                    resolve({status: false, message: "common.operation.fail"})
+                } else {
+
+                    session(user, req).then(authToken => {
+                        createUserAudit(actionBy.id, decoded.id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
+                        resolve({status: true, token: authToken, message: "common.operation.success"})
+                    }).catch(err => {
+                        rejects(err)
+                    })
+
+
+                }
+            }
+        )
+
+    })
+}
+

@@ -15,7 +15,7 @@
 
 <script>
     export default {
-        name: "StartRecoveryFormSuccess",
+        name: "RecoveryRequestFormSuccess",
         props: {
             email: String
         }

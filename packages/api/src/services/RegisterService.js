@@ -56,21 +56,32 @@ export const registerUser = async function ({username, password, name, email, ph
 }
 
 export const activationUser = function (token, req) {
-    let decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+
 
     return new Promise((resolve, rejects) => {
-        let active = true;
-        User.findOneAndUpdate({_id: decoded.id}, {active}, (error, user) => {
-            if (error) {
-                rejects({status: false, message: "common.operation.fail"})
-            } else {
+
+        let decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+
+        //Todo specific message
+        if (!decoded) {
+            resolve({status: false, message: "common.operation.fail"})
+        }
+
+        User.findOneAndUpdate(
+            {_id: decoded.id},
+            {active: true},
+            (error, user) => {
+                if (error) {
+                    rejects({status: false, message: "common.operation.fail"})
+                }
                 createUserAudit(user._id, user._id, 'userActivated')
                 session(user, req).then(authToken => {
                     resolve({status: true, token: authToken, message: "common.operation.success"})
                 }).catch(err => {
                     rejects(err)
                 })
-            }
-        })
+
+            })
+
     })
 }

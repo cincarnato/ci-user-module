@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: "RecoveryPasswordSuccess"
+        name: "RecoveryPasswordFormSuccess"
     }
 </script>
 

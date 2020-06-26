@@ -2,7 +2,7 @@
     <v-container fluid fill-height class="grey lighten-3">
         <v-row align="center" justify="center">
             <v-col cols="12" sm="8" md="4">
-                <recovery></recovery>
+                <recover-request-form/>
             </v-col>
         </v-row>
     </v-container>
@@ -10,11 +10,11 @@
 
 <script>
 
-    import Recovery from "./Recovery";
+    import RecoverRequestForm from '../RecoveryRequestPage/RecoverRequestForm'
 
     export default {
-        name: "Recovery",
-        components: {Recovery}
+        name: "RecoveryRequestPage",
+        components: {RecoverRequestForm},
 
     }
 </script>

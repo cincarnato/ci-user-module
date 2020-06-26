@@ -13,29 +13,6 @@ type User {
     updatedAt: String
 }
 
-
-type Token {
-    token:String!
-}
-
-type OperationResponse{
-    status: Boolean
-    message: String
-}
-
-type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-    url: String!
-}
-
-type RegisterResponse{
-    status: Boolean!,
-    id: String!,
-    email: String!
-}
-
 input UserInput{
     username: String!
     name: String!
@@ -47,14 +24,6 @@ input UserInput{
     active: Boolean!
 }
 
-input RegisterInput{
-    username: String!
-    name: String!
-    email: String!
-    password: String!
-    phone: String
-}
-
 type UsersPaginated{
     totalItems: Int!
     page: Int!
@@ -64,15 +33,7 @@ type UsersPaginated{
 type Query {
     users: [User!]
     user(id: ID!): User
-    me: User
     paginateUsers(limit: Int!, pageNumber: Int, search: String, orderBy: String, orderDesc: Boolean): UsersPaginated
-}
-
-type AvatarFile {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-    url: String!
 }
 
 type UserDelete{
@@ -80,27 +41,9 @@ type UserDelete{
     success: Boolean!
 }
 
-type ActivationResponse{
-    status: Boolean!
-    token: String
-    message: String
-}
-
 type Mutation {
-    auth(username: String!, password:String!): Token
-
     createUser(input: UserInput): User
     updateUser(id: ID!, input: UserInput): User
     deleteUser(id: ID!): UserDelete!
     changePasswordAdmin(id: ID!, password:String!, passwordVerify:String!): OperationResponse!
-
-    register(input: RegisterInput): RegisterResponse
-
-    recoveryByEmail(email:String!):OperationResponse!
-    recoveryChangePassword( newPassword:String!): OperationResponse!
-
-    changePassword( currentPassword:String!, newPassword:String!): OperationResponse!
-    activationUser(token:String!):ActivationResponse!
-
-    avatarUpload(file: Upload!): AvatarFile!
 }

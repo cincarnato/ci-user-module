@@ -55,4 +55,6 @@ UserSchema.plugin(uniqueValidator, {message: 'validation.unique'});
 UserSchema.plugin(softDelete);
 UserSchema.plugin(mongoosePaginate);
 
-export default mongoose.model('User', UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
+
+module.exports = UserModel

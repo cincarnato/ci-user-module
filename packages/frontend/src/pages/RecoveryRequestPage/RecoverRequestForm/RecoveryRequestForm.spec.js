@@ -5,14 +5,14 @@ export const localVue = createLocalVue()
 import i18n from "../../../i18n"
 import vuetify from "../../../plugins/vuetify-manual"
 
-import StartRecoveryForm from "./StartRecoveryForm";
+import RecoveryRequestForm from "./RecoveryRequestForm";
 import SubmitButton from "../../../components/SubmitButton/SubmitButton";
 
 describe('StartRecoveryForm', () => {
 
     it('Render Title',   ()=> {
 
-        const wrapper = mount(StartRecoveryForm, {
+        const wrapper = mount(RecoveryRequestForm, {
             vuetify,
             localVue,
             i18n
@@ -25,7 +25,7 @@ describe('StartRecoveryForm', () => {
 
     it('Is there a submit button and is disable',   ()=> {
 
-        const wrapper = mount(StartRecoveryForm, {
+        const wrapper = mount(RecoveryRequestForm, {
             vuetify,
             localVue,
             i18n
@@ -41,13 +41,13 @@ describe('StartRecoveryForm', () => {
 
     it('Is loading off',   ()=> {
 
-        const wrapper = mount(StartRecoveryForm, {
+        const wrapper = mount(RecoveryRequestForm, {
             vuetify,
             localVue,
             i18n
         })
 
-        let myComponent = wrapper.findComponent(StartRecoveryForm)
+        let myComponent = wrapper.findComponent(RecoveryRequestForm)
 
 
         expect(myComponent.vm.loading).toBe(false)
@@ -57,7 +57,7 @@ describe('StartRecoveryForm', () => {
 
     it('Enter an invalid email format',   async ()=> {
 
-        const wrapper = mount(StartRecoveryForm, {
+        const wrapper = mount(RecoveryRequestForm, {
             vuetify,
             localVue,
             i18n

@@ -9,13 +9,8 @@
             <h2 class="mt-3" v-t="'auth.passwordRecovery'"></h2>
         </v-card-text>
 
-
-        <v-card-text class="pt-3">
-            <v-alert v-if="errorMessage" type="error" dense text>{{$t(errorMessage)}}</v-alert>
-        </v-card-text>
-
         <v-card-text v-if="status">
-           <start-recovery-form-success :email="form.email" />
+           <recovery-request-form-success :email="form.email" />
         </v-card-text>
 
         <template v-else>
@@ -69,11 +64,11 @@
     import RecoveryProvider from "../../../providers/RecoveryProvider";
     import ClientError from "../../../errors/ClientError";
     import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-    import StartRecoveryFormSuccess from "./StartRecoveryFormSuccess";
+    import RecoveryRequestFormSuccess from "./RecoveryRequestFormSuccess";
 
     export default {
-        name: "StartRecoveryForm",
-        components: {StartRecoveryFormSuccess, SubmitButton},
+        name: "RecoveryRequestForm",
+        components: {RecoveryRequestFormSuccess, SubmitButton},
         mixins: [UserValidations, InputErrors],
         data: () => ({
                 errorMessage: null,

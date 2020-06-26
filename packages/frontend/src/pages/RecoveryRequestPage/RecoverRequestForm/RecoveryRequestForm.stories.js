@@ -1,4 +1,4 @@
-import StartRecoveryForm from "./StartRecoveryForm"
+import RecoveryRequestForm from "./RecoveryRequestForm"
 import i18n from "../../../i18n"
 import router from "../../../router"
 import store from "../../../store"
@@ -21,10 +21,10 @@ export default {
 const data = []
 
 export const startRecoveryForm = () => ({
-    components: {StartRecoveryForm},
+    components: {RecoveryRequestForm},
     props: {
         data: {default: data}
     },
-    template: '<StartRecoveryForm :data="data" />',
+    template: '<RecoveryRequestForm :data="data" />',
     i18n, router, store
 })
