@@ -7,8 +7,8 @@
 
 <script>
     import RecoveryPasswordForm from "./RecoveryPasswordForm";
-    import RecoveryInvalidToken from "./RecoveryInvalidToken/RecoveryInvalidToken";
-    import RecoveryValidationInProgress from "./RecoveryValidationInProgress/RecoveryValidationInProgress";
+    import RecoveryInvalidToken from "./RecoveryInvalidToken";
+    import RecoveryValidationInProgress from "./RecoveryValidationInProgress";
     import recoveryProvider from "../../../providers/RecoveryProvider";
     import ClientError from "../../../errors/ClientError";
 
