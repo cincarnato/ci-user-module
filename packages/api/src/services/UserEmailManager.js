@@ -45,7 +45,6 @@ class UserEmailManager {
                     copyright: "Copyright @ " + process.env.APP_NAME + " " + new Date().getFullYear()
                 },
             }).then((response) => {
-                console.log(response)
                 resolve(true)
             }).catch((error) => {
                 console.log(error)
@@ -81,7 +80,6 @@ class UserEmailManager {
                     copyright: "Copyright @ " + process.env.APP_NAME + " " + new Date().getFullYear()
                 },
             }).then((response) => {
-                console.log(response)
                 resolve(true)
             }).catch((error) => {
                 console.log(error)
@@ -100,7 +98,7 @@ class UserEmailManager {
             html: html
         });
 
-        console.log(info)
+
         return info;
     }
 

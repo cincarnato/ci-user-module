@@ -76,9 +76,6 @@
                         this.loading = false
                     )
             }
-        },
-        destroyed() {
-            console.log("destroy:",this.error)
         }
     }
 </script>

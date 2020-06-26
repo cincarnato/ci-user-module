@@ -93,8 +93,6 @@ export const sessionsByUser = async function (time, unit = 'days') {
                     }
                 }
             ], function (err, result) {
-                console.log(result)
-
                 resolve(result)
             })
 

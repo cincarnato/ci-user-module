@@ -125,7 +125,6 @@ export const paginateUsers = function (limit, pageNumber = 1, search = null, ord
     let sort = getSort(orderBy, orderDesc)
 
     let params = {page: pageNumber, limit: limit, populate: populate, sort}
-    console.log(params)
     return new Promise((resolve, reject) => {
         User.paginate(query, params).then(result => {
                 resolve({users: result.docs, totalItems: result.totalDocs, page: result.page})
@@ -152,7 +151,7 @@ export const findUserByUsername = function (name) {
 
 
 export const changePasswordAdmin = function (id, {password, passwordVerify}, actionBy = null) {
-    console.log('admin', password)
+
     if (password == passwordVerify) {
 
         return new Promise((resolve, rejects) => {
@@ -298,7 +297,6 @@ export const setUsersGroups = function (group, users) {
 
     function getPushPromises() {
         return users.map(user => {
-            // console.log("Adding user " + user + ' for ' + group.id)
             return User.findOneAndUpdate(
                 {_id: user},
                 {$push: {groups: group.id}},
@@ -316,12 +314,11 @@ export const setUsersGroups = function (group, users) {
         let deletePromises = getDeletePromises(oldUsers)
 
         Promise.all(deletePromises).then(() => {
-            console.log("All Delete Promise Finish")
+
             //2. Push group in new users
             let pushPromises = getPushPromises()
 
             Promise.all(pushPromises).then(() => {
-                console.log("All Push Promise Finish")
                 resolve(true)
             }).catch(err => reject(err))
 
