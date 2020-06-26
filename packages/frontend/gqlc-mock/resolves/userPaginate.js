@@ -6,9 +6,9 @@ const resolve = {
             users: [
                 {
                     id: 1,
-                    username: "jhon.doe",
-                    name: "Jhon Doe",
-                    email: "jhon.doe@gmail.com",
+                    username: "john.doe",
+                    name: "John Doe",
+                    email: "john.doe@gmail.com",
                     role: {id: 1, name: "admin"},
                     phone: "123",
                     avatarurl: "",
