@@ -37,7 +37,7 @@
             <group-update v-if="updating"
                           :item="itemToEdit"
                           v-on:groupUpdated="onGroupUpdated"
-                          v-on:closeDialog="updating=false"
+                          v-on:close="updating=false"
             />
         </v-dialog>
 

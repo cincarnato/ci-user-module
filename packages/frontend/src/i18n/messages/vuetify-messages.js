@@ -6,7 +6,7 @@ const messages = {
                 noResultsText: "No results"
             },
             dataTable: {
-                itemsPerPageText: "itemsPerPage",
+                itemsPerPageText: "Rows per page:",
                 ariaLabel: {
                     sortNone: "sortNone",
                     activateAscending: "activateAscending",
@@ -17,7 +17,7 @@ const messages = {
                 }
             },
             dataFooter: {
-                pageText: "page",
+                pageText: "{0}-{1} of {2}",
                 nextPage: "next",
                 prevPage: "prev",
                 itemsPerPageAll: 'itemsPerPageAll'
@@ -31,7 +31,7 @@ const messages = {
                 noResultsText: "Sin Datos"
             },
             dataTable: {
-                itemsPerPageText: "itemsPerPage",
+                itemsPerPageText: "Filas por pagina:",
                 ariaLabel: {
                     sortNone: "sortNone",
                     activateAscending: "activateAscending",
@@ -42,7 +42,7 @@ const messages = {
                 }
             },
             dataFooter: {
-                pageText: "pagina",
+                pageText: "{0}-{1} de {2}",
                 nextPage: "siguiente",
                 prevPage: "anterior",
                 itemsPerPageAll: 'itemsPerPageAll'
@@ -57,7 +57,7 @@ const messages = {
                 noResultsText: "Não há dados"
             },
             dataTable: {
-                itemsPerPageText: "itemsPerPage",
+                itemsPerPageText: "Linhas por página",
                 ariaLabel: {
                     sortNone: "sortNone",
                     activateAscending: "activateAscending",
