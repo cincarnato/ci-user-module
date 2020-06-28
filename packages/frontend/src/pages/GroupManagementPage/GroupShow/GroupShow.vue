@@ -1,39 +1,24 @@
 <template>
-    <v-card>
-
-        <v-toolbar  flat dark color="primary">
-            <v-toolbar-title>{{title}}</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-toolbar-items>
-                <v-btn icon dark @click="$emit('closeDialog')">
-                    <v-icon>close</v-icon>
-                </v-btn>
-            </v-toolbar-items>
-        </v-toolbar>
+    <crud-show :open="open"  @close="$emit('close')">
 
         <v-card-text>
             <group-show-data :item="item" />
         </v-card-text>
 
 
-        <v-card-actions>
-            <v-btn color="grey" tile outlined @click="$emit('closeDialog')">
-                {{$t('common.close')}}
-            </v-btn>
-            <v-spacer></v-spacer>
-        </v-card-actions>
-
-    </v-card>
+    </crud-show>
 </template>
 
 <script>
     import GroupShowData from "./GroupShowData";
+    import {CrudShow} from '@ci-common-module/frontend'
 
     export default {
         name: "GroupShow",
-        components: {GroupShowData},
+        components: {GroupShowData, CrudShow},
         props: {
-            item: Object
+            item: Object,
+            open: Boolean
         },
         data() {
             return {

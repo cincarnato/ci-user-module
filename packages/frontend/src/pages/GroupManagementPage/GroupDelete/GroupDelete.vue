@@ -1,10 +1,10 @@
 <template>
-    <v-card>
-
-        <toolbar-dialog-card :title="title"
-                             danger
-                             @close="$emit('closeDialog')">
-        </toolbar-dialog-card>
+    <crud-delete :open="open"
+                 :loading="loading"
+                 :errorMessage="errorMessage"
+                 @delete="remove"
+                 @close="$emit('close')"
+    >
 
         <v-card-text>
             <group-show-data :item="item"/>
@@ -21,29 +21,20 @@
         </v-card-text>
 
 
-        <v-card-actions>
-            <close-button @click="$emit('closeDialog')"></close-button>
-
-            <v-spacer></v-spacer>
-            <submit-button danger @click="remove" :loading="loading" text="common.delete"></submit-button>
-        </v-card-actions>
-
-    </v-card>
+    </crud-delete>
 </template>
 
 <script>
     import GroupShowData from "../GroupShow/GroupShowData";
     import GroupProvider from "../../../providers/GroupProvider";
-    import ClientError from "../../../errors/ClientError";
-    import CloseButton from "../../../components/CloseButton/CloseButton";
-    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+    import {CrudDelete, ClientError} from '@ci-common-module/frontend'
 
     export default {
         name: "GroupDelete",
-        components: {SubmitButton, ToolbarDialogCard, CloseButton, GroupShowData},
+        components: {CrudDelete, GroupShowData},
         props: {
-            item: Object
+            item: Object,
+            open: Boolean
         },
         data() {
             return {
@@ -59,9 +50,9 @@
                 GroupProvider.deleteGroup(this.item.id).then(result => {
                         if (result.data.groupDelete.deleteSuccess) {
                             this.$emit('groupDeleted', this.item)
-                            this.$emit('closeDialog')
+                            this.$emit('close')
                         } else {
-                            this.errorMessage = 'Error on Delete'
+                            this.errorMessage = 'common.operation.fail'
                         }
                     }
                 ).catch(error => {

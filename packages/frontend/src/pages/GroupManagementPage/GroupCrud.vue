@@ -1,10 +1,7 @@
 <template>
-    <v-card class="elevation-6">
+    <crud-layout title="group.title" subtitle="group.description">
 
-        <v-card-title class="title" v-t="'group.title'"></v-card-title>
-        <v-card-subtitle class="" v-t="'group.description'"></v-card-subtitle>
-
-        <v-card-text>
+        <template v-slot:list>
             <group-list
                     @open-delete="openDelete"
                     @open-edit="openEdit"
@@ -12,39 +9,41 @@
                     :items="items" :totalItems="totalItems" :loading="loading"
                     @update="loadGroups"
             ></group-list>
-        </v-card-text>
+        </template>
 
-        <v-dialog :value="showing" width="850" persistent>
-            <group-show :item="itemToShow" v-if="showing" v-on:closeDialog="showing=false"/>
-        </v-dialog>
+        <group-show v-if="showing"
+                    :open="showing"
+                    :item="itemToShow"
+                    v-on:close="showing=false"/>
 
-        <v-dialog :value="deleting" width="850" persistent>
-            <group-delete :item="itemToDelete"
-                          v-if="deleting"
-                          @groupDeleted="onGroupDeleted"
-                          v-on:closeDialog="deleting=false"
-            />
-        </v-dialog>
 
-        <v-dialog :value="creating" width="850" fullscreen persistent>
-            <group-create v-if="creating"
-                          v-on:groupCreated="onGroupCreated"
-                          v-on:closeDialog="creating=false"
-            />
-        </v-dialog>
+        <group-delete v-if="deleting"
+                      :open="deleting"
+                      :item="itemToDelete"
+                      @groupDeleted="onGroupDeleted"
+                      v-on:close="deleting=false"
+        />
 
-        <v-dialog :value="updating" width="850" persistent>
-            <group-update v-if="updating"
-                          :item="itemToEdit"
-                          v-on:groupUpdated="onGroupUpdated"
-                          v-on:close="updating=false"
-            />
-        </v-dialog>
 
-        <add-button  @click="creating = true"></add-button>
+        <group-create v-if="creating"
+                      :open="creating"
+                      v-on:groupCreated="onGroupCreated"
+                      v-on:close="creating=false"
+        />
+
+
+        <group-update v-if="updating"
+                      :open="updating"
+                      :item="itemToEdit"
+                      v-on:groupUpdated="onGroupUpdated"
+                      v-on:close="updating=false"
+        />
+
+
+        <add-button @click="creating = true"></add-button>
 
         <snackbar :message="flashMessage"/>
-    </v-card>
+    </crud-layout>
 </template>
 
 <script>
@@ -54,12 +53,11 @@
     import GroupUpdate from "./GroupUpdate";
     import GroupList from "./GroupList";
     import GroupProvider from "../../providers/GroupProvider";
-    import AddButton from "../../components/AddButton/AddButton";
-    import Snackbar from "../../components/Snackbar/Snackbar";
+    import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
 
     export default {
         name: "GroupCrud",
-        components: {Snackbar, AddButton, GroupList, GroupUpdate, GroupCreate, GroupDelete, GroupShow},
+        components: {CrudLayout, Snackbar, AddButton, GroupList, GroupUpdate, GroupCreate, GroupDelete, GroupShow},
         data() {
             return {
                 title: this.$t('group.title'),
@@ -92,10 +90,10 @@
                 this.$set(this.items, index, item)
                 this.flashMessage = this.$t('group.updated')
             },
-            onGroupDeleted(item){
+            onGroupDeleted(item) {
                 let index = this.items.findIndex(i => i.id == item.id)
                 this.totalItems--
-                this.items.splice(index,1)
+                this.items.splice(index, 1)
                 this.flashMessage = this.$t('group.deleted')
 
             },

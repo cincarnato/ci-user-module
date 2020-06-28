@@ -1,10 +1,12 @@
 <template>
-    <v-card>
+    <crud-delete :open="open"
+                 :loading="loading"
+                 :title="title"
+                 :errorMessage="errorMessage"
+                 @delete="deleteRole"
+                 @close="$emit('close')"
+    >
 
-        <toolbar-dialog-card :title="title"
-                             danger
-                             @close="$emit('closeDialog')">
-        </toolbar-dialog-card>
 
         <v-card-text v-show="successMessage == true" class="ma-0">
             <v-alert :value="true" color="success" class="ma-0" icon="check_circle" outlined>Exitoso</v-alert>
@@ -18,26 +20,19 @@
             <label>{{$t('common.areYouSureDeleteRecord')}}</label>
         </v-card-text>
 
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <close-button @click="$emit('closeDialog')"></close-button>
-            <submit-button danger @click="deleteRole" v-t="'common.delete'" :loading="loading"></submit-button>
-        </v-card-actions>
-    </v-card>
+    </crud-delete>
 </template>
 
 <script>
     import RoleProvider from "../../../providers/RoleProvider";
-    import CloseButton from "../../../components/CloseButton/CloseButton";
-    import ClientError from "../../../errors/ClientError";
-    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+    import {CrudDelete, ClientError} from '@ci-common-module/frontend'
 
     export default {
         name: "ConfirmDelete",
-        components: {SubmitButton, ToolbarDialogCard, CloseButton},
+        components: {CrudDelete},
         props: {
-            role: Object
+            role: Object,
+            open: {type: Boolean, default: true}
         },
         data: () => ({
             title: 'role.deleteTitle',
@@ -53,7 +48,7 @@
                         .then(r => {
                             if (r) {
                                 this.$emit("roleDeleted", this.role)
-                                this.$emit("closeDialog")
+                                this.$emit("close")
                             }
                         })
                         .catch(error => {

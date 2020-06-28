@@ -1,58 +1,42 @@
 <template>
-    <div>
-        <v-card class="elevation-6">
-            <v-card-title v-t="'role.title'"/>
-            <v-card-subtitle class="" v-t="'role.description'"></v-card-subtitle>
+    <crud-layout title="role.title" subtitle="role.description">
+
+        <template v-slot:list>
+            <role-list :roles="roles"
+                       :permissions="permissions"
+                       @update="openUpdate"
+                       @delete="openDelete"
+            ></role-list>
+        </template>
+
+        <role-create v-if="creating"
+                     :open="creating"
+                     v-on:roleCreated="onRoleCreated"
+                     v-on:close="creating=false"
+                     :permissions="permissions"
+        />
+
+        <role-update v-if="!!roleToUpdate"
+                     :open="!!roleToUpdate"
+                     :role="roleToUpdate"
+                     :permissions="permissions"
+                     v-on:close="roleToUpdate=null"
+                     v-on:roleUpdated="onRoleUpdated"
+        />
 
 
-            <v-card-text>
-
-                <role-list :roles="roles"
-                           :permissions="permissions"
-                           @update="openUpdate"
-                           @delete="openDelete"
-                ></role-list>
-
-            </v-card-text>
-
-        </v-card>
+        <role-delete v-if="!!roleToDelete"
+                     :open="!!roleToDelete"
+                     :role="roleToDelete"
+                     v-on:roleDeleted="onRoleDeleted"
+                     v-on:close="roleToDelete=null"
+        />
 
 
-        <div>
-                 <v-dialog :value="creating" width="850" persistent>
-                <role-create
-                        v-if="creating"
-                        v-on:roleCreated="onRoleCreated"
-                        v-on:closeDialog="creating=false"
-                        :permissions="permissions"
-                />
-            </v-dialog>
+        <add-button @click="creating = true"></add-button>
 
-            <v-dialog :value="!!roleToDelete" width="500" persistent>
-                <role-delete
-                        v-if="!!roleToDelete"
-                        :role="roleToDelete"
-                        v-on:roleDeleted="onRoleDeleted"
-                        v-on:closeDialog="roleToDelete=null"
-                />
-            </v-dialog>
-
-            <v-dialog :value="!!roleToUpdate" width="850" persistent>
-                <role-update
-                        v-if="!!roleToUpdate"
-                        :role="roleToUpdate"
-                        :permissions="permissions"
-                        v-on:closeDialog="roleToUpdate=null"
-                        v-on:roleUpdated="onRoleUpdated"
-
-                />
-            </v-dialog>
-
-            <add-button @click="creating = true"></add-button>
-
-            <snackbar :message="flashMessage"/>
-        </div>
-    </div>
+        <snackbar :message="flashMessage"/>
+    </crud-layout>
 </template>
 
 <script>
@@ -62,12 +46,11 @@
     import RoleProvider from "../../providers/RoleProvider";
     import RoleList from "./RoleList";
     import Vue from "vue";
-    import AddButton from "../../components/AddButton/AddButton";
-    import Snackbar from "../../components/Snackbar/Snackbar";
+    import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
 
     export default {
         name: "RoleCrud",
-        components: {Snackbar, AddButton, RoleList, RoleCreate, RoleDelete, RoleUpdate},
+        components: {CrudLayout, Snackbar, AddButton, RoleList, RoleCreate, RoleDelete, RoleUpdate},
         data() {
             return {
                 permissions: [],
@@ -93,19 +76,19 @@
             openUpdate(role) {
                 this.roleToUpdate = role
             },
-            openDelete(role){
+            openDelete(role) {
                 this.roleToDelete = role
             },
             onRoleCreated(role) {
                 this.roles.push(role);
                 this.flashMessage = this.$t('role.created')
             },
-            onRoleDeleted(role){
+            onRoleDeleted(role) {
                 let index = this.roles.findIndex(i => i.id == role.id)
-                this.roles.splice(index,1)
+                this.roles.splice(index, 1)
                 this.flashMessage = this.$t('role.deleted')
             },
-            onRoleUpdated(role){
+            onRoleUpdated(role) {
                 let index = this.roles.findIndex(i => i.id == role.id)
                 Vue.set(this.roles, index, role)
                 this.flashMessage = this.$t('role.updated')

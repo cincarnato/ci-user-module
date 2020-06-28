@@ -1,5 +1,5 @@
 <template>
-    <crud-update :open="true"
+    <crud-update :open="open"
                  :loading="loading"
                  :title="title"
                  :errorMessage="errorMessage"
@@ -14,18 +14,18 @@
 
 <script>
     import GroupProvider from "../../../providers/GroupProvider";
-    import ClientError from '../../../errors/ClientError'
-    import InputErrors from "../../../mixins/InputErrors";
     import UserValidations from "../../../mixins/UserValidations";
     import GroupForm from "../GroupForm/GroupForm";
-    import {CrudUpdate} from '@ci-common-module/frontend'
+
+    import {CrudUpdate, ClientError} from '@ci-common-module/frontend'
 
     export default {
         name: "GroupUpdate",
         components: {GroupForm,CrudUpdate},
-        mixins: [InputErrors, UserValidations],
+        mixins: [UserValidations],
         props: {
-            item: Object
+            item: Object,
+            open: Boolean
         },
         data() {
             return {

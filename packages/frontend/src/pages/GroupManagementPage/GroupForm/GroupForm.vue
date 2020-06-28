@@ -10,7 +10,7 @@
                         :label="$t('group.label.name')"
                         :placeholder="$t('group.label.name')"
                         class="pa-3"
-                        :rules="requiredRule"
+                        :rules="required"
                         :error="hasInputErrors('name')"
                         :error-messages="getInputErrors('name')"
                         required
@@ -48,21 +48,16 @@
 </template>
 
 <script>
-    import InputErrors from "../../../mixins/InputErrors";
-    import UserValidations from "../../../mixins/UserValidations";
     import UserProvider from "../../../providers/UserProvider";
     import GroupColorInput from "../GroupColorInput/GroupColorInput";
+    import {InputErrorsByProps, RequiredRule} from '@ci-common-module/frontend'
 
     export default {
         name: "GroupForm",
-        mixins: [InputErrors, UserValidations],
+        mixins: [InputErrorsByProps, RequiredRule],
         components: {GroupColorInput},
         props:{
             value: {
-                type: Object,
-                required: true
-            },
-            inputErrors: {
                 type: Object,
                 required: true
             },
