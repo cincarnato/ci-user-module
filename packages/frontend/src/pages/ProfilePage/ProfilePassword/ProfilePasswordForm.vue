@@ -115,7 +115,7 @@
         methods: {
             clearCurrentPasswordInputError() {
                 if(this.inputErrors['currentPassword']){
-                    this.inputErrors['currentPassword'] = []
+                    this.inputErrors['currentPassword'] = null
                 }
             },
             resetValidation: function () {
