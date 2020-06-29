@@ -58,17 +58,9 @@ class UserProvider {
     }
 
     adminChangePassword(id, password, passwordVerify) {
-        return new Promise((resolve, reject) => {
-
-            this.gqlc.mutate({
-                mutation: require('./gql/userAdminChangePassword.graphql'),
-                variables: {id: id, password: password, passwordVerify: passwordVerify}
-            }).then(data => {
-                resolve(data)
-            }).catch((apolloError) => {
-                let clientError = new ClientError(apolloError)
-                reject(clientError)
-            })
+        return this.gqlc.mutate({
+            mutation: require('./gql/userAdminChangePassword.graphql'),
+            variables: {id: id, password: password, passwordVerify: passwordVerify}
         })
     }
 }

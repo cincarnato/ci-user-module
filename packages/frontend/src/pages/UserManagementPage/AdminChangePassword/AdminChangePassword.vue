@@ -108,8 +108,7 @@
                         let clientError = new ClientError(error)
                         this.inputErrors = clientError.inputErrors
                         this.errorMessage = clientError.i18nMessage
-                    })
-                        .finally(() => this.loading = false)
+                    }).finally(() => this.loading = false)
                 }
             },
         }

@@ -52,7 +52,7 @@
                                   :type="showRepeatPassword ? 'text' : 'password'"
                                   @click:append="showRepeatPassword = !showRepeatPassword"
                                   v-model="form.passwordVerify"
-                                  :rules="requiredRule"
+                                  :rules="passwordMatchRules"
                                   :label="$t('user.label.repeatPassword')"
                                   :placeholder="$t('user.label.repeatPassword')"
                                   autocomplete="off"
@@ -104,6 +104,12 @@
             passwordMatchError() {
                 return (this.form.newPassword === this.form.passwordVerify) ? null : this.$t('user.validation.passwordVerify')
             },
+            passwordMatchRules() {
+                return [
+                    v => !!v || this.$t('user.validation.required'),
+                    () => (this.form.newPassword === this.form.passwordVerify) || this.$t('user.validation.passwordVerify')
+                ]
+            }
         },
         methods: {
             resetValidation: function () {
@@ -114,7 +120,7 @@
                     this.resetValidation()
                     this.loading = true
                     ProfileProvider.changePassword(this.form.currentPassword, this.form.newPassword).then((response) => {
-                        this.status = response.data.changePassword.success
+                        this.status = response.data.changePassword.status
                         if(this.status){
                             this.$emit('success')
                         }
