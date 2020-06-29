@@ -187,7 +187,7 @@ export const changePassword = function (id, {currentPassword, newPassword}, acti
                         rejects(error)
                     } else {
                         createUserAudit(actionBy.id, id, (actionBy.id === id) ? 'userPasswordChange' : 'adminPasswordChange')
-                        resolve({success: true, message: "PasswordChange", operation: "changePassword"})
+                        resolve({status: true, message: "Password Changed"})
                     }
                 }
             );

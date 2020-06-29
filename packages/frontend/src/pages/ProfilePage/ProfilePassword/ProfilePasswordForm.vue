@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <toolbar-dialog title="user.changeYourPassword"
-                             @close="cancel" />
+                        @close="cancel"/>
         <v-card-text>
             <v-alert v-if="errorMessage" type="error" dense text v-t="errorMessage"></v-alert>
         </v-card-text>
@@ -24,6 +24,7 @@
                             :error-messages="getInputErrors('currentPassword')"
                             required
                             color="secondary"
+                            @change="clearCurrentPasswordInputError"
                     />
                 </v-col>
                 <v-col cols="12">
@@ -112,6 +113,11 @@
             }
         },
         methods: {
+            clearCurrentPasswordInputError() {
+                if(this.inputErrors['currentPassword']){
+                    this.inputErrors['currentPassword'] = []
+                }
+            },
             resetValidation: function () {
                 this.errors = {};
             },
@@ -121,7 +127,7 @@
                     this.loading = true
                     ProfileProvider.changePassword(this.form.currentPassword, this.form.newPassword).then((response) => {
                         this.status = response.data.changePassword.status
-                        if(this.status){
+                        if (this.status) {
                             this.$emit('success')
                         }
                     }).catch((err) => {
