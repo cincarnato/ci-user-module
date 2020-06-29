@@ -1,21 +1,15 @@
 <template>
     <v-row row wrap>
 
-        <v-col md6 xs12 class="offset-md6">
-            <v-text-field
-                    v-model="search"
-                    v-on:keyup.native.enter="update"
-                    append-icon="search"
-                    label="Buscar"
-                    hide-details
-            />
+        <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
+            <search-input  @search="update" v-model="search" />
         </v-col>
 
         <v-col cols="12">
             <v-data-table class="mt-3" :headers="headers" :items="items"
                           :search="search" :single-expand="false" :loading="loading"
                           :server-items-length="totalItems"
-                          :items-per-page.sync="limit" :page.sync="pageNumber"
+                          :items-per-page.sync="itemsPerPage" :page.sync="pageNumber"
                           :sort-by.sync="orderBy" :sort-desc.sync="orderDesc"
                           @update:page="update"
                           @update:items-per-page="update"
@@ -72,6 +66,8 @@
 </template>
 
 <script>
+    import {SearchInput} from '@ci-common-module/frontend'
+
     export default {
         name: "GroupList",
         props: {
@@ -82,7 +78,7 @@
         data() {
             return {
                 search: '',
-                limit: 5,
+                itemsPerPage: 5,
                 pageNumber: 1,
                 orderBy: null,
                 orderDesc: false,
