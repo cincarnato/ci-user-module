@@ -120,8 +120,7 @@
     import AuthProvider from '../../../providers/AuthProvider';
     import ClientError from '../../../errors/ClientError'
     import InputErrors from "../../../mixins/InputErrors";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-
+    import {SubmitButton} from '@ci-common-module/frontend'
 
     export default {
         name: "RegisterForm",

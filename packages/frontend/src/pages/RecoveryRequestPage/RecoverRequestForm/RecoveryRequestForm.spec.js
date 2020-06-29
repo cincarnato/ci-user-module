@@ -6,7 +6,7 @@ import i18n from "../../../i18n"
 import vuetify from "../../../plugins/vuetify-manual"
 
 import RecoveryRequestForm from "./RecoveryRequestForm";
-import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+import {SubmitButton} from '@ci-common-module/frontend'
 
 describe('StartRecoveryForm', () => {
 

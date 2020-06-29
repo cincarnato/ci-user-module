@@ -63,8 +63,8 @@
     import InputErrors from "../../../mixins/InputErrors";
     import RecoveryProvider from "../../../providers/RecoveryProvider";
     import ClientError from "../../../errors/ClientError";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
     import RecoveryRequestFormSuccess from "./RecoveryRequestFormSuccess";
+    import {SubmitButton} from '@ci-common-module/frontend'
 
     export default {
         name: "RecoveryRequestForm",

@@ -72,7 +72,7 @@
     import UserValidations from "../../../../mixins/UserValidations";
     import recoveryProvider from "../../../../providers/RecoveryProvider";
     import ClientError from "../../../../errors/ClientError";
-    import SubmitButton from "../../../../components/SubmitButton/SubmitButton";
+    import {SubmitButton} from '@ci-common-module/frontend'
     import {mapActions} from "vuex";
     import RecoveryPasswordFormSuccess from "./RecoveryPasswordFormSuccess";
 

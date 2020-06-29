@@ -17,7 +17,7 @@ RoleProvider.setGqlc(mockGqlClient)
 GroupProvider.setGqlc(mockGqlClient)
 UserProvider.setGqlc(mockGqlClient)
 
-import {SubmitButton} from "../../../components/SubmitButton";
+import {SubmitButton} from '@ci-common-module/frontend'
 import flushPromises from "flush-promises";
 
 describe('UserCreate.vue', () => {

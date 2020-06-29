@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <toolbar-dialog-card title="user.changeYourPassword"
+        <toolbar-dialog title="user.changeYourPassword"
                              @close="cancel" />
         <v-card-text>
             <v-alert v-if="errorMessage" type="error" dense text v-t="errorMessage"></v-alert>
@@ -77,13 +77,11 @@
     import ClientError from "../../../errors/ClientError";
     import UserValidations from "../../../mixins/UserValidations";
     import InputErrors from "../../../mixins/InputErrors";
-    import CloseButton from "../../../components/CloseButton/CloseButton";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
+    import {SubmitButton, CloseButton, ToolbarDialog} from '@ci-common-module/frontend'
 
     export default {
         name: "ProfilePasswordForm",
-        components: {ToolbarDialogCard, SubmitButton, CloseButton},
+        components: {ToolbarDialog, SubmitButton, CloseButton},
         mixins: [InputErrors, UserValidations],
         data() {
             return {
