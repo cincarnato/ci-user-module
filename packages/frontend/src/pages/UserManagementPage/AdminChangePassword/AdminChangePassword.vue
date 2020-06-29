@@ -1,9 +1,13 @@
 <template>
 
-    <v-card>
-        <toolbar-dialog-card title="user.changePasswordTitle" @close="$emit('closeDialog')" />
+    <crud-update :open="open"
+                 :loading="loading"
+                 title="user.changePasswordTitle"
+                 :errorMessage="errorMessage"
+                 @update="submit"
+                 @close="$emit('close')"
+    >
 
-        <v-card-text>
             <v-form ref="form" autocomplete="off" v-model="valid" @submit.prevent="submit">
                 <v-row row wrap>
                     <v-col cols="12">
@@ -17,7 +21,7 @@
                                       :label="$t('user.label.newPassword')"
                                       :placeholder="$t('user.label.newPassword')"
                                       autocomplete="new-password"
-                                      :rules="requiredRule"
+                                      :rules="required"
                                       :error="hasInputErrors('newPassword')"
                                       :error-messages="getInputErrors('newPassword')"
                                       required
@@ -31,7 +35,7 @@
                                       :type="showRepeatPassword ? 'text' : 'password'"
                                       @click:append="showRepeatPassword = !showRepeatPassword"
                                       v-model="form.passwordVerify"
-                                      :rules="requiredRule"
+                                      :rules="passwordMatchRules"
                                       :label="$t('user.label.repeatPassword')"
                                       :placeholder="$t('user.label.repeatPassword')"
                                       autocomplete="new-password"
@@ -42,36 +46,24 @@
                     </v-col>
                 </v-row>
             </v-form>
-        </v-card-text>
 
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <close-button text="common.cancel" @click="$emit('closeDialog')"></close-button>
-            <submit-button @click="submit" :loading="loading" :disabled="!valid"></submit-button>
-
-        </v-card-actions>
-
-    </v-card>
+    </crud-update>
 
 </template>
 
 <script>
 
     import UserProvider from "../../../providers/UserProvider";
-    import ClientError from "../../../errors/ClientError";
-    import InputErrors from "../../../mixins/InputErrors";
-    import UserValidations from "../../../mixins/UserValidations";
-    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
-    import CloseButton from "../../../components/CloseButton/CloseButton";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+    import {CrudUpdate, ClientError, InputErrors, RequiredRule} from '@ci-common-module/frontend'
 
     export default {
         name: "AdminChangePassword",
-        components: {SubmitButton, CloseButton, ToolbarDialogCard},
+        components: {CrudUpdate},
         props: {
-            user: Object
+            user: Object,
+            open: Boolean
         },
-        mixins: [InputErrors, UserValidations],
+        mixins: [InputErrors, RequiredRule],
         data() {
             return {
                 valid: true,
@@ -79,6 +71,7 @@
                 showRepeatPassword: false,
                 loading: false,
                 status: null,
+                errorMessage: null,
                 form: {
                     password: null,
                     passwordVerify: null,
@@ -89,6 +82,12 @@
         computed: {
             passwordMatchError() {
                 return (this.form.password === this.form.passwordVerify) ? null : this.$t('user.validation.passwordVerify')
+            },
+            passwordMatchRules() {
+                return [
+                    v => !!v || this.$t('user.validation.required'),
+                    () => (this.form.password === this.form.passwordVerify) || this.$t('user.validation.passwordVerify')
+                ]
             },
         },
         methods: {
@@ -103,7 +102,7 @@
                     UserProvider.adminChangePassword(userId, this.form.password, this.form.passwordVerify)
                         .then(() => {
                             this.$emit('changePasswordConfirmed', this.user)
-                            this.$emit('closeDialog')
+                            this.$emit('close')
                             this.status = true
                         }).catch(error => {
                         let clientError = new ClientError(error)

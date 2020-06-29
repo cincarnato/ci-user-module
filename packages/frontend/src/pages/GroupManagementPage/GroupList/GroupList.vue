@@ -70,6 +70,7 @@
 
     export default {
         name: "GroupList",
+        components: {SearchInput},
         props: {
             items: Array,
             totalItems: Number,

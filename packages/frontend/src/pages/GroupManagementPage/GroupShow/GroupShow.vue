@@ -1,10 +1,9 @@
 <template>
-    <crud-show :open="open"  @close="$emit('close')">
+    <crud-show title="group.showTitle" :open="open"  @close="$emit('close')">
 
         <v-card-text>
             <group-show-data :item="item" />
         </v-card-text>
-
 
     </crud-show>
 </template>
@@ -19,12 +18,7 @@
         props: {
             item: Object,
             open: Boolean
-        },
-        data() {
-            return {
-                title: "Detalles de Group",
-            }
-        },
+        }
     }
 </script>
 

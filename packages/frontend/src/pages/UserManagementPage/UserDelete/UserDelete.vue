@@ -1,14 +1,13 @@
 <template>
-    <v-card>
-
-        <toolbar-dialog-card
-                danger
-                title="user.deleteTitle"
-                @close="$emit('closeDialog')"
-        />
+    <crud-delete :open="open"
+                 :loading="loading"
+                 :errorMessage="errorMessage"
+                 @delete="remove"
+                 @close="$emit('close')"
+    >
 
         <v-card-text>
-        <user-show-data :item="user" />
+            <user-show-data :item="user"/>
         </v-card-text>
 
         <v-card-text>
@@ -21,29 +20,20 @@
             </v-row>
         </v-card-text>
 
-
-        <v-card-actions>
-            <close-button @click="$emit('closeDialog')"></close-button>
-            <v-spacer></v-spacer>
-            <submit-button danger @click="deleteConfirm" :loading="loading" text="common.delete"></submit-button>
-        </v-card-actions>
-
-    </v-card>
+    </crud-delete>
 </template>
 
 <script>
     import UserShowData from "../UserShow/UserShowData";
     import UserProvider from "../../../providers/UserProvider";
-    import ClientError from "../../../errors/ClientError";
-    import ToolbarDialogCard from "../../../components/ToolbarDialogCard/ToolbarDialogCard";
-    import CloseButton from "../../../components/CloseButton/CloseButton";
-    import SubmitButton from "../../../components/SubmitButton/SubmitButton";
+    import {CrudDelete, ClientError} from '@ci-common-module/frontend'
 
     export default {
         name: "UserDelete",
-        components: {SubmitButton, CloseButton, ToolbarDialogCard, UserShowData},
+        components: {CrudDelete, UserShowData},
         props: {
-            user: Object
+            user: Object,
+            open: Boolean
         },
         data() {
             return {
@@ -55,16 +45,16 @@
             }
         },
         methods: {
-            deleteConfirm() {
-                this.loading=true
-                UserProvider.deleteUser(this.user.id).then( () => {
-                    this.$emit('userDeleted',this.user)
-                    this.$emit('closeDialog')
+            remove() {
+                this.loading = true
+                UserProvider.deleteUser(this.user.id).then(() => {
+                    this.$emit('userDeleted', this.user)
+                    this.$emit('close')
                 }).catch(error => {
                     let clientError = new ClientError(error)
                     this.inputErrors = clientError.inputErrors
                     this.errorMessage = clientError.i18nMessage
-                }).finally(()=>this.loading=false)
+                }).finally(() => this.loading = false)
             },
         },
     }

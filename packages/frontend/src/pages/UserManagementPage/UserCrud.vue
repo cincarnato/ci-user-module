@@ -1,73 +1,65 @@
 <template>
-    <div>
-        <v-card class="elevation-6">
-            <v-card-title class="title" v-t="'user.title'"></v-card-title>
-            <v-card-subtitle class="" v-t="'user.description'"></v-card-subtitle>
+    <crud-layout title="user.title" subtitle="user.description">
 
-            <v-card-text>
-                <user-list
-                        @open-change-password="openChangePassword"
-                        @open-delete="openDelete"
-                        @open-edit="openEdit"
-                        @open-show="openShow"
-                        :items="items" :totalItems="totalItems" :loading="loading"
-                        @updateUsers="loadUsers"
-                />
-            </v-card-text>
-        </v-card>
-
-
-        <v-dialog :value="creating"  persistent fullscreen>
-            <user-create v-if="creating"
-                         v-on:closeDialog="creating=false"
-                         @userCreated="onUserCreated"
+        <template v-slot:list>
+            <user-list
+                    @open-change-password="openChangePassword"
+                    @open-delete="openDelete"
+                    @open-edit="openEdit"
+                    @open-show="openShow"
+                    :items="items" :totalItems="totalItems" :loading="loading"
+                    @updateUsers="loadUsers"
             />
-        </v-dialog>
+        </template>
 
 
-        <v-dialog :value="updating" max-width="850" persistent>
-            <user-update v-if="updating"
-                         :user="userToEdit"
-                         v-on:closeDialog="updating=false"
-                         @userUpdated="onUserUpdated"
-            />
-        </v-dialog>
+        <user-create v-if="creating"
+                     :open="creating"
+                     v-on:close="creating=false"
+                     @userCreated="onUserCreated"
+        />
 
-        <v-dialog :value="deleting" max-width="850" persistent>
-            <user-delete v-if="deleting"
-                         :user="userToDelete"
-                         v-on:closeDialog="deleting=false"
-                         @userDeleted="onUserDeleted"
-            />
-        </v-dialog>
+        <user-update v-if="updating"
+                     :open="updating"
+                     :user="userToEdit"
+                     v-on:close="updating=false"
+                     @userUpdated="onUserUpdated"
+        />
 
-        <v-dialog :value="showing" width="850" persistent>
-            <user-show v-if="showing"
-                       :item="userToShow"
-                       v-on:closeDialog="showing=false"
-            />
-        </v-dialog>
 
-        <v-dialog :value="changePassword" max-width="500" persistent>
-            <user-change-password v-if="changePassword"
-                                  :user="userToEdit"
-                                  v-on:closeDialog="changePassword=false"
-                                  @changePasswordConfirmed="changePasswordConfirmed"
-            />
-        </v-dialog>
+        <user-delete v-if="deleting"
+                     :open="deleting"
+                     :user="userToDelete"
+                     v-on:close="deleting=false"
+                     @userDeleted="onUserDeleted"
+        />
+
+
+        <user-show v-if="showing"
+                   :open="showing"
+                   :item="userToShow"
+                   v-on:close="showing=false"
+        />
+
+
+        <user-change-password v-if="changePassword"
+                              :open="changePassword"
+                              :user="userToEdit"
+                              v-on:close="changePassword=false"
+                              @changePasswordConfirmed="changePasswordConfirmed"
+        />
 
 
         <snackbar :message="flashMessage"/>
 
         <add-button @click="openCreate"></add-button>
 
-    </div>
+    </crud-layout>
 
 </template>
 
 <script>
 
-    import Snackbar from "../../components/Snackbar/Snackbar"
     import UserCreate from "./UserCreate"
     import UserUpdate from './UserUpdate'
     import UserChangePassword from './AdminChangePassword'
@@ -76,19 +68,18 @@
     import UserList from "./UserList";
     import UserProvider from "../../providers/UserProvider";
     import Vue from "vue";
-    import AddButton from "../../components/AddButton/AddButton";
+    import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
 
     export default {
         name: "UserCrud",
         components: {
-            AddButton,
             UserList,
             UserShow,
             UserDelete,
             UserCreate,
             UserUpdate,
             UserChangePassword,
-            Snackbar
+            CrudLayout, AddButton, Snackbar
         },
         data() {
             return {
@@ -119,7 +110,7 @@
                           itemsPerPage: 5,
                           search: ''
                       }
-                      ) {
+            ) {
                 this.loading = true
                 UserProvider.paginateUsers(
                     options.itemsPerPage,
@@ -156,24 +147,24 @@
                 this.changePassword = true
                 this.userToEdit = user
             },
-            onUserCreated(item){
+            onUserCreated(item) {
                 this.items.push(item)
                 this.totalItems++
                 this.flashMessage = this.$t('user.created')
             },
-            onUserUpdated(item){
+            onUserUpdated(item) {
                 let index = this.items.findIndex(i => i.id == item.id)
                 Vue.set(this.items, index, item)
                 this.flashMessage = this.$t('user.updated')
             },
-            onUserDeleted(item){
+            onUserDeleted(item) {
                 let index = this.items.findIndex(i => i.id == item.id)
-                this.items.splice(index,1)
+                this.items.splice(index, 1)
                 this.totalItems--
                 this.flashMessage = this.$t('user.deleted')
             },
-            changePasswordConfirmed(){
-                this.flashMessage="User password changed"
+            changePasswordConfirmed() {
+                this.flashMessage = "User password changed"
             }
         },
 

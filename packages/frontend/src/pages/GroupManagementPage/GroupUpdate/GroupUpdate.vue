@@ -14,7 +14,6 @@
 
 <script>
     import GroupProvider from "../../../providers/GroupProvider";
-    import UserValidations from "../../../mixins/UserValidations";
     import GroupForm from "../GroupForm/GroupForm";
 
     import {CrudUpdate, ClientError} from '@ci-common-module/frontend'
@@ -22,7 +21,6 @@
     export default {
         name: "GroupUpdate",
         components: {GroupForm,CrudUpdate},
-        mixins: [UserValidations],
         props: {
             item: Object,
             open: Boolean
