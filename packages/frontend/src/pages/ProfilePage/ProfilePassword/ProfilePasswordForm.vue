@@ -57,9 +57,6 @@
                                   :label="$t('user.label.repeatPassword')"
                                   :placeholder="$t('user.label.repeatPassword')"
                                   autocomplete="off"
-                                  :error="passwordMatchError"
-                                  :error-messages="passwordMatchError"
-                                  required
                     />
                 </v-col>
             </v-form>
