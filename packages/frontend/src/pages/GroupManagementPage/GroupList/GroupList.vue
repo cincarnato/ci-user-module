@@ -6,11 +6,18 @@
         </v-col>
 
         <v-col cols="12">
-            <v-data-table class="mt-3" :headers="headers" :items="items"
-                          :search="search" :single-expand="false" :loading="loading"
+            <v-data-table class="mt-3"
+                          :headers="headers"
+                          :items="items"
+                          :search="search"
+                          :single-expand="false"
+                          :loading="loading"
                           :server-items-length="totalItems"
-                          :items-per-page.sync="itemsPerPage" :page.sync="pageNumber"
-                          :sort-by.sync="orderBy" :sort-desc.sync="orderDesc"
+                          :items-per-page.sync="itemsPerPage"
+                          :page.sync="pageNumber"
+                          :sort-by.sync="orderBy"
+                          :sort-desc.sync="orderDesc"
+                          :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50] }"
                           @update:page="update"
                           @update:items-per-page="update"
                           @update:sort-by="update"
