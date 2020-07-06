@@ -16,12 +16,12 @@ const routes = [
     {name: "recovery", path: '/recovery/:token', component: RecoveryPage},
     {name: "recoveryRequest", path: '/recovery', component: RecoveryRequestPage},
     {name: "activation", path: '/activation/:token', component: ActivationPage},
-    {name: "me", path: '/me', component: ProfilePage},
     {name: "register", path: '/register', component: RegisterPage},
-    {name: "userDashboard", path: '/user-dashboard', component: DashboardPage},
-    {name: "userManagement", path: '/user-management', component: UserManagementPage},
-    {name: "groupManagement", path: '/group-management', component: GroupManagementPage},
-    {name: "roleManagement", path: '/role-management', component: RoleManagementPage},
+    {name: "me", path: '/me', component: ProfilePage, meta: {requiresAuth: true} },
+    {name: "userDashboard", path: '/user-dashboard', component: DashboardPage, meta: {requiresAuth: true} },
+    {name: "userManagement", path: '/user-management', component: UserManagementPage, meta: {requiresAuth: true} },
+    {name: "groupManagement", path: '/group-management', component: GroupManagementPage, meta: {requiresAuth: true} },
+    {name: "roleManagement", path: '/role-management', component: RoleManagementPage, meta: {requiresAuth: true} },
 
 ]
 
