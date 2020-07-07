@@ -2,7 +2,7 @@
     <v-row row wrap>
 
         <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
-            <search-input  @search="fetch" v-model="search" />
+            <search-input  @search="performSearch" v-model="search" />
         </v-col>
 
         <v-col cols="12">
@@ -110,14 +110,9 @@
             this.fetch()
         },
         methods: {
-            update() {
-                this.$emit('update', {
-                    orderBy: this.getOrderBy,
-                    orderDesc: this.getOrderDesc,
-                    pageNumber: this.pageNumber,
-                    itemsPerPage: this.itemsPerPage,
-                    search: this.search
-                })
+            performSearch(){
+                this.pageNumber = 1
+                this.fetch()
             },
             fetch(){
 

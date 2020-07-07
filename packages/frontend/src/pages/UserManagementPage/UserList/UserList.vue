@@ -2,7 +2,7 @@
 
     <v-row row wrap>
         <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
-            <search-input  @search="fetch" v-model="search" />
+            <search-input  @search="performSearch" v-model="search" />
         </v-col>
 
         <v-col cols="12">
@@ -132,6 +132,10 @@
             this.fetch()
         },
         methods:{
+            performSearch(){
+              this.pageNumber = 1
+              this.fetch()
+            },
             fetch() {
                 this.loading = true
                 UserProvider.paginateUsers(
