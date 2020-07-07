@@ -85,8 +85,9 @@
             return {
                 items: [],
                 totalItems: 0,
+                page: 1,
+                itemsPerPage: 5,
                 loading: false,
-
                 flashMessage: null,
                 dialog: false,
                 creating: false,
@@ -106,11 +107,15 @@
             loadUsers(options = {
                           orderBy: null,
                           orderDesc: false,
-                          pageNumber: 1,
-                          itemsPerPage: 5,
+                          pageNumber: this.page,
+                          itemsPerPage: this.itemsPerPage,
                           search: ''
                       }
             ) {
+                //Update current options
+                this.page = options.pageNumber
+                this.itemsPerPage = options.itemsPerPage
+
                 this.loading = true
                 UserProvider.paginateUsers(
                     options.itemsPerPage,
