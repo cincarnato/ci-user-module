@@ -3,11 +3,10 @@
 
         <template v-slot:list>
             <group-list
+                    ref="list"
                     @open-delete="openDelete"
                     @open-edit="openEdit"
                     @open-show="openShow"
-                    :items="items" :totalItems="totalItems" :loading="loading"
-                    @update="loadGroups"
             ></group-list>
         </template>
 
@@ -52,7 +51,6 @@
     import GroupCreate from "./GroupCreate";
     import GroupUpdate from "./GroupUpdate";
     import GroupList from "./GroupList";
-    import GroupProvider from "../../providers/GroupProvider";
     import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
 
     export default {
@@ -70,30 +68,21 @@
                 itemToEdit: null,
                 itemToDelete: null,
                 itemToShow: null,
-                items: [],
-                totalItems: 0,
-                page: 1,
-                itemsPerPage: 5,
-                loading: false,
                 flashMessage: null
             }
         },
-        created() {
-            this.loadGroups()
-        },
         methods: {
             onGroupCreated() {
-                this.loadGroups()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('group.created')
             },
             onGroupUpdated() {
-                this.loadGroups()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('group.updated')
             },
             onGroupDeleted() {
-                this.loadGroups()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('group.deleted')
-
             },
             openEdit(item) {
                 this.updating = true
@@ -106,41 +95,8 @@
             openDelete(item) {
                 this.deleting = true
                 this.itemToDelete = item
-            },
-            update() {
-                this.loading = true
-                GroupProvider.groups().then(r => {
-                    this.items = r.data.groups
-                    this.loading = false
-                })
-            },
-            loadGroups(options = {
-                orderBy: null,
-                orderDesc: false,
-                pageNumber: this.page,
-                itemsPerPage: this.itemsPerPage,
-                search: ''
-            }) {
-                //Update current options
-                this.page = options.pageNumber
-                this.itemsPerPage = options.itemsPerPage
-
-                this.loading = true
-                GroupProvider.paginateGroups(
-                    options.itemsPerPage,
-                    options.pageNumber,
-                    options.search,
-                    options.orderBy,
-                    options.orderDesc
-                )
-                    .then(r => {
-                        this.items = r.data.groupsPaginate.items
-                        this.totalItems = r.data.groupsPaginate.totalItems
-                    }).catch(err => {
-                    //TODO improve handle error (show messages to user)
-                    console.error(err)
-                }).finally(() => this.loading = false)
             }
+
         },
 
 

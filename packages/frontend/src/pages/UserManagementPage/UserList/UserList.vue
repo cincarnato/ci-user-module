@@ -1,15 +1,8 @@
 <template>
 
     <v-row row wrap>
-        <v-col cols="12">
-            <v-text-field
-                    v-model="search"
-                    append-icon="search"
-                    :label="$t('common.search')"
-                    single-line
-                    hide-details
-                    v-on:keyup.native.enter="updateUsers"
-            ></v-text-field>
+        <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
+            <search-input  @search="fetch" v-model="search" />
         </v-col>
 
         <v-col cols="12">
@@ -26,10 +19,10 @@
                     :sort-by.sync="orderBy"
                     :sort-desc.sync="orderDesc"
                     :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50] }"
-                    @update:page="updateUsers"
-                    @update:items-per-page="updateUsers"
-                    @update:sort-by="updateUsers"
-                    @update:sort-desc="updateUsers"
+                    @update:page="fetch"
+                    @update:items-per-page="fetch"
+                    @update:sort-by="fetch"
+                    @update:sort-desc="fetch"
             >
 
                 <template slot="no-data">
@@ -97,15 +90,17 @@
     </v-row>
 </template>
 <script>
+    import UserProvider from "../../../providers/UserProvider";
+    import {SearchInput} from '@ci-common-module/frontend'
+
     export default {
         name: 'UserList',
-        props: {
-          items: Array,
-          totalItems: Number,
-          loading: Boolean
-        },
+        components: {SearchInput},
         data() {
             return {
+                items: [],
+                totalItems: null,
+                loading: false,
                 orderBy: null,
                 orderDesc: false,
                 itemsPerPage: 5,
@@ -133,15 +128,26 @@
                 return (Array.isArray(this.orderDesc)) ? this.orderDesc[0] : this.orderDesc
             }
         },
+        created(){
+            this.fetch()
+        },
         methods:{
-            updateUsers(){
-                this.$emit('updateUsers',{
-                    orderBy: this.getOrderBy,
-                    orderDesc: this.getOrderDesc,
-                    pageNumber: this.pageNumber,
-                    itemsPerPage: this.itemsPerPage,
-                    search: this.search
-                })
+            fetch() {
+                this.loading = true
+                UserProvider.paginateUsers(
+                    this.itemsPerPage,
+                    this.pageNumber,
+                    this.search,
+                    this.getOrderBy,
+                    this.getOrderDesc
+                )
+                    .then(r => {
+                        this.items = r.data.paginateUsers.users
+                        this.totalItems = r.data.paginateUsers.totalItems
+                    }).catch(err => {
+                    //TODO improve handle error (show messages to user)
+                    console.error(err)
+                }).finally(() => this.loading = false)
             }
         }
 

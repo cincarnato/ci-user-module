@@ -3,12 +3,11 @@
 
         <template v-slot:list>
             <user-list
+                    ref="list"
                     @open-change-password="openChangePassword"
                     @open-delete="openDelete"
                     @open-edit="openEdit"
                     @open-show="openShow"
-                    :items="items" :totalItems="totalItems" :loading="loading"
-                    @updateUsers="loadUsers"
             />
         </template>
 
@@ -66,8 +65,6 @@
     import UserDelete from "./UserDelete";
     import UserShow from "./UserShow";
     import UserList from "./UserList";
-    import UserProvider from "../../providers/UserProvider";
-    import Vue from "vue";
     import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
 
     export default {
@@ -83,11 +80,6 @@
         },
         data() {
             return {
-                items: [],
-                totalItems: 0,
-                page: 1,
-                itemsPerPage: 5,
-                loading: false,
                 flashMessage: null,
                 dialog: false,
                 creating: false,
@@ -100,38 +92,7 @@
                 userToShow: null,
             }
         },
-        mounted() {
-            this.loadUsers()
-        },
         methods: {
-            loadUsers(options = {
-                          orderBy: null,
-                          orderDesc: false,
-                          pageNumber: this.page,
-                          itemsPerPage: this.itemsPerPage,
-                          search: ''
-                      }
-            ) {
-                //Update current options
-                this.page = options.pageNumber
-                this.itemsPerPage = options.itemsPerPage
-
-                this.loading = true
-                UserProvider.paginateUsers(
-                    options.itemsPerPage,
-                    options.pageNumber,
-                    options.search,
-                    options.orderBy,
-                    options.orderDesc
-                )
-                    .then(r => {
-                        this.items = r.data.paginateUsers.users
-                        this.totalItems = r.data.paginateUsers.totalItems
-                    }).catch(err => {
-                    //TODO improve handle error (show messages to user)
-                    console.error(err)
-                }).finally(() => this.loading = false)
-            },
             openCreate() {
                 this.creating = true
                 this.dialog = true
@@ -153,15 +114,15 @@
                 this.userToEdit = user
             },
             onUserCreated() {
-                this.loadUsers()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('user.created')
             },
             onUserUpdated() {
-                this.loadUsers()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('user.updated')
             },
             onUserDeleted() {
-                this.loadUsers()
+                this.$refs.list.fetch()
                 this.flashMessage = this.$t('user.deleted')
             },
             changePasswordConfirmed() {

@@ -2,7 +2,7 @@
     <v-row row wrap>
 
         <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
-            <search-input  @search="update" v-model="search" />
+            <search-input  @search="fetch" v-model="search" />
         </v-col>
 
         <v-col cols="12">
@@ -18,10 +18,10 @@
                           :sort-by.sync="orderBy"
                           :sort-desc.sync="orderDesc"
                           :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50] }"
-                          @update:page="update"
-                          @update:items-per-page="update"
-                          @update:sort-by="update"
-                          @update:sort-desc="update"
+                          @update:page="fetch"
+                          @update:items-per-page="fetch"
+                          @update:sort-by="fetch"
+                          @update:sort-desc="fetch"
             >
 
                 <div slot="no-data" color="info" outline class="text-xs-center">Sin datos</div>
@@ -74,17 +74,16 @@
 
 <script>
     import {SearchInput} from '@ci-common-module/frontend'
+    import GroupProvider from "../../../providers/GroupProvider";
 
     export default {
         name: "GroupList",
         components: {SearchInput},
-        props: {
-            items: Array,
-            totalItems: Number,
-            loading: Boolean
-        },
         data() {
             return {
+                items: [],
+                totalItems: null,
+                loading: false,
                 search: '',
                 itemsPerPage: 5,
                 pageNumber: 1,
@@ -107,6 +106,9 @@
                 return (Array.isArray(this.orderDesc)) ? this.orderDesc[0] : this.orderDesc
             }
         },
+        created() {
+            this.fetch()
+        },
         methods: {
             update() {
                 this.$emit('update', {
@@ -116,6 +118,24 @@
                     itemsPerPage: this.itemsPerPage,
                     search: this.search
                 })
+            },
+            fetch(){
+
+                this.loading = true
+                GroupProvider.paginateGroups(
+                    this.itemsPerPage,
+                    this.pageNumber,
+                    this.search,
+                    this.getOrderBy,
+                    this.getOrderDesc
+                )
+                    .then(r => {
+                        this.items = r.data.groupsPaginate.items
+                        this.totalItems = r.data.groupsPaginate.totalItems
+                    }).catch(err => {
+                    //TODO improve handle error (show messages to user)
+                    console.error(err)
+                }).finally(() => this.loading = false)
             }
         }
     }
