@@ -26,9 +26,9 @@ const clientMessages = {
             updateTitle: 'Editando grupo',
             deleteTitle: 'Eliminando groupo',
             showTitle: 'Detalles del grupo',
-            created: 'Groupo creado',
-            updated: 'Groupo actualizado',
-            deleted: 'Groupo eliminado',
+            created: 'Grupo creado',
+            updated: 'Grupo actualizado',
+            deleted: 'Grupo eliminado',
             label: {
                 avatar: 'Avatar',
                 name: 'Nombre',

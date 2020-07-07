@@ -71,7 +71,13 @@ mockGqlClient.setRequestHandler(
         return new Promise((resolve) => {
             let id = uuidv4()
             users = users.map(user => getUserById(user))
-            let r = {data: {groupCreate: {id, name, color, users}}}
+            let group = {id, name, color, users}
+            let r = {data: {groupCreate: group }}
+
+            //Actualizo mi base en memoria
+            groupsPaginate.data.groupsPaginate.items.push(group)
+            groupsPaginate.data.groupsPaginate.totalItems++
+
             setTimeout(() => resolve(r), 800)
         })
     }
@@ -82,7 +88,14 @@ mockGqlClient.setRequestHandler(
     ({id, name, color, users}) => {
         return new Promise((resolve) => {
             users = users.map(user => getUserById(user))
-            let r = {data: {groupUpdate: {id, name, color, users}}}
+            let group = {id, name, color, users}
+
+            //Actualizo mi base en memoria
+            let index = groupsPaginate.data.groupsPaginate.items.findIndex(i => i.id == group.id)
+            groupsPaginate.data.groupsPaginate.items[index] = group
+
+            let r = {data: {groupUpdate: group }}
+
             setTimeout(() => resolve(r), 800)
         })
     }
@@ -93,6 +106,12 @@ mockGqlClient.setRequestHandler(
     (id) => {
         return new Promise((resolve) => {
             let r = {data: {groupDelete: {id: id, deleteSuccess: true}}}
+
+            //Actualizo mi base en memoria
+            let index = groupsPaginate.data.groupsPaginate.items.findIndex(i => i.id == id)
+            groupsPaginate.data.groupsPaginate.items.splice(index,1)
+            groupsPaginate.data.groupsPaginate.totalItems--
+
             setTimeout(() => resolve(r), 800)
         })
     }
@@ -129,7 +148,14 @@ mockGqlClient.setRequestHandler(
                 let id = uuidv4()
                 role = getRoleById(role)
                 let avatarurl = null
-                 r = {data: {createUser: {id, username, password, name, email, phone, role, groups, active, avatarurl}}}
+                let user = {id, username, password, name, email, phone, role, groups, active, avatarurl}
+
+                //Actualizo mi base en memoria
+                userPaginate.data.paginateUsers.users.push(user)
+                userPaginate.data.paginateUsers.totalItems++
+
+
+                 r = {data: {createUser: user}}
             }
 
             setTimeout(() => {resolve(r)}, 800)
@@ -143,7 +169,13 @@ mockGqlClient.setRequestHandler(
         return new Promise((resolve) => {
             role = getRoleById(role)
             let avatarurl = null
-            let r = {data: {updateUser: {id, username, password, name, email, phone, role, groups, active, avatarurl}}}
+            let user = {id, username, password, name, email, phone, role, groups, active, avatarurl}
+            let r = {data: {updateUser: user }}
+
+            //Actualizo mi base en memoria
+            let index = userPaginate.data.paginateUsers.users.findIndex(u => u.id == user.id)
+            userPaginate.data.paginateUsers.users[index] = user
+
             setTimeout(() => resolve(r), 800)
         })
     }
@@ -154,6 +186,12 @@ mockGqlClient.setRequestHandler(
     (id) => {
         return new Promise((resolve) => {
             let r = {data: {deleteUser: {id: id, success: true}}}
+
+            //Actualizo mi base en memoria
+            let index = userPaginate.data.paginateUsers.users.findIndex(u => u.id == id)
+            userPaginate.data.paginateUsers.users.splice(index,1)
+            userPaginate.data.paginateUsers.totalItems--
+
             setTimeout(() => resolve(r), 800)
         })
     }

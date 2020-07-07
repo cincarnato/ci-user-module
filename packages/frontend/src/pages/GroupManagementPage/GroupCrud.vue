@@ -80,20 +80,16 @@
             this.loadGroups()
         },
         methods: {
-            onGroupCreated(item) {
-                this.items.push(item)
-                this.totalItems++
+            onGroupCreated() {
+                this.loadGroups()
                 this.flashMessage = this.$t('group.created')
             },
-            onGroupUpdated(item) {
-                let index = this.items.findIndex(i => i.id == item.id)
-                this.$set(this.items, index, item)
+            onGroupUpdated() {
+                this.loadGroups()
                 this.flashMessage = this.$t('group.updated')
             },
-            onGroupDeleted(item) {
-                let index = this.items.findIndex(i => i.id == item.id)
-                this.totalItems--
-                this.items.splice(index, 1)
+            onGroupDeleted() {
+                this.loadGroups()
                 this.flashMessage = this.$t('group.deleted')
 
             },

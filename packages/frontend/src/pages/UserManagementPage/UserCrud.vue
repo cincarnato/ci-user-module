@@ -147,20 +147,16 @@
                 this.changePassword = true
                 this.userToEdit = user
             },
-            onUserCreated(item) {
-                this.items.push(item)
-                this.totalItems++
+            onUserCreated() {
+                this.loadUsers()
                 this.flashMessage = this.$t('user.created')
             },
-            onUserUpdated(item) {
-                let index = this.items.findIndex(i => i.id == item.id)
-                Vue.set(this.items, index, item)
+            onUserUpdated() {
+                this.loadUsers()
                 this.flashMessage = this.$t('user.updated')
             },
-            onUserDeleted(item) {
-                let index = this.items.findIndex(i => i.id == item.id)
-                this.items.splice(index, 1)
-                this.totalItems--
+            onUserDeleted() {
+                this.loadUsers()
                 this.flashMessage = this.$t('user.deleted')
             },
             changePasswordConfirmed() {
