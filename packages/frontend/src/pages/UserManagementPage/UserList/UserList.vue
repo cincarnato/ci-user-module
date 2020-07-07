@@ -27,6 +27,7 @@
                     :sort-desc.sync="orderDesc"
                     :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50] }"
                     @update:page="updateUsers"
+                    @update:items-per-page="updateUsers"
                     @update:sort-by="updateUsers"
                     @update:sort-desc="updateUsers"
             >
