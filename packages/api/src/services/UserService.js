@@ -5,6 +5,7 @@ import bcryptjs from 'bcryptjs'
 import {UserInputError} from 'apollo-server-express'
 import path from 'path'
 import fs from 'fs'
+import {createDirIfNotExist} from "./utils/createDirIfNotExist";
 
 export const hashPassword = function (password) {
     let salt = bcryptjs.genSaltSync(10);
@@ -230,6 +231,7 @@ export const avatarUpload = function (user, file) {
         const dst = path.join("media", "avatar", finalFileName)
 
         //Store
+        createDirIfNotExist(dst)
         let fileResult = await storeFS(createReadStream(), dst)
 
         if (fileResult) {
