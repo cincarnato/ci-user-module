@@ -1,11 +1,11 @@
 import User from '../models/UserModel'
 import '../models/GroupModel'
-import {createUserAudit} from '../services/UserAuditService'
+import {createUserAudit} from './UserAuditService'
 import bcryptjs from 'bcryptjs'
 import {UserInputError} from 'apollo-server-express'
 import path from 'path'
 import fs from 'fs'
-import {createDirIfNotExist} from "./utils/createDirIfNotExist";
+import createDirIfNotExist from "./utils/createDirIfNotExist";
 
 export const hashPassword = function (password) {
     let salt = bcryptjs.genSaltSync(10);
