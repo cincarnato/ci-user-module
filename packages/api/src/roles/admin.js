@@ -12,12 +12,13 @@ import {
     SECURITY_USER_EDIT,
     SECURITY_USER_SHOW,
 } from "../permissions";
+
 import {fetchPermissions} from "../services/PermissionService";
 
 async function adminRole() {
     let permissions = []
-    const p = await fetchPermissions()
-    permissions = p.map(p => p.name)
+    const dbPermissions = await fetchPermissions()
+    permissions = dbPermissions.map(p => p.name)
     if (!permissions) {
         permissions = [
             SECURITY_USER_CREATE, SECURITY_USER_EDIT, SECURITY_USER_DELETE, SECURITY_USER_SHOW,
@@ -30,4 +31,4 @@ async function adminRole() {
     return {name: "admin", permissions: permissions}
 }
 
-export default adminRole()
+export default adminRole
