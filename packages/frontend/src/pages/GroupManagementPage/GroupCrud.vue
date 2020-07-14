@@ -41,7 +41,8 @@
 
         <add-button @click="creating = true"></add-button>
 
-        <snackbar :message="flashMessage"/>
+        <snackbar v-model="flashMessage"/>
+
     </crud-layout>
 </template>
 

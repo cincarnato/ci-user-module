@@ -19,7 +19,7 @@
     "*.js"
   ],
   "dependencies": {
-    "@ci-common-module/frontend": "^1.0.10"
+    "@ci-common-module/frontend": "^1.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

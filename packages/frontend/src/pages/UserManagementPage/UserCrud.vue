@@ -49,7 +49,7 @@
         />
 
 
-        <snackbar :message="flashMessage"/>
+        <snackbar v-model="flashMessage"/>
 
         <add-button @click="openCreate"></add-button>
 
