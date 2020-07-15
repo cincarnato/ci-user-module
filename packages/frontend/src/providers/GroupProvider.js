@@ -9,7 +9,10 @@ class GroupProvider {
     }
 
     groups() {
-        return this.gqlc.query({query: require('./gql/groups.graphql')})
+        return this.gqlc.query({
+            query: require('./gql/groups.graphql'),
+            fetchPolicy: "network-only"
+        })
     }
     
     paginateGroups(limit, pageNumber, search = null, orderBy = null, orderDesc = false) {
@@ -23,7 +26,8 @@ class GroupProvider {
     group(id) {
         return this.gqlc.query({
             query: require('./gql/group.graphql'),
-            variables: {id:id}
+            variables: {id:id},
+            fetchPolicy: "network-only"
         })
     }
     

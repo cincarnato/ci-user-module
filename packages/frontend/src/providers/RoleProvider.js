@@ -7,18 +7,25 @@ class RoleProvider {
         this.gqlc = gqlc
     }
     permissions() {
-        return this.gqlc.query({query: require('./gql/permissions.graphql')})
+        return this.gqlc.query({
+            query: require('./gql/permissions.graphql'),
+            fetchPolicy: "network-only"
+        })
     }
 
     roles() {
-        return this.gqlc.query({query: require('./gql/roles.graphql')})
+        return this.gqlc.query({
+            query: require('./gql/roles.graphql'),
+            fetchPolicy: "network-only"
+        })
     }
     
 
     role(id) {
         return this.gqlc.query({
             query: require('./gql/role.graphql'),
-            variables: {id:id}
+            variables: {id:id},
+            fetchPolicy: "network-only"
         })
     }
     

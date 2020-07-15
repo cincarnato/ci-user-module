@@ -1,5 +1,3 @@
-import ClientError from '../errors/ClientError'
-
 class UserProvider {
 
     constructor() {
@@ -19,11 +17,17 @@ class UserProvider {
     }
 
     users() {
-        return this.gqlc.query({query: require('./gql/users.graphql')})
+        return this.gqlc.query({
+            query: require('./gql/users.graphql'),
+            fetchPolicy: "network-only"
+        })
     }
 
     roles() {
-        return this.gqlc.query({query: require('./gql/roles.graphql')})
+        return this.gqlc.query({
+            query: require('./gql/roles.graphql'),
+            fetchPolicy: "network-only"
+        })
     }
 
     groups() {
