@@ -8,6 +8,7 @@
                     @open-delete="openDelete"
                     @open-edit="openEdit"
                     @open-show="openShow"
+                    @open-apikey="openApikey"
             />
         </template>
 
@@ -48,6 +49,11 @@
                               @changePasswordConfirmed="changePasswordConfirmed"
         />
 
+        <user-apikey v-if="gettingApikey"
+                     :open="gettingApikey"
+                     :user="userToGetApikey"
+                     v-on:close="gettingApikey = false"
+        ></user-apikey>
 
         <snackbar v-model="flashMessage"/>
 
@@ -66,10 +72,12 @@
     import UserShow from "./UserShow";
     import UserList from "./UserList";
     import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
+    import UserApikey from "./UserApikey/UserApikey";
 
     export default {
         name: "UserCrud",
         components: {
+            UserApikey,
             UserList,
             UserShow,
             UserDelete,
@@ -86,10 +94,12 @@
                 updating: false,
                 deleting: false,
                 changePassword: false,
+                gettingApikey: false,
                 userToEdit: null,
                 userToDelete: null,
                 showing: false,
                 userToShow: null,
+                userToGetApikey: null
             }
         },
         methods: {
@@ -112,6 +122,10 @@
             openChangePassword(user) {
                 this.changePassword = true
                 this.userToEdit = user
+            },
+            openApikey(user){
+              this.gettingApikey = true
+              this.userToGetApikey = user
             },
             onUserCreated() {
                 this.$refs.list.fetch()

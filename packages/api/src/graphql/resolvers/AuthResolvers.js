@@ -1,9 +1,10 @@
 import {
     findUser,
 } from '../../services/UserService'
-import {auth} from "../../services/AuthService";
+import {apiKey, auth} from "../../services/AuthService";
 
-import {AuthenticationError} from "apollo-server-express";
+import {AuthenticationError, ForbiddenError} from "apollo-server-express";
+import {SECURITY_USER_EDIT} from "../../permissions";
 
 export default {
     Query: {
@@ -23,6 +24,13 @@ export default {
                         reject(new AuthenticationError("BadCredentials"))
                     })
             }))
+
+        },
+        apikey: (_, {userid}, {user, rbac, req}) => {
+            if (!user) throw new AuthenticationError("UNAUTHENTICATED")
+            if (!user || !rbac.isAllowed(user.id, SECURITY_USER_EDIT)) throw new ForbiddenError("Not Authorized")
+
+            return apiKey(userid, req)
 
         }
     }

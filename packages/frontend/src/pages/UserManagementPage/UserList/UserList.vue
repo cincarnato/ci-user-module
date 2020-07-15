@@ -60,6 +60,15 @@
                     </v-icon>
                     <v-icon
                             small
+                            color="info"
+                            class="mr-2"
+                            @click="$emit('open-apikey', item)"
+                    >
+                        api
+                    </v-icon>
+
+                    <v-icon
+                            small
                             color="purple"
                             class="mr-2"
                             @click="$emit('open-edit', item)"
@@ -75,6 +84,9 @@
                     >
                         lock
                     </v-icon>
+
+
+
                     <v-icon
                             color="red"
                             small

@@ -8,4 +8,5 @@ type Query {
 
 type Mutation {
     auth(username: String!, password:String!): AuthResponse!
+    apikey(userid: ID!): AuthResponse!
 }

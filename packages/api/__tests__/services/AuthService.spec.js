@@ -7,8 +7,11 @@ import {initPermissions,initAdminRole,initRootUser} from "../../src/services/Ini
 //Service to Test
 
 import {
+    apiKey,
     auth
 } from "../../src/services/AuthService";
+
+import {findUserByUsername} from "../../src/services/UserService";
 
 //Service dependencies
 import {findRoleByName} from "../../src/services/RoleService";
@@ -59,6 +62,14 @@ describe("UserService", () => {
     }, 2000);
 
 
+    test('Apikey', async () => {
+
+        let user = await findUserByUsername('root')
+        let result = await apiKey(user.id, null)
+        console.log(result)
+        await expect(result).toHaveProperty('token',)
+
+    }, 2000);
 
 
 })

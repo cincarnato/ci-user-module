@@ -17,6 +17,7 @@ import authBadCredentials from "./resolves/auth-badCredentials";
 import recoveryByEmail from "./resolves/recoveryByEmail";
 import register from "./resolves/register";
 import userCreateUniqueError from "./resolves/userCreateUniqueError";
+import apikey from "./resolves/apikey";
 
 
 //Helpers
@@ -294,6 +295,17 @@ mockGqlClient.setRequestHandler(
         })
     }
 );
+
+mockGqlClient.setRequestHandler(
+    require('../src/providers/gql/apikey.graphql'),
+    () => {
+        return new Promise((resolve) => {
+                setTimeout(() => resolve(apikey), 800)
+
+        })
+    }
+);
+
 
 
 

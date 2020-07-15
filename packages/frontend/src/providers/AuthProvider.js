@@ -4,11 +4,11 @@ class AuthProvider {
         this.gqlc = null
     }
 
-    setGqlc(gqlc){
+    setGqlc(gqlc) {
         this.gqlc = gqlc
     }
 
-    auth(username,password){
+    auth(username, password) {
         return this.gqlc.mutate({
             mutation: require('./gql/auth.graphql'),
             variables: {
@@ -19,21 +19,28 @@ class AuthProvider {
         })
     }
 
-    register({username,password, name, email, phone}){
+    apikey(userid) {
         return this.gqlc.mutate({
-            mutation: require('./gql/register.graphql'),
-            variables: {username,password, name, email, phone}
+            mutation: require('./gql/apikey.graphql'),
+            variables: { userid: userid}
         })
     }
 
-    activation(token){
+    register({username, password, name, email, phone}) {
+        return this.gqlc.mutate({
+            mutation: require('./gql/register.graphql'),
+            variables: {username, password, name, email, phone}
+        })
+    }
+
+    activation(token) {
         return this.gqlc.mutate({
             mutation: require('./gql/activationUser.graphql'),
             variables: {token}
         })
     }
 
-    me(){
+    me() {
         return this.gqlc.query({
             query: require('./gql/me.graphql')
         })
@@ -41,6 +48,7 @@ class AuthProvider {
 
 
 }
+
 const authProvider = new AuthProvider()
 
 export default authProvider
