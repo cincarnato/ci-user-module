@@ -24,7 +24,7 @@ const clientMessages = {
             description: 'Ver, buscar, crear, editar, y borrar grupos del sistema',
             createTitle: 'Creando grupo',
             updateTitle: 'Editando grupo',
-            deleteTitle: 'Eliminando groupo',
+            deleteTitle: 'Eliminando grupo',
             showTitle: 'Detalles del grupo',
             created: 'Grupo creado',
             updated: 'Grupo actualizado',
