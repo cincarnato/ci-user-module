@@ -43,6 +43,7 @@ export const apiKey =  function (userId, req) {
                 let token = jsonwebtoken.sign(
                     {
                         id: user.id,
+                        username: user.username,
                         role: {name: user.role.name}
                     },
                     process.env.JWT_SECRET,
