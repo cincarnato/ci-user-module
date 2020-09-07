@@ -10,7 +10,7 @@ class UserEmailManager {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
-            secure: /true/i.test(process.env.SMTP_IGNORE_TLS) ? true : false,
+            secure: /true/i.test(process.env.SMTP_SECURE) ? true : false,
             ignoreTLS: /true/i.test(process.env.SMTP_IGNORE_TLS) ? true : false,
             auth: {
                 user: process.env.SMTP_USER,
