@@ -1,13 +1,19 @@
+//Test basic
 import {mount} from '@vue/test-utils'
 import { createLocalVue } from '@vue/test-utils'
-import flushPromises from 'flush-promises'
 export const localVue = createLocalVue()
 
-//Resources
+//Test Promises
+import flushPromises from 'flush-promises'
+
+//Vue Resources
 import i18n from "../../../i18n"
 import vuetify from "../../../plugins/vuetify-manual"
 import router from "../../../router"
 import store from "../../../store"
+
+//Component to Test
+import LoginForm from "./LoginForm"
 
 //GraphQl Client Mock
 import {createMockClient} from 'mock-apollo-client';
@@ -15,8 +21,6 @@ import authProvider from "../../../providers/AuthProvider";
 import badCredentialsResolve from "../../../../gqlc-mock/resolves/auth-badCredentials";
 import successfulResolve from "../../../../gqlc-mock/resolves/auth-successful";
 
-//Component to Test
-import LoginForm from "./LoginForm"
 
 describe('LoginForm.vue', () => {
 
