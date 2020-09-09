@@ -28,6 +28,7 @@ const messages = {
                 SECURITY_ROLE_SHOW: 'Role display',
                 SECURITY_ROLE_CREATE: 'Role creation',
                 SECURITY_ROLE_EDIT: 'Role edition',
+                SECURITY_ROLE_DELETE: 'Role deletion',
                 SECURITY_DASHBOARD_SHOW: 'Security dashboard display',
             }
         },
@@ -61,6 +62,7 @@ const messages = {
                 SECURITY_ROLE_SHOW: 'Visualización de roles',
                 SECURITY_ROLE_CREATE: 'Creación de roles',
                 SECURITY_ROLE_EDIT: 'Edición de roles',
+                SECURITY_ROLE_DELETE: 'Eliminación de roles',
                 SECURITY_DASHBOARD_SHOW: 'Visualización de panel de seguridad',
             }
         },
@@ -90,11 +92,12 @@ const messages = {
                 SECURITY_USER_SHOW: 'Visualização do usuário',
                 SECURITY_GROUP_CREATE: 'Criação em grupos',
                 SECURITY_GROUP_EDIT: 'Edição em grupos',
-                SECURITY_GROUP_DELETE: 'exclusão em grupos',
+                SECURITY_GROUP_DELETE: 'Exclusão em grupos',
                 SECURITY_GROUP_SHOW: 'Visualização em grupos',
                 SECURITY_ROLE_SHOW: 'Visualização de roles',
                 SECURITY_ROLE_CREATE: 'Criação de roles',
                 SECURITY_ROLE_EDIT: 'Edição de roles',
+                SECURITY_ROLE_DELETE: 'Exclusão de roles',
                 SECURITY_DASHBOARD_SHOW: 'Visor do painel de segurança',
             }
         },
