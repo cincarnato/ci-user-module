@@ -32,6 +32,7 @@
                 form: {
                     id: this.role.id,
                     name: this.role.name,
+                    childRoles: this.role.childRoles,
                     permissions: this.role.permissions
                 }
 

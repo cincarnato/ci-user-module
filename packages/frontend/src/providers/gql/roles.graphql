@@ -2,6 +2,7 @@ query roles{
     roles{
         id
         name
+        childRoles
         permissions
     }
 }

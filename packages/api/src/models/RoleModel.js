@@ -7,7 +7,11 @@ const Schema = mongoose.Schema
 const RoleSchema = new Schema({
     name: { type: String, unique : true, required : true, index: true },
     permissions: [{  type: String, required: true }],
-
+    childRoles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role',
+        required: false,
+    }]
 });
 
 RoleSchema.plugin(uniqueValidator, {message: 'validation.unique'});

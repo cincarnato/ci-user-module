@@ -1,11 +1,13 @@
 type Role {
     id: ID!
     name: String!
+    childRoles: [ID]
     permissions: [String]
 }
 
 input RoleInput{
     name: String!
+    childRoles: [ID]
     permissions: [String]
 }
 

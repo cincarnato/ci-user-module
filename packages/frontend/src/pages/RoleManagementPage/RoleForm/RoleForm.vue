@@ -16,6 +16,21 @@
             ></v-text-field>
         </v-col>
 
+        <v-col cols="12" sm="6">
+            <v-select
+                    v-model="form.childRoles"
+                    :loading="loadingRoles"
+                    :items="roles"
+                    :item-text="'name'"
+                    :item-value="'id'"
+                    attach
+                    chips
+                    :label="$t('role.label.childRoles')"
+                    :placeholder="$t('role.label.childRoles')"
+                    multiple
+            ></v-select>
+        </v-col>
+
         <v-col cols="12">
             <v-row>
                 <v-col cols="12" class="py-0" v-for="(permission,index) in permissions" :key="index">
@@ -50,8 +65,8 @@
             return {
                 users: [],
                 permissions: [],
-                loadingUsers: false,
-                colorRules: [v => /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(v) || 'hexcode invalid ']
+                loadingPermissions: false,
+                loadingRoles: false,
             }
         },
         computed: {
@@ -78,16 +93,29 @@
             }
         },
         created() {
-            this.load()
+            this.loadPermissions()
+            this.loadRoles()
         },
         methods: {
             validate() {
                 return this.$refs.form.validate()
             },
-            load() {
+            loadPermissions() {
+                this.loadingPermissions = true
                 RoleProvider.permissions().then(r => {
                     this.permissions = r.data.permissions.permissions;
-                });
+                }).catch(err => {
+                    console.error(err)
+                }).finally(() => this.loadingPermissions = false)
+            },
+            loadRoles(){
+                this.loadingRoles = true
+                RoleProvider.roles().then(r => {
+                        this.roles = r.data.roles
+                    }
+                ).catch(err => {
+                    console.error(err)
+                }).finally(() => this.loadingRoles = false)
             },
             inputPermission(permission) {
                 if (this.hasPermission(permission)) {

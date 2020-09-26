@@ -13,8 +13,9 @@ const messages = {
             permission: 'Permission',
             rolDuplicate: 'Duplicated Role',
             label: {
-              name: "Name",
-              permissions: "Permissions"
+                name: "Name",
+                childRoles: "Child Roles",
+                permissions: "Permissions"
             },
             permissions: {
                 SECURITY_USER_CREATE: 'User creation',
@@ -29,7 +30,8 @@ const messages = {
                 SECURITY_ROLE_CREATE: 'Role creation',
                 SECURITY_ROLE_EDIT: 'Role edition',
                 SECURITY_ROLE_DELETE: 'Role deletion',
-                SECURITY_DASHBOARD_SHOW: 'Security dashboard display',
+                SECURITY_DASHBOARD_SHOW: 'Show admin dashboard',
+                SECURITY_ADMIN_MENU: 'Show admin menu'
             }
         },
     },
@@ -48,6 +50,7 @@ const messages = {
             rolDuplicate: 'Rol ya Existente',
             label: {
                 name: "Nombre",
+                childRoles: "Roles hijos",
                 permissions: "Permisos"
             },
             permissions: {
@@ -63,7 +66,8 @@ const messages = {
                 SECURITY_ROLE_CREATE: 'Creación de roles',
                 SECURITY_ROLE_EDIT: 'Edición de roles',
                 SECURITY_ROLE_DELETE: 'Eliminación de roles',
-                SECURITY_DASHBOARD_SHOW: 'Visualización de panel de seguridad',
+                SECURITY_DASHBOARD_SHOW: 'Visualización de panel de administración',
+                SECURITY_ADMIN_MENU: 'Visualización de menu de administración'
             }
         },
 
@@ -82,8 +86,9 @@ const messages = {
             permission: 'Permissão',
             rolDuplicate: 'Função duplicada',
             label: {
-                name: "Nombre",
-                permissions: "Permisos"
+                name: "Nome",
+                childRoles: "Funções filhas",
+                permissions: "Permissões"
             },
             permissions: {
                 SECURITY_USER_CREATE: 'Criação do usuário',
@@ -99,10 +104,10 @@ const messages = {
                 SECURITY_ROLE_EDIT: 'Edição de roles',
                 SECURITY_ROLE_DELETE: 'Exclusão de roles',
                 SECURITY_DASHBOARD_SHOW: 'Visor do painel de segurança',
+                SECURITY_ADMIN_MENU: 'Visor do menu de segurança'
+                }
             }
         },
-
-    }
 
 }
 

@@ -119,8 +119,8 @@
                         :label="$t('user.label.role')"
                         :loading="loadingRoles"
                         :rules="required"
-                        :error="hasInputErrors('groups')"
-                        :error-messages="getInputErrors('groups')"
+                        :error="hasInputErrors('role')"
+                        :error-messages="getInputErrors('role')"
                         required
                         color="secondary"
                         item-color="secondary"

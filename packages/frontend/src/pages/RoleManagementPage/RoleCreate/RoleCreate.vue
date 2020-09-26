@@ -32,6 +32,7 @@
                 loading: false,
                 form: {
                     name: null,
+                    childRoles: null,
                     permissions: []
                 }
 

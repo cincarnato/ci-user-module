@@ -6,6 +6,7 @@ class RoleProvider {
     setGqlc(gqlc){
         this.gqlc = gqlc
     }
+
     permissions() {
         return this.gqlc.query({
             query: require('./gql/permissions.graphql'),
@@ -20,7 +21,6 @@ class RoleProvider {
         })
     }
     
-
     role(id) {
         return this.gqlc.query({
             query: require('./gql/role.graphql'),
@@ -29,19 +29,17 @@ class RoleProvider {
         })
     }
     
-    
-
     roleCreate(form) {
         return this.gqlc.mutate({
             mutation: require('./gql/roleCreate.graphql'),
-            variables: form
+            variables: { name: form.name, childRoles: form.childRoles,  permissions: form.permissions }
         })
     }
     
     roleUpdate(form) {
         return this.gqlc.mutate({
             mutation: require('./gql/roleUpdate.graphql'),
-            variables:{ id: form.id, name: form.name, permissions: form.permissions }
+            variables: { id: form.id, name: form.name, childRoles: form.childRoles,  permissions: form.permissions }
         })
     }
     

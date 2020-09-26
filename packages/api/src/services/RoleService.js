@@ -46,9 +46,10 @@ export const deleteRole = function (id) {
     })
 }
 
-export const createRole = function ({ name, permissions }) {
+export const createRole = function ({ name, childRoles, permissions }) {
     const newRole = new RoleModel({
         name,
+        childRoles,
         permissions
     })
     newRole.id = newRole._id;
@@ -67,10 +68,10 @@ export const createRole = function ({ name, permissions }) {
 }
 
 
-export const updateRole = async function (id, { name, permissions = [] }) {
+export const updateRole = async function (id, { name,  childRoles, permissions = [] }) {
     return new Promise((resolve, rejects) => {
         RoleModel.findOneAndUpdate({ _id: id },
-            { name, permissions },
+            { name, childRoles, permissions },
             { new: true, runValidators: true, context: 'query' },
             (error, doc) => {
 
