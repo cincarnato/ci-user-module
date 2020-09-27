@@ -8,6 +8,8 @@ import operatorRoleTemplate from '../roles/operator'
 
 import {rootUser} from '../data/root-user'
 import {supervisorUser} from '../data/supervisor-user'
+import {operatorUser} from "../data/operator-user"
+
 import {
     SECURITY_DASHBOARD_SHOW,
     SECURITY_ADMIN_MENU,
@@ -178,6 +180,28 @@ const initSupervisorUser = async (user) => {
 
 }
 
+const initOperatorUser = async (user) => {
+    if (!user) {
+        user = operatorUser
+    }
+
+    let roleOperator= await findRoleByName("operator")
+
+    if (!roleOperator) {
+        throw Error('Supervisor user cant be created. Role "supervisor" not found. ')
+    }
+
+    let u = await findUserByUsername(user.username)
+
+    if (!u) {
+        u = await createUser({...user, role: roleOperator.id})
+        console.log("User supervisor created: ", u.id)
+    } else {
+        console.log("User supervisor found: ", u.id)
+    }
+
+}
+
 const rootRecover = async (password = "root.123") => {
     findUserByUsername("root").then(rootUser => {
         changeRecoveryPassword(rootUser.id, {
@@ -189,4 +213,4 @@ const rootRecover = async (password = "root.123") => {
 }
 
 
-export {initPermissions, initAdminRole, initOperatorRole, initSupervisorRole, initRoles, initRootUser, initSupervisorUser, rootRecover}
+export {initPermissions, initAdminRole, initOperatorRole, initSupervisorRole, initRoles, initRootUser, initSupervisorUser, initOperatorUser, rootRecover}

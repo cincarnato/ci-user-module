@@ -49,7 +49,9 @@ export default {
                 //With childRoles
                 if(user.role.childRoles.length > 0){
                     //Check if role is include as a childRole
-                    if(user.role.childRoles.some(role => role.id === input.role)){
+                    console.log("Create User input role:",input.role)
+                    console.log("Create User auth user role:", user.role)
+                    if(user.role.childRoles.includes(input.role)){
                         return createUser(input, user)
                     }else{
                         throw new ForbiddenError("Not Authorized")

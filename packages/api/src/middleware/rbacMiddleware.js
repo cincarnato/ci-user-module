@@ -1,18 +1,14 @@
-import rbacPromise from '../rbac'
+
+import {UserRbacFactory} from "../services/RbacService";
 
 
 export default async function (req, res, next) {
-
     try {
-        let user = req.user;
-        const rbac = await rbacPromise()
-        if (user) {
-            rbac.addUserRoles(user.id, [user.role.name])
-        }
+        const rbac = UserRbacFactory(req.user)
         req.rbac = rbac;
-        next();
+        next()
     } catch (error) {
-        console.error(error)
+        console.error("Rbac Middleware error:", error)
         next(error);
     }
 

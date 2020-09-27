@@ -8,6 +8,10 @@ import fs from 'fs'
 import createDirIfNotExist from "./utils/createDirIfNotExist";
 
 export const hashPassword = function (password) {
+    if(!password){
+        throw new Error("password must be provided")
+    }
+
     let salt = bcryptjs.genSaltSync(10);
     let hashPassword = bcryptjs.hashSync(password, salt);
     return hashPassword;

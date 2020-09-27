@@ -5,60 +5,20 @@ import {createLoginFail} from "./LoginFailService";
 import {findUser, findUserByUsername} from "./UserService";
 
 
-export const session = function (user, req, full = true) {
-    return new Promise((resolve, reject) => {
-        createSession(user, req).then(newSession => {
-
-            let token = jsonwebtoken.sign(
-                {
-                    id: user.id,
-                    name: user.name,
-                    username: user.username,
-                    email: user.email,
-                    phone: user.phone,
-                    role: user.role,
-                    groups: user.groups,
-                    avatarurl: user.avatarurl,
-                    idSession: newSession.id
-                },
-                process.env.JWT_SECRET,
-                {expiresIn: process.env.JWT_LOGIN_EXPIRED_IN || '1d', jwtid: user.id}
-            )
-
-            resolve(token)
-
-        }).catch(err => {
-            console.error(err)
-            reject(err)
-        })
-    })
+export const tokenSignPayload = function (user, session) {
+    return {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        groups: user.groups,
+        avatarurl: user.avatarurl,
+        idSession: session.id
+    };
 }
 
-
-export const apiKey =  function (userId, req) {
-    return new Promise(async (resolve, reject) => {
-        findUser(userId).then(user => {
-
-            if (user) {
-                let token = jsonwebtoken.sign(
-                    {
-                        id: user.id,
-                        username: user.username,
-                        role: {name: user.role.name}
-                    },
-                    process.env.JWT_SECRET,
-                    {jwtid: user.id}
-                )
-
-                resolve({token: token})
-            }
-            reject("User doesn't exist")
-
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
 
 export const auth = async function ({username, password}, req) {
     return new Promise((resolve, reject) => {
@@ -76,9 +36,24 @@ export const auth = async function ({username, password}, req) {
 
             if (user) {
                 if (bcryptjs.compareSync(password, user.password)) {
-                    //Registrar session
-                    session(user, req).then(token => {
-                        resolve({token: token})
+
+                    createSession(user, req).then( session => {
+
+                        const payload = tokenSignPayload(user, session)
+
+                        const options = {
+                            expiresIn: process.env.JWT_LOGIN_EXPIRED_IN || '1d',
+                            jwtid: user.id
+                        }
+
+                        let token = jsonwebtoken.sign(
+                            payload,
+                            process.env.JWT_SECRET,
+                            options
+                        )
+
+                        resolve({ token, payload, options } )
+
                     }).catch(err => reject(err))
 
                 } else {
@@ -89,5 +64,34 @@ export const auth = async function ({username, password}, req) {
         })
 
     })
+}
 
+
+export const apiKey = function (userId, req) {
+    return new Promise(async (resolve, reject) => {
+        findUser(userId).then(user => {
+
+            const payload = {
+                id: user.id,
+                username: user.username,
+                role: {name: user.role.name}
+            }
+
+            const options = {jwtid: user.id}
+
+            if (user) {
+                let token = jsonwebtoken.sign(
+                    payload,
+                    process.env.JWT_SECRET,
+                    options
+                )
+
+                resolve({token, payload, options})
+            }
+            reject("User doesn't exist")
+
+        }).catch(err => {
+            reject(err)
+        })
+    })
 }

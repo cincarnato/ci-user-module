@@ -39,7 +39,7 @@ describe("UserService", () => {
         let user = {username: 'root', password: 'root.123'}
 
         await expect(auth(user, null))
-            .resolves.toHaveProperty('token',)
+            .resolves.toHaveProperty('token')
 
     }, 2000);
 

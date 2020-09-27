@@ -1,11 +1,11 @@
+import {tokenSignPayload} from "../../src/services/AuthService";
+
 const jwt = require("jsonwebtoken");
 
 const tokenSign = function (user) {
 
     let token = jwt.sign(
-        {
-            id: user.id,
-        },
+        tokenSignPayload(user, {id: 1}),
         process.env.JWT_SECRET,
         {expiresIn: '1d'}
     )

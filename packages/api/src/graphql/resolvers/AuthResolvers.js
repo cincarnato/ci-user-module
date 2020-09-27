@@ -16,21 +16,32 @@ export default {
     Mutation: {
         auth: (_, {username, password}, {req}) => {
 
-            return new Promise(((resolve, reject) => {
+            return new Promise((resolve, reject) => {
+
                 auth({username, password}, req)
-                    .then(result => resolve(result))
+                    .then(r => resolve({token: r.token}))
                     .catch(err => {
                         console.warn('Auth error: ', err.message)
                         reject(new AuthenticationError("BadCredentials"))
                     })
-            }))
+
+            })
 
         },
         apikey: (_, {userid}, {user, rbac, req}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
             if (!user || !rbac.isAllowed(user.id, SECURITY_USER_EDIT)) throw new ForbiddenError("Not Authorized")
 
-            return apiKey(userid, req)
+            return new Promise((resolve, reject) => {
+                apiKey(userid, req)
+                    .then(r => resolve({token: r.token}))
+                    .catch(err => {
+                        console.warn('ApiKey error: ', err.message)
+                        reject(new AuthenticationError("BadCredentials"))
+                    })
+
+            })
+
 
         }
     }
