@@ -16,7 +16,7 @@ import UserResolvers from "../../src/graphql/resolvers/UserResolvers";
 import {findUserByUsername} from "../../src/services/UserService";
 import {findRoleByName} from "../../src/services/RoleService";
 
-describe("UsersResolvers", () => {
+describe("UserCreateResolver", () => {
 
 
     beforeAll(async () => {
@@ -97,7 +97,7 @@ describe("UsersResolvers", () => {
             .toThrow('Not Authorized');
     });
 
-    test('CreateUserByOperatorNotAuthorized', async () => {
+    test('CreateUserByOperatorWhitoutPermissionNotAuthorized', async () => {
 
 
         const user = await findUserByUsername("operator")
