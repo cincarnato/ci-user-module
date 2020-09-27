@@ -19,4 +19,4 @@
 - SECURITY_ADMIN_MENU: Allow show admin menu
 
 
-- SECURITY_SUBROLE_USER_CREATE: Allow create users of subroles
+- SECURITY_CHILDROLE_USER_CREATE: Allow create users of childroles like teacher can create students

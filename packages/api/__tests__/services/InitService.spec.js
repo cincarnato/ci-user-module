@@ -6,7 +6,7 @@ import {initPermissions,initAdminRole,initRootUser} from "../../src/services/Ini
 import {findUserByUsername} from "../../src/services/UserService";
 import {findRoleByName} from "../../src/services/RoleService";
 
-describe("TokenService", () => {
+describe("InitService", () => {
 
 
     afterAll(async  () => {
@@ -23,7 +23,6 @@ describe("TokenService", () => {
         await initRootUser()
 
         let role = await findRoleByName("admin")
-        console.log(role)
 
         expect(role.permissions).toContain('FOO');
 

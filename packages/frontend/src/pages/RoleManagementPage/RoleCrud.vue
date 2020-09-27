@@ -2,11 +2,19 @@
     <crud-layout title="role.title" subtitle="role.description">
 
         <template v-slot:list>
-            <role-list :roles="roles"
-                       :permissions="permissions"
-                       @update="openUpdate"
-                       @delete="openDelete"
+
+            <loading v-if="loadingRoles || loadingPermissions"></loading>
+
+            <role-list
+                    v-else
+                    :roles="roles"
+                    :permissions="permissions"
+                    @update="openUpdate"
+                    @delete="openDelete"
             ></role-list>
+
+
+
         </template>
 
         <role-create v-if="creating"
@@ -46,13 +54,15 @@
     import RoleProvider from "../../providers/RoleProvider";
     import RoleList from "./RoleList";
     import Vue from "vue";
-    import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
+    import {CrudLayout, AddButton, Snackbar, Loading} from "@ci-common-module/frontend"
 
     export default {
         name: "RoleCrud",
-        components: {CrudLayout, Snackbar, AddButton, RoleList, RoleCreate, RoleDelete, RoleUpdate},
+        components: {CrudLayout, Snackbar, Loading, AddButton, RoleList, RoleCreate, RoleDelete, RoleUpdate},
         data() {
             return {
+                loadingPermissions: true,
+                loadingRoles: true,
                 permissions: [],
                 roles: [],
                 roleToUpdate: null,
@@ -66,12 +76,20 @@
         },
         methods: {
             load() {
+
+
                 RoleProvider.permissions().then(r => {
                     this.permissions = r.data.permissions.permissions;
-                });
+                }).catch(err => {
+                    console.error(err)
+                }).finally(() => this.loadingPermissions = false)
+
                 RoleProvider.roles().then(r => {
                     this.roles = r.data.roles;
-                });
+                }).catch(err => {
+                    console.error(err)
+                }).finally(() => this.loadingRoles = false)
+
             },
             openUpdate(role) {
                 this.roleToUpdate = role

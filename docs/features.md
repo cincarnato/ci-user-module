@@ -13,4 +13,4 @@
 - Admin Role CRUD
 - Admin Group CRUD
 - Admin Dashboard
-- Specific Role can create users of some specific role (Progress)
+- Specific Role can create users of child roles (like teacher can create student)

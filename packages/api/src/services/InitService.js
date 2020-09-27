@@ -3,9 +3,11 @@ import {changeRecoveryPassword, createUser, findUserByUsername} from './UserServ
 import {createPermission, fetchPermissionsInName} from './PermissionService'
 
 import adminRoleTemplate from '../roles/admin'
+import supervisorRoleTemplate from '../roles/supervisor'
 import operatorRoleTemplate from '../roles/operator'
 
 import {rootUser} from '../data/root-user'
+import {supervisorUser} from '../data/supervisor-user'
 import {
     SECURITY_DASHBOARD_SHOW,
     SECURITY_ADMIN_MENU,
@@ -28,7 +30,7 @@ const initPermissions = async (permissions) => {
         permissions = [SECURITY_USER_CREATE, SECURITY_USER_EDIT, SECURITY_USER_DELETE, SECURITY_USER_SHOW,
             SECURITY_GROUP_CREATE, SECURITY_GROUP_EDIT, SECURITY_GROUP_DELETE, SECURITY_GROUP_SHOW,
             SECURITY_ROLE_CREATE, SECURITY_ROLE_SHOW, SECURITY_ROLE_EDIT, SECURITY_ROLE_DELETE,
-            SECURITY_DASHBOARD_SHOW,SECURITY_ADMIN_MENU]
+            SECURITY_DASHBOARD_SHOW, SECURITY_ADMIN_MENU]
     }
     //Fetch permissions already created
     let permissionsFound = await fetchPermissionsInName(permissions)
@@ -56,18 +58,50 @@ const initAdminRole = async () => {
     let adminRoleT = await adminRoleTemplate()
     let adminRole = await findRoleByName(adminRoleT.name)
     if (adminRole) {
-        let adminRoleUpdated = await updateRole(adminRole.id,
-            {name: adminRole.name, permissions: adminRoleT.permissions})
-        console.log("Admin Role Updated: " + adminRoleUpdated.name + " " + adminRoleUpdated.id)
+        let adminRole = await updateRole(adminRole.id, {permissions: adminRoleT.permissions})
+        console.log("Admin Role Updated: " + adminRole.name + " " + adminRole.id)
     } else {
         adminRole = await createRole(adminRoleT)
         console.log("Admin Role Created: " + adminRole.name + " " + adminRole.id)
     }
 }
 
+const initSupervisorRole = async () => {
+    let supervisorRoleT = await supervisorRoleTemplate()
+    let supervisorRole = await findRoleByName(supervisorRoleT.name)
+    if (supervisorRole) {
+        let supervisorRole = await updateRole(
+            supervisorRole.id,
+            {
+                childRoles: supervisorRoleT.childRoles,
+                permissions: supervisorRoleT.permissions
+            })
+        console.log("Supervisor Role Updated: " + supervisorRole.name + " " + supervisorRole.id)
+    } else {
+        supervisorRole = await createRole(supervisorRoleT)
+        console.log("Supervisor Role Created: " + supervisorRole.name + " " + supervisorRole.id)
+    }
+}
+
+
+const initOperatorRole = async () => {
+    let operatorRoleT = await operatorRoleTemplate()
+    let operatorRole = await findRoleByName(operatorRoleT.name)
+    if (operatorRole) {
+        let operatorRole = await updateRole(operatorRole.id,
+            {
+                permissions: operatorRoleT.permissions
+            })
+        console.log("Operator Role Updated: " + operatorRole.name + " " + operatorRole.id)
+    } else {
+        operatorRole = await createRole(operatorRoleT)
+        console.log("Operator Role Created: " + operatorRole.name + " " + operatorRole.id)
+    }
+}
+
 const initRoles = async (roles) => {
     if (!roles) {
-        roles = [operatorRoleTemplate]
+        roles = [operatorRoleTemplate()]
     }
 
     let rolesName = roles.map(r => r.name)
@@ -122,6 +156,27 @@ const initRootUser = async (user) => {
 
 }
 
+const initSupervisorUser = async (user) => {
+    if (!user) {
+        user = supervisorUser
+    }
+
+    let roleSupervisor = await findRoleByName("supervisor")
+
+    if (!roleSupervisor) {
+        throw Error('Supervisor user cant be created. Role "supervisor" not found. ')
+    }
+
+    let u = await findUserByUsername(user.username)
+
+    if (!u) {
+        u = await createUser({...user, role: roleSupervisor.id})
+        console.log("User supervisor created: ", u.id)
+    } else {
+        console.log("User supervisor found: ", u.id)
+    }
+
+}
 
 const rootRecover = async (password = "root.123") => {
     findUserByUsername("root").then(rootUser => {
@@ -134,4 +189,4 @@ const rootRecover = async (password = "root.123") => {
 }
 
 
-export {initPermissions, initAdminRole, initRoles, initRootUser, rootRecover}
+export {initPermissions, initAdminRole, initOperatorRole, initSupervisorRole, initRoles, initRootUser, initSupervisorUser, rootRecover}

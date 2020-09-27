@@ -63,7 +63,7 @@
         },
         data() {
             return {
-                users: [],
+                roles: [],
                 permissions: [],
                 loadingPermissions: false,
                 loadingRoles: false,

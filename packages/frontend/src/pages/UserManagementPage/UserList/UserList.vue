@@ -2,7 +2,7 @@
 
     <v-row row wrap>
         <v-col cols="12" sm="6" md="4" offset-md="8" offset-sm="6">
-            <search-input  @search="performSearch" v-model="search" />
+            <search-input @search="performSearch" v-model="search"/>
         </v-col>
 
         <v-col cols="12">
@@ -68,6 +68,7 @@
                     </v-icon>
 
                     <v-icon
+                            v-if="canEdit"
                             small
                             color="purple"
                             class="mr-2"
@@ -77,6 +78,7 @@
                     </v-icon>
 
                     <v-icon
+                            v-if="canEdit"
                             small
                             color="purple"
                             class="mr-2"
@@ -86,8 +88,8 @@
                     </v-icon>
 
 
-
                     <v-icon
+                            v-if="canDelete"
                             color="red"
                             small
                             class="mr-2"
@@ -104,6 +106,7 @@
 <script>
     import UserProvider from "../../../providers/UserProvider";
     import {SearchInput} from '@ci-common-module/frontend'
+    import {mapGetters} from "vuex";
 
     export default {
         name: 'UserList',
@@ -138,15 +141,23 @@
             },
             getOrderDesc() {
                 return (Array.isArray(this.orderDesc)) ? this.orderDesc[0] : this.orderDesc
+            },
+            ...mapGetters(['hasPermission']),
+            canEdit() {
+                return this.hasPermission('SECURITY_USER_EDIT')
+            },
+            canDelete() {
+                return this.hasPermission('SECURITY_USER_DELETE')
             }
+
         },
-        created(){
+        created() {
             this.fetch()
         },
-        methods:{
-            performSearch(){
-              this.pageNumber = 1
-              this.fetch()
+        methods: {
+            performSearch() {
+                this.pageNumber = 1
+                this.fetch()
             },
             fetch() {
                 this.loading = true

@@ -43,6 +43,7 @@ type UserDelete{
 
 type Mutation {
     createUser(input: UserInput): User
+    createUserOfChildRole(input: UserInput): User
     updateUser(id: ID!, input: UserInput): User
     deleteUser(id: ID!): UserDelete!
     changePasswordAdmin(id: ID!, password:String!, passwordVerify:String!): OperationResponse!

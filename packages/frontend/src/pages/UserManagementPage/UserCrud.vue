@@ -57,7 +57,7 @@
 
         <snackbar v-model="flashMessage"/>
 
-        <add-button @click="openCreate"></add-button>
+        <add-button v-if="canCreate" @click="openCreate"></add-button>
 
     </crud-layout>
 
@@ -73,6 +73,7 @@
     import UserList from "./UserList";
     import {CrudLayout, AddButton, Snackbar} from "@ci-common-module/frontend"
     import UserApikey from "./UserApikey/UserApikey";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "UserCrud",
@@ -84,7 +85,9 @@
             UserCreate,
             UserUpdate,
             UserChangePassword,
-            CrudLayout, AddButton, Snackbar
+            CrudLayout,
+            AddButton,
+            Snackbar
         },
         data() {
             return {
@@ -100,6 +103,12 @@
                 showing: false,
                 userToShow: null,
                 userToGetApikey: null
+            }
+        },
+        computed: {
+          ...mapGetters(['hasPermission']),
+            canCreate(){
+              return this.hasPermission('SECURITY_USER_CREATE')
             }
         },
         methods: {

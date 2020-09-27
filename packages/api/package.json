@@ -5,6 +5,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "jest --runInBand",
+    "test-auth": "jest --runInBand -t 'LoginOk'",
+    "test-child-roles": "jest --runInBand -t 'LoginShowChildRoles'",
     "prepublish": "./node_modules/.bin/babel src -d lib --copy-files && ./node_modules/.bin/babel emails -d lib/emails --copy-files"
   },
   "keywords": [],

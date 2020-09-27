@@ -66,11 +66,7 @@ describe("UserService", () => {
         let user = await findUserByUsername('jrambo')
 
         await expect(changePassword(user.id, {currentPassword:'123',newPassword: 'abc'}, user))
-            .resolves.toHaveProperty('success', true);
-
-
-/*        await expect(auth({username: 'jrambo', password: 'abc'}, null))
-            .resolves.toHaveProperty('token',)*/
+            .resolves.toHaveProperty('status', true);
 
 
     }, 2000);
