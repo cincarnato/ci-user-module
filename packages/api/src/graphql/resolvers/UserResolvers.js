@@ -49,8 +49,6 @@ export default {
                 //With childRoles
                 if(user.role.childRoles.length > 0){
                     //Check if role is include as a childRole
-                    console.log("Create User input role:",input.role)
-                    console.log("Create User auth user role:", user.role)
                     if(user.role.childRoles.includes(input.role)){
                         return createUser(input, user)
                     }else{
@@ -67,8 +65,26 @@ export default {
         },
         updateUser: (_, {id, input}, {user, rbac}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
-            if (!user || !rbac.isAllowed(user.id, SECURITY_USER_EDIT)) throw new ForbiddenError("Not Authorized")
-            return updateUser(id, input, user)
+
+            if (rbac.isAllowed(user.id, SECURITY_USER_EDIT)){
+
+                //With childRoles
+                if(user.role.childRoles.length > 0){
+                    //Check if role is include as a childRole
+                    if(user.role.childRoles.includes(input.role)){
+                        return updateUser(id, input, user)
+                    }else{
+                        throw new ForbiddenError("Not Authorized")
+                    }
+                    //Whitout childRoles
+                }else{
+                    return updateUser(id, input, user)
+                }
+
+            } else{
+                throw new ForbiddenError("Not Authorized")
+            }
+
         },
         deleteUser: (_, {id}, {user, rbac}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
