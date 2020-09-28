@@ -51,7 +51,7 @@ export default {
 
 
             //With childRoles
-            if (user.role.childRoles.length) {
+            if (user.role.childRoles && user.role.childRoles.length) {
                 //Check if role is include as a childRole
                 if (user.role.childRoles.includes(input.role)) {
                     return createUser(input, user)
@@ -71,7 +71,7 @@ export default {
             if (!user || !rbac.isAllowed(user.id, SECURITY_USER_EDIT)) throw new ForbiddenError("Not Authorized")
 
             //With childRoles
-            if (user.role.childRoles.length) {
+            if (user.role.childRoles && user.role.childRoles.length) {
                 //Check if role is include as a childRole
                 if (user.role.childRoles.includes(input.role)) {
                     return updateUser(id, input, user)
@@ -93,7 +93,7 @@ export default {
 
 
             //With childRoles
-            if (user.role.childRoles.length) {
+            if (user.role.childRoles && user.role.childRoles.length) {
                 //Check if role is include as a childRole
 
                 let userToDelete = await findUser(id)

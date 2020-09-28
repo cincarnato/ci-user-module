@@ -95,7 +95,7 @@ export const findUsers = function (roles = []) {
 
         let qs = {}
 
-        if (roles.length) {
+        if (roles && roles.length) {
             qs.role = {$in: roles}
         }
 
@@ -121,7 +121,7 @@ export const paginateUsers = function (limit, pageNumber = 1, search = null, ord
                 ]
             }
         }
-        if (roles.length) {
+        if (roles && roles.length) {
             qs.role = {$in: roles}
         }
 
