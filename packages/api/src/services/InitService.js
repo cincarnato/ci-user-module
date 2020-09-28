@@ -60,8 +60,8 @@ const initAdminRole = async () => {
     let adminRoleT = await adminRoleTemplate()
     let adminRole = await findRoleByName(adminRoleT.name)
     if (adminRole) {
-        let adminRole = await updateRole(adminRole.id, {permissions: adminRoleT.permissions})
-        console.log("Admin Role Updated: " + adminRole.name + " " + adminRole.id)
+        let adminRoleUpdated = await updateRole(adminRole.id, {permissions: adminRoleT.permissions})
+        console.log("Admin Role Updated: " + adminRoleUpdated.name + " " + adminRoleUpdated.id)
     } else {
         adminRole = await createRole(adminRoleT)
         console.log("Admin Role Created: " + adminRole.name + " " + adminRole.id)
@@ -72,13 +72,13 @@ const initSupervisorRole = async () => {
     let supervisorRoleT = await supervisorRoleTemplate()
     let supervisorRole = await findRoleByName(supervisorRoleT.name)
     if (supervisorRole) {
-        let supervisorRole = await updateRole(
+        let supervisorRoleUpdated = await updateRole(
             supervisorRole.id,
             {
                 childRoles: supervisorRoleT.childRoles,
                 permissions: supervisorRoleT.permissions
             })
-        console.log("Supervisor Role Updated: " + supervisorRole.name + " " + supervisorRole.id)
+        console.log("Supervisor Role Updated: " + supervisorRoleUpdated.name + " " + supervisorRoleUpdated.id)
     } else {
         supervisorRole = await createRole(supervisorRoleT)
         console.log("Supervisor Role Created: " + supervisorRole.name + " " + supervisorRole.id)
@@ -90,11 +90,11 @@ const initOperatorRole = async () => {
     let operatorRoleT = await operatorRoleTemplate()
     let operatorRole = await findRoleByName(operatorRoleT.name)
     if (operatorRole) {
-        let operatorRole = await updateRole(operatorRole.id,
+        let operatorRoleUpdated = await updateRole(operatorRole.id,
             {
                 permissions: operatorRoleT.permissions
             })
-        console.log("Operator Role Updated: " + operatorRole.name + " " + operatorRole.id)
+        console.log("Operator Role Updated: " + operatorRoleUpdated.name + " " + operatorRoleUpdated.id)
     } else {
         operatorRole = await createRole(operatorRoleT)
         console.log("Operator Role Created: " + operatorRole.name + " " + operatorRole.id)
@@ -188,16 +188,16 @@ const initOperatorUser = async (user) => {
     let roleOperator= await findRoleByName("operator")
 
     if (!roleOperator) {
-        throw Error('Supervisor user cant be created. Role "supervisor" not found. ')
+        throw Error('Operator user cant be created. Role "supervisor" not found. ')
     }
 
     let u = await findUserByUsername(user.username)
 
     if (!u) {
         u = await createUser({...user, role: roleOperator.id})
-        console.log("User supervisor created: ", u.id)
+        console.log("User Operator created: ", u.id)
     } else {
-        console.log("User supervisor found: ", u.id)
+        console.log("User Operator found: ", u.id)
     }
 
 }
