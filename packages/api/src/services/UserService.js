@@ -96,7 +96,7 @@ export const findUsers = function (roles = []) {
         let qs = {}
 
         if (roles.length) {
-            qs.roles = {$in: roles}
+            qs.role = {$in: roles}
         }
 
         User.find(qs).isDeleted(false).populate('role').populate('groups').exec((err, res) => (
