@@ -145,6 +145,7 @@ const initRoles = async (roles) => {
         console.log("Role Updated: " + r.name + " " + r.id)
     })
 
+    return {rolesCreated: rolesCreated, rolesUpdated: rolesUpdated}
 }
 
 const initRootUser = async (user) => {
@@ -196,7 +197,7 @@ const initOperatorUser = async (user) => {
         user = operatorUser
     }
 
-    let roleOperator= await findRoleByName("operator")
+    let roleOperator = await findRoleByName("operator")
 
     if (!roleOperator) {
         throw Error('Operator user cant be created. Role "supervisor" not found. ')
@@ -224,4 +225,14 @@ const rootRecover = async (password = "root.123") => {
 }
 
 
-export {initPermissions, initAdminRole, initOperatorRole, initSupervisorRole, initRoles, initRootUser, initSupervisorUser, initOperatorUser, rootRecover}
+export {
+    initPermissions,
+    initAdminRole,
+    initOperatorRole,
+    initSupervisorRole,
+    initRoles,
+    initRootUser,
+    initSupervisorUser,
+    initOperatorUser,
+    rootRecover
+}

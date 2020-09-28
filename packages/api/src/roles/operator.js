@@ -1,5 +1,5 @@
 
-async function operatorRole(){
+function operatorRole(){
     return {
         name: "operator",
         permissions: []
