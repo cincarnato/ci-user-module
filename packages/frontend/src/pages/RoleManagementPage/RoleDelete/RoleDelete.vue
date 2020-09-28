@@ -8,12 +8,8 @@
     >
 
 
-        <v-card-text v-show="successMessage == true" class="ma-0">
-            <v-alert :value="true" color="success" class="ma-0" icon="check_circle" outlined>Exitoso</v-alert>
-        </v-card-text>
-
-        <v-card-text v-show="errorMessage == true" class="ma-0">
-            <v-alert :value="true" color="error" class="ma-0" icon="check_circle" outlined>Error</v-alert>
+        <v-card-text>
+            <v-alert v-if="errorMessage" type="error" dense text>{{errorMessage}}</v-alert>
         </v-card-text>
 
         <v-card-text v-show="successMessage != true && errorMessage != true">

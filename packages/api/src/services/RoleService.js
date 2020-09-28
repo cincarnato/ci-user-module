@@ -11,9 +11,16 @@ export const fetchRolesInName = function (roleNames) {
 }
 
 
-export const findRoles = function () {
+export const findRoles = function (roles = []) {
     return new Promise((resolve, reject) => {
-        RoleModel.find({}).isDeleted(false).exec((err, res) => (
+
+        let qs = {}
+
+        if (roles && roles.length) {
+            qs._id = {$in: roles}
+        }
+
+        RoleModel.find(qs).isDeleted(false).exec((err, res) => (
             err ? reject(err) : resolve(res)
         ));
     })
