@@ -8,7 +8,7 @@ import fs from 'fs'
 import createDirIfNotExist from "./utils/createDirIfNotExist";
 
 export const hashPassword = function (password) {
-    if(!password){
+    if (!password) {
         throw new Error("password must be provided")
     }
 
@@ -89,20 +89,28 @@ export const deleteUser = function (id, actionBy = null) {
 }
 
 
+export const findUsers = function (roles = []) {
 
-export const findUsers = function () {
     return new Promise((resolve, reject) => {
-        User.find({}).isDeleted(false).populate('role').populate('groups').exec((err, res) => (
+
+        let qs = {}
+
+        if (roles.length) {
+            qs.roles = {$in: roles}
+        }
+
+        User.find(qs).isDeleted(false).populate('role').populate('groups').exec((err, res) => (
             err ? reject(err) : resolve(res)
         ));
     })
 }
 
 
-export const paginateUsers = function (limit, pageNumber = 1, search = null, orderBy = null, orderDesc = false) {
+export const paginateUsers = function (limit, pageNumber = 1, search = null, orderBy = null, orderDesc = false, roles = []) {
 
     function getQuery(search) {
         let qs = {}
+
         if (search) {
             qs = {
                 $or: [
@@ -113,6 +121,10 @@ export const paginateUsers = function (limit, pageNumber = 1, search = null, ord
                 ]
             }
         }
+        if (roles.length) {
+            qs.role = {$in: roles}
+        }
+
         return qs
     }
 
@@ -253,7 +265,7 @@ export const avatarUpload = function (user, file) {
                     }
                 }
             );
-        }else{
+        } else {
             rejects(new Error("Upload Fail"))
         }
 

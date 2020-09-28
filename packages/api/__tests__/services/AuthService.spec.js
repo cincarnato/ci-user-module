@@ -66,7 +66,6 @@ describe("UserService", () => {
 
         let user = await findUserByUsername('root')
         let result = await apiKey(user.id, null)
-        console.log(result)
         await expect(result).toHaveProperty('token',)
 
     }, 2000);

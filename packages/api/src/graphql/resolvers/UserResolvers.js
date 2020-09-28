@@ -25,7 +25,7 @@ export default {
         users: (_, {}, {user, rbac}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
             if (!user || !rbac.isAllowed(user.id, SECURITY_USER_SHOW)) throw new ForbiddenError("Not Authorized")
-            return findUsers()
+            return findUsers(user.role.childRoles)
         },
         user: (_, {id}, {user, rbac}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
@@ -35,7 +35,8 @@ export default {
         paginateUsers: (_, {limit, pageNumber, search, orderBy, orderDesc}, {user, rbac}) => {
             if (!user) throw new AuthenticationError("UNAUTHENTICATED")
             if (!user || !rbac.isAllowed(user.id, SECURITY_USER_SHOW)) throw new ForbiddenError("Not Authorized")
-            return paginateUsers(limit, pageNumber, search, orderBy, orderDesc)
+
+            return paginateUsers(limit, pageNumber, search, orderBy, orderDesc, user.role.childRoles)
         },
     },
     Mutation: {
