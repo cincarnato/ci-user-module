@@ -60,7 +60,12 @@ const initAdminRole = async () => {
     let adminRoleT = await adminRoleTemplate()
     let adminRole = await findRoleByName(adminRoleT.name)
     if (adminRole) {
-        let adminRoleUpdated = await updateRole(adminRole.id, {permissions: adminRoleT.permissions})
+
+        let adminRoleUpdated = await updateRole(adminRole.id, {
+            name: adminRoleT.name,
+            permissions: adminRoleT.permissions
+        })
+
         console.log("Admin Role Updated: " + adminRoleUpdated.name + " " + adminRoleUpdated.id)
     } else {
         adminRole = await createRole(adminRoleT)
@@ -72,12 +77,15 @@ const initSupervisorRole = async () => {
     let supervisorRoleT = await supervisorRoleTemplate()
     let supervisorRole = await findRoleByName(supervisorRoleT.name)
     if (supervisorRole) {
+
         let supervisorRoleUpdated = await updateRole(
             supervisorRole.id,
             {
+                name: supervisorRoleT.name,
                 childRoles: supervisorRoleT.childRoles,
                 permissions: supervisorRoleT.permissions
             })
+
         console.log("Supervisor Role Updated: " + supervisorRoleUpdated.name + " " + supervisorRoleUpdated.id)
     } else {
         supervisorRole = await createRole(supervisorRoleT)
@@ -90,10 +98,13 @@ const initOperatorRole = async () => {
     let operatorRoleT = await operatorRoleTemplate()
     let operatorRole = await findRoleByName(operatorRoleT.name)
     if (operatorRole) {
+
         let operatorRoleUpdated = await updateRole(operatorRole.id,
             {
+                name: operatorRoleT.name,
                 permissions: operatorRoleT.permissions
             })
+
         console.log("Operator Role Updated: " + operatorRoleUpdated.name + " " + operatorRoleUpdated.id)
     } else {
         operatorRole = await createRole(operatorRoleT)
