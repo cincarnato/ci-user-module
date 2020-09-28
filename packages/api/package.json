@@ -1,6 +1,6 @@
 {
   "name": "@ci-user-module/api",
-  "version": "1.0.66",
+  "version": "1.1.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
